@@ -8,8 +8,11 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 <body class="antialiased">
-    <div id="app">
-    </div>
+<div id="app">
+    <top-navigation></top-navigation>
+    <left-navigation></left-navigation>
+
+</div>
 <script src="{{ asset('js/app.js') }}" defer></script>
 </body>
 </html>
