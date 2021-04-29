@@ -1,7 +1,7 @@
 <template>
     <div class="header py-2 row d-flex justify-content-between align-items-center">
         <div class="col-8 d-flex justify-content-between align-items-center">
-            <div class="col menu d-flex align-items-center">
+            <div @click="clickhandler" class="col menu d-flex align-items-center">
                 <img :src="menu" alt="menu">
                 <span>Календарь</span>
             </div>
@@ -44,7 +44,12 @@ export default {
         right_arrow,
         arrow_down,
         search,
-    })
+    }),
+    methods: {
+        clickhandler() {
+            this.$emit('open')
+        }
+    }
 }
 </script>
 
@@ -58,7 +63,7 @@ export default {
         line-height: 60px;
         color: #808080;
     }
-    .arrow-left, .arrow-right, .menu img {
+    .arrow-left, .arrow-right, .menu img, .menu span {
         cursor: pointer;
     }
     .day {

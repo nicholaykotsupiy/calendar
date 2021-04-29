@@ -1,5 +1,5 @@
 <template>
-    <div class="button d-flex justify-content-center text-white fw-bold text-uppercase rounded border-2 col-4 ml-4 mb-2">
+    <div class="button d-flex justify-content-center text-white fw-bold text-uppercase rounded border-2 col-4 ml-5 mb-2">
         Создать
     </div>
 </template>

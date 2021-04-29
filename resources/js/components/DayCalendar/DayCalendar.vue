@@ -1,9 +1,9 @@
 <template>
     <div class="col">
-        <BaseHeaderCalendar class="border-bottom border-3 mb-3" />
+        <BaseHeaderCalendar @open="openLeftBar" class="border-bottom border-3 mb-3" />
         <div class="row">
-            <div class="col-3">
-                <BaseLeftBarCalendar />
+            <div v-if="open" class="col-3">
+                <BaseLeftBarCalendar class="left_bar"/>
             </div>
             <div class="col-8">
                 <DayCalendarInterface />
@@ -13,13 +13,19 @@
 </template>
 
 <script>
-import BaseHeaderCalendar from "../ Base/BaseLeftBar/BaseHeaderCalendar";
+import BaseHeaderCalendar from "../ Base/BaseTopBar/BaseHeaderCalendar";
 import BaseLeftBarCalendar from "../ Base/BaseLeftBar/BaseLeftBarCalendar";
 import DayCalendarInterface from "./DayCalendarInterface";
 export default {
     name: "DayCalendar",
     components: {DayCalendarInterface, BaseLeftBarCalendar, BaseHeaderCalendar},
-
+    data: () => ({
+        open: true
+    }),
+    methods: {
+        openLeftBar() {
+            this.open = !this.open
+        }
+    }
 }
 </script>
-
