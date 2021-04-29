@@ -14,7 +14,6 @@ Vue.component('create-event', require('./components/CreatureEventsWindows/Create
 Vue.use(BootstrapVue)
 Vue.use(IconsPlugin)
 
-
 window.Vue = require('vue').default;
 
 new Vue({
