@@ -20,11 +20,11 @@
                 <tbody>
                     <div class="mounth">
                         <tr>
-                            <td v-for="d in day">{{ d }}</td>
+                            <td v-for="(d, dIndex) in day" :key="dIndex">{{ d }}</td>
                         </tr>
 
-                        <tr v-for="week in calendar">
-                            <td v-for="(day, index) in week">
+                        <tr v-for="(week, weekIndex) in calendar" :key="weekIndex">
+                            <td v-for="(day, dayIndex) in week" :key="dayIndex">
                                 <div class="daygrid-day-frame">
                                     <div class="daygrid-day-top flex">
                                         <div class="daygrid-day-number-without-ukr">
