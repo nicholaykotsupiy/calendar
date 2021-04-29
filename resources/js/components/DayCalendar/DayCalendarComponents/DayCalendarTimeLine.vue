@@ -1,24 +1,4 @@
 <template>
-<!--    <ul class="list">-->
-<!--        <li class="item d-flex" v-for="line in timeLine">-->
-<!--            <div class="time d-flex justify-content-end align-items-end border-right border-2">-->
-<!--                <span>{{ line }}</span>-->
-<!--            </div>-->
-<!--            <ul class="event col-11 d-flex w-auto border-top border-bottom">-->
-<!--                <li class="event_item col border-right position-relative">-->
-<!--                    <div class="info d-flex align-items-center">-->
-<!--                        <span class="exect_time">00:30</span>-->
-<!--                        <span class="title">День рождения у К. Карины</span>-->
-<!--                    </div>-->
-<!--                    <div class="buttons">-->
-<!--                        <img :src="peoples" alt="peoples">-->
-<!--                        <img :src="del" alt="delete">-->
-<!--                        <img :src="edit" alt="edit">-->
-<!--                    </div>-->
-<!--                </li>-->
-<!--            </ul>-->
-<!--        </li>-->
-<!--    </ul>-->
     <ul class="list">
         <li class="item d-flex" v-for="line in timeLine">
             <div class="time d-flex justify-content-end align-items-start border-right border-2">
@@ -53,11 +33,7 @@ export default {
         del,
         edit,
         peoples,
-    }),
-    mounted() {
-        // console.log(, )
-        console.log(this.timeLine[0].slice(0, this.timeLine[0].indexOf(':')), this.events[0].start.slice(0, this.events[0].start.indexOf(':')))
-    }
+    })
 }
 </script>
 
