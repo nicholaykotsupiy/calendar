@@ -66,18 +66,12 @@
                                 </template>
                                 <template v-if="errorStartDateTask">
                                     <div class="col-4 py-2">
-                                        <input type="date" class="form-control error" id="dateStartTask" name="dateStartTask"
-                                               :value="currentDate"
-                                               @input="task.dateStart = $event.target.value"
-                                        >
+                                        <input v-model="task.dateStart" type="date" class="form-control error" id="dateStartTask" name="dateStartTask">
                                     </div>
                                 </template>
                                 <template v-else>
                                     <div class="col-4 py-2">
-                                        <input type="date" class="form-control" id="dateStartTask" name="dateStartTask"
-                                               :value="currentDate"
-                                               @input="task.dateStart = $event.target.value"
-                                        >
+                                        <input v-model="task.dateStart" type="date" class="form-control" id="dateStartTask" name="dateStartTask">
                                     </div>
                                 </template>
                                 <template v-if="errorStartTimeTask">
@@ -102,18 +96,12 @@
                                 </template>
                                 <template v-if="errorEndDateTask">
                                     <div class="col-4 py-2">
-                                        <input type="date" class="form-control error" id="dateEndTask" name="dateEndTask"
-                                               :value="currentDate"
-                                               @input="task.dateEnd = $event.target.value"
-                                        >
+                                        <input v-model="task.dateEnd" type="date" class="form-control error" id="dateEndTask" name="dateEndTask">
                                     </div>
                                 </template>
                                 <template v-else>
                                     <div class="col-4 py-2">
-                                        <input type="date" class="form-control" id="dateEndTask" name="dateEndTask"
-                                               :value="currentDate"
-                                               @input="task.dateEnd = $event.target.value"
-                                        >
+                                        <input v-model="task.dateEnd" type="date" class="form-control" id="dateEndTask" name="dateEndTask">
                                     </div>
                                 </template>
                                 <template v-if="errorEndTimeTask">
@@ -132,10 +120,7 @@
                                     <label class="form-label">Начало<span>*</span>:</label>
                                 </div>
                                 <div class="col-4 py-2">
-                                    <input type="date" class="form-control" id="dateStartTask" name="dateStartTask"
-                                           :value="currentDate"
-                                           @input="task.dateStart = $event.target.value"
-                                    >
+                                    <input v-model="task.dateStart" type="date" class="form-control" id="dateStartTask" name="dateStartTask">
                                 </div>
                                 <div class="col-4 py-2">
                                     <input v-model="task.timeStart" type="time" class="form-control" id="timeStartTask" name="timeStartTask" disabled>
@@ -144,10 +129,7 @@
                                     <label class="form-label">Окончание<span>*</span>:</label>
                                 </div>
                                 <div class="col-4 py-2">
-                                    <input type="date" class="form-control" id="dateEndTask" name="dateEndTask"
-                                           :value="currentDate"
-                                           @input="task.dateEnd = $event.target.value"
-                                    >
+                                    <input v-model="task.dateEnd" type="date" class="form-control" id="dateEndTask" name="dateEndTask">
                                 </div>
                                 <div class="col-4 py-2">
                                     <input v-model="task.timeEnd" type="time" class="form-control" id="timeEndTask" name="timeEndTask" disabled>
@@ -198,26 +180,6 @@ export default {
         }
     },
 
-    computed: {
-
-        currentDate() {
-//пока взяла текущую дату для вывода, но нужно брать ту дату из календаря (родительского компонента), на который нажали
-            let currentDate
-            if (new Date().getMonth() < 10) {
-                currentDate = '' + new Date().getFullYear() + '-' + '0' + new Date().getMonth() + '-' + new Date().getDate()
-            } else {
-                currentDate = '' + new Date().getFullYear() + '-' + new Date().getMonth() + '-' + new Date().getDate()
-            }
-
-            return currentDate
-        }
-
-    },
-
-    mounted() {
-        console.log(this.currentDate)
-    },
-
     methods: {
 
         changeValueAllDay() {
@@ -243,8 +205,8 @@ export default {
             //очищаем task
             this.task.name = ''
             this.task.description = ''
-            this.task.dateStart = this.currentDate
-            this.task.dateEnd = this.currentDate
+            this.task.dateStart = ''
+            this.task.dateEnd = ''
             this.task.timeStart = ''
             this.task.timeEnd = ''
             this.task.allDay = false
@@ -320,8 +282,8 @@ export default {
                 //очищаем task
                 this.task.name = ''
                 this.task.description = ''
-                this.task.dateStart = this.currentDate
-                this.task.dateEnd = this.currentDate
+                this.task.dateStart = ''
+                this.task.dateEnd = ''
                 this.task.timeStart = ''
                 this.task.timeEnd = ''
                 this.task.allDay = false
