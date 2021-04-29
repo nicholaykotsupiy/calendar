@@ -275,9 +275,8 @@ export default {
 }
 </script>
 
-
-
 <style scoped>
+
 .content-create-event-window {
     max-width: 1200px;
 }
@@ -340,4 +339,5 @@ form.create-event {
     color: #F44336;
     border-color: #F44336
 }
+
 </style>

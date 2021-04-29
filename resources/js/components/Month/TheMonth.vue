@@ -3,7 +3,19 @@
     <div class="container calendar-center">
 
 <!--        Компонент для создания событий-->
-        <create-event v-show="isCreateEventWindowVisible" @close="closeCreateEventWindow" @saveEvent="addEvent"></create-event>
+<!--        <create-event -->
+<!--            v-show="isCreateEventWindowVisible" -->
+<!--            @close="closeCreateEventWindow" -->
+<!--            @saveEvent="addEvent"-->
+<!--        >-->
+<!--        </create-event>-->
+        <!--        Компонент для создания событий-->
+        <create-reminder
+            v-show="isCreateEventWindowVisible"
+            @close="closeCreateEventWindow"
+            @saveEvent="addEvent"
+        >
+        </create-reminder>
 
 <!--        временные кнопки-->
         <div class="flex">
