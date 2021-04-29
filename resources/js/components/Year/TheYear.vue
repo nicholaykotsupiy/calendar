@@ -13,41 +13,43 @@
         </div>
 
         <div class="calendar-year">
-            <div>
-                {{ months[currentMonth] }}
-            </div>
-            <table class="table-month">
-                <tbody>
-                    <div class="mounth">
-                        <tr>
-                            <td v-for="(d, dIndex) in day" :key="dIndex">{{ d }}</td>
-                        </tr>
+            <div v-for="(month, monthIndex) in calendar" :key="monthIndex">
+                <div>
+                    {{ months[monthIndex] }}
+                </div>
+                <table class="table-month">
+                    <tbody>
+                        <div class="mounth">
+                            <tr>
+                                <td v-for="(d, dIndex) in day" :key="dIndex">{{ d }}</td>
+                            </tr>
 
-                        <tr v-for="(week, weekIndex) in calendar" :key="weekIndex">
-                            <td v-for="(day, dayIndex) in week" :key="dayIndex">
-                                <div class="daygrid-day-frame">
-                                    <div class="daygrid-day-top flex">
-                                        <div class="daygrid-day-number-without-ukr">
-                                            <!--обозначить текущий день-->
-                                            <a href="#"
-                                                :style="{
-                                                    'background': day.currentbg,
-                                                    'color': day.current,
-                                                    'border-radius': '50%',
-                                                    'width': '30px',
-                                                    'height': '30px',
-                                                    'padding': '5px'
-                                                }">
-                                                {{ day.index }}
-                                            </a>
+                            <tr v-for="(week, weekIndex) in month" :key="weekIndex">
+                                <td v-for="(day, dayIndex) in week" :key="dayIndex">
+                                    <div class="daygrid-day-frame">
+                                        <div class="daygrid-day-top flex">
+                                            <div class="daygrid-day-number-without-ukr">
+                                                <!--обозначить текущий день-->
+                                                <a href="#"
+                                                    :style="{
+                                                        'background': day.currentbg,
+                                                        'color': day.current,
+                                                        'border-radius': '50%',
+                                                        'width': '30px',
+                                                        'height': '30px',
+                                                        'padding': '5px'
+                                                    }">
+                                                    {{ day.index }}
+                                                </a>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            </td>
-                        </tr>                
-                    </div>
-                </tbody>
-            </table>
+                                </td>
+                            </tr>                
+                        </div>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </template>
@@ -67,7 +69,11 @@ export default {
     },
     computed: {
         calendar() {
-            return this.getMonth(this.currentMonth, this.currentYear)
+            let year = []
+            for (let i = 0; i <= 11; i++) {
+                year.push(this.getMonth(i, this.currentYear))
+            }
+            return year
         },
     },
     methods:{
