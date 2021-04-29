@@ -11,7 +11,6 @@
 </head>
 <body class="antialiased">
     <div id="app">
-        <day-calendar></day-calendar>
     </div>
 <script src="{{ asset('js/app.js') }}" defer></script>
 </body>
