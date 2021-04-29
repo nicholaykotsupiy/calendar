@@ -8,6 +8,7 @@
             <div class="col-8">
 <!--                <DayCalendarInterface />-->
                 <TheMonth/>
+                <TheYear/>
             </div>
         </div>
     </div>
@@ -17,6 +18,7 @@
 import BaseHeaderCalendar from "../ Base/BaseTopBar/BaseHeaderCalendar";
 import BaseLeftBarCalendar from "../ Base/BaseLeftBar/BaseLeftBarCalendar";
 import DayCalendarInterface from "./DayCalendarInterface";
+import TheYear from "../Year/TheYear";
 import TheMonth from "../Month/TheMonth";
 
 export default {
@@ -26,6 +28,7 @@ export default {
         BaseLeftBarCalendar,
         BaseHeaderCalendar,
         TheMonth,
+        TheYear,
     },
     data: () => ({
         open: true
