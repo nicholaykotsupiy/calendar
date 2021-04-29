@@ -9,6 +9,11 @@
 </head>
 <body class="antialiased">
     <div id="app">
+        <top-navigation></top-navigation>
+        <div class="d-flex">
+            <left-navigation></left-navigation>
+            <the-year></the-year>
+        </div>
     </div>
 <script src="{{ asset('js/app.js') }}" defer></script>
 </body>
