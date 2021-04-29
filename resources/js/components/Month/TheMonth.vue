@@ -10,12 +10,18 @@
 <!--        >-->
 <!--        </create-event>-->
         <!--        Компонент для создания событий-->
-        <create-reminder
+<!--        <create-reminder-->
+<!--            v-show="isCreateEventWindowVisible"-->
+<!--            @close="closeCreateEventWindow"-->
+<!--            @saveEvent="addEvent"-->
+<!--        >-->
+<!--        </create-reminder>-->
+        <create-task
             v-show="isCreateEventWindowVisible"
             @close="closeCreateEventWindow"
             @saveEvent="addEvent"
         >
-        </create-reminder>
+        </create-task>
 
 <!--        временные кнопки-->
         <div class="flex">
@@ -104,10 +110,11 @@
 
 <script>
 
+import CreateTask from "../CreatureEventsWindows/CreateTask";
 export default {
 
     name: "TheMont",
-
+    components: {CreateTask},
     data() {
         return {
             month: new Date().getMonth(),
