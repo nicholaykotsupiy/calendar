@@ -6,8 +6,7 @@
                 <BaseLeftBarCalendar class="left_bar"/>
             </div>
             <div class="col-8">
-                <DayCalendarInterface />
-<!--                <TheMonth/>-->
+                <router-view></router-view>
             </div>
         </div>
     </div>

@@ -20,12 +20,23 @@
                 <input type="text" class="border-0" placeholder="Поиск">
             </form>
         </div>
-        <div class="col-2 pr-4">
-            <div class="drop_day day d-flex justify-content-center align-items-center">
+        <nav class="col-2 pr-4 d-flex flex-column position-relative">
+            <div  @click="openMenu" class="drop_day day d-flex justify-content-center align-items-center">
                 <span>День</span>
                 <img :src="arrow_down" alt="arrow_down">
             </div>
-        </div>
+            <ul v-if="activeMenu" @click="openMenu" class="main-menu position-absolute">
+                <router-link to="/" class="d-block menu_item border-top py-2" exact>День</router-link>
+                <router-link to="/week" class="d-block menu_item border-top py-2" exact>Неделя</router-link>
+                <router-link to="/month" class="d-block menu_item border-top py-2" exact>Месяц</router-link>
+                <router-link to="/year" class="d-block menu_item border-top py-2" exact>Год</router-link>
+
+<!--                <li class="menu_item border-top py-2 active">День</li>-->
+<!--                <li class="menu_item border-top py-2">Неделя</li>-->
+<!--                <li class="menu_item border-top py-2" >Месяц</li>-->
+<!--                <li class="menu_item border-top py-2">Год</li>-->
+            </ul>
+        </nav>
     </div>
 </template>
 
@@ -39,6 +50,7 @@ import search from "../../../assets/img/DayCalendar/search.png"
 export default {
     name: "BaseHeaderCalendar",
     data: () => ({
+        activeMenu: false,
         menu,
         left_arrow,
         right_arrow,
@@ -48,6 +60,9 @@ export default {
     methods: {
         clickhandler() {
             this.$emit('open')
+        },
+        openMenu () {
+            this.activeMenu = !this.activeMenu
         }
     }
 }
@@ -56,6 +71,10 @@ export default {
 <style scoped>
     *, body {
         font-family: Roboto;
+    }
+    ul, li {
+        list-style: none;
+        padding: 0;
     }
     .menu {
         font-weight: 600;
@@ -111,5 +130,19 @@ export default {
     }
     .today {
         max-width: 120px;
+    }
+    .main-menu {
+        top: 48px;
+        width: 73%;
+        z-index: 2;
+        background: #fff;
+    }
+    .menu_item {
+        text-decoration: none;
+        color: #B2B2B2;
+        cursor: pointer;
+    }
+    .router-link-exact-active {
+        font-weight: 600;
     }
 </style>
