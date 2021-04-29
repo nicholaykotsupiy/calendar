@@ -30,13 +30,13 @@
                                 <div class="form-label">Заполните все обязательные поля</div>
                             </div>
                             <template v-if="!errorNameReminder">
-                                <div class="col-12">
+                                <div class="col-12 py-2">
                                     <label for="nameReminder" class="form-label">Название<span>*</span></label>
                                     <input v-model="reminder.name" type="text" class="form-control" id="nameReminder" name="nameReminder">
                                 </div>
                             </template>
                             <template v-else>
-                                <div class="col-12">
+                                <div class="col-12 py-2">
                                     <label for="nameReminder" class="form-label">Название<span class="error">*</span></label>
                                     <input v-model="reminder.name" type="text" class="form-control error" id="nameReminder" name="nameReminder">
                                 </div>
