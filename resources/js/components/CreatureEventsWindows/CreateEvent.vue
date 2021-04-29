@@ -260,7 +260,8 @@ export default {
 
 
 <style scoped>
-@import "https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css";
+/*поплыли стили в чужих компонетах, надо переделывать стили для этого компонента*/
+/*@import "https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css";*/
 .content-create-event-window {
     max-width: 1200px;
 }
