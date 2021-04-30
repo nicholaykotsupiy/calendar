@@ -17,6 +17,12 @@ const routes = [
         component: () => import('../components/Month/TheMonth'),
         props: true
     },
+    {
+        path: '/year',
+        name: 'Year',
+        component: () => import('../components/Year/TheYear'),
+        props: true
+    },
 ]
 
 const router = new VueRouter({
