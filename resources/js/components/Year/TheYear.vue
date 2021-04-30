@@ -12,14 +12,14 @@
             <div>{{ currentYear }}</div>
         </div>
 
-        <div class="calendar-year">
-            <div v-for="(month, monthIndex) in calendar" :key="monthIndex">
-                <div>
+        <div class="calendar-year flex">
+            <div v-for="(month, monthIndex) in calendar" :key="monthIndex" class="month-lisst">
+                <div class="month-name">
                     {{ months[monthIndex] }}
                 </div>
-                <table class="table-month">
+                <table>
                     <tbody>
-                        <div class="mounth">
+                        <div class="table-month">
                             <tr>
                                 <td v-for="(d, dIndex) in day" :key="dIndex">{{ d }}</td>
                             </tr>
@@ -120,6 +120,7 @@ export default {
     .flex {
         display: flex;
         align-content: space-between;
+        flex-wrap: wrap;
     }
     .container {
         max-width: 1120px;
@@ -129,37 +130,26 @@ export default {
         margin: 0 auto;
         padding-top: 30px;
         padding-bottom: 30px;
-    }
-    /* .table-month {
-        font-family: Roboto;
-        width: 100%;
-        height: 100%;
-        border-collapse: collapse;
-        table-layout: fixed;
-    }
-    .table-month thead td {
-        font-style: normal;
-        font-weight: 900;
-        font-size: 12px;
-        line-height: 90px;
-        text-align: center;
-        letter-spacing: 1.5px;
-        text-transform: uppercase;
-        color: #B3B3B3;
-    }
-    .table-month td {
-        width: 14.286%;
-        font-family: Roboto;
-        font-style: normal;
-        font-weight: bold;
         font-size: 14px;
-        line-height: 30px;
-        text-align: right;
-        min-height: 90px;
-        vertical-align: top;
-        padding-right: 10px;
-        color: #CCCCCC;
-        border: 1px solid #F5F5F5;
+        font-family: Roboto;
+        font-weight: 500;
+        font-style: normal;
+        color: #666666;
+    }
+    .month-lisst {
+        margin-right: 5px;
+        margin-bottom: 5px;
+        background-color: #ffffff;
+    }
+    .month-name {
+        padding: 10px 15px;
+        border-bottom: 3px solid rgb(245, 245, 245);
+    }
+    .table-month {
+        padding-left: 5px;
+        padding-top: 10px;
+        padding-right: 20px;
+        padding-bottom: 15px;
     }
     .daygrid-day-number a, .daygrid-day-number-without-ukr a {
         cursor: pointer;
@@ -167,65 +157,4 @@ export default {
         text-decoration: none;
         padding-left: 10px;
     }
-    .daygrid-day-reminder {
-        margin: 1px;
-        cursor: pointer;
-        background: #FEEACC;
-        border-radius: 4px;
-        font-family: Roboto;
-        font-style: normal;
-        font-weight: bold;
-        font-size: 12px;
-        line-height: 30px;
-        color: #D46D2C;
-        text-align: center;
-    }
-    .daygrid-day-ukr {
-        cursor: pointer;
-        width: 100%;
-        color: #222222;
-        text-align: left;
-        padding-left: 5px;
-    }
-    .daygrid-day-number {
-        width: 20px;
-    }
-    .daygrid-day-number-without-ukr {
-        width: 100%;
-    }
-    .daygrid-day-task {
-        margin: 1px;
-        cursor: pointer;
-        font-style: normal;
-        font-weight: bold;
-        font-size: 12px;
-        line-height: 30px;
-        color: #008911;
-        background: #E0F7D7;
-        border-radius: 4px;
-        text-align: center;
-    }
-    .daygrid-day-birthday {
-        margin: 1px;
-        cursor: pointer;
-        font-style: normal;
-        font-weight: bold;
-        font-size: 12px;
-        line-height: 30px;
-        color: #2675B5;
-        background: #D2EFFE;
-        text-align: center;
-        border-radius: 4px;
-    }
-    .daygrid-day-event {
-        margin: 1px;
-        cursor: pointer;
-        background: #F5E3F9;
-        border-radius: 4px;
-        font-weight: bold;
-        font-size: 12px;
-        line-height: 30px;
-        color: #86488A;
-        text-align: center;
-    } */
 </style>
