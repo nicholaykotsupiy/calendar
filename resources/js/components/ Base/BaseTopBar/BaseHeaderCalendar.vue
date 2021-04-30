@@ -22,19 +22,14 @@
         </div>
         <nav class="col-2 pr-4 d-flex flex-column position-relative">
             <div  @click="openMenu" class="drop_day day d-flex justify-content-center align-items-center">
-                <span>День</span>
+                <span>Календарь</span>
                 <img :src="arrow_down" alt="arrow_down">
             </div>
-            <ul v-if="activeMenu" @click="openMenu" class="main-menu position-absolute">
+            <ul v-if="activeMenu" @click="openMenu" class="main-menu position-absolute text-center">
                 <router-link to="/" class="d-block menu_item border-top py-2" exact>День</router-link>
                 <router-link to="/week" class="d-block menu_item border-top py-2" exact>Неделя</router-link>
                 <router-link to="/month" class="d-block menu_item border-top py-2" exact>Месяц</router-link>
                 <router-link to="/year" class="d-block menu_item border-top py-2" exact>Год</router-link>
-
-<!--                <li class="menu_item border-top py-2 active">День</li>-->
-<!--                <li class="menu_item border-top py-2">Неделя</li>-->
-<!--                <li class="menu_item border-top py-2" >Месяц</li>-->
-<!--                <li class="menu_item border-top py-2">Год</li>-->
             </ul>
         </nav>
     </div>
@@ -64,7 +59,7 @@ export default {
         openMenu () {
             this.activeMenu = !this.activeMenu
         }
-    }
+    },
 }
 </script>
 
@@ -133,7 +128,7 @@ export default {
     }
     .main-menu {
         top: 48px;
-        width: 73%;
+        width: 77%;
         z-index: 2;
         background: #fff;
     }

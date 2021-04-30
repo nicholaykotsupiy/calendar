@@ -3,8 +3,9 @@
     <div class="w-100">
         <DayCalendarHead />
     </div>
-     <div class="calendar_body col-12 overflow-auto mb-4">
-        <DayCalendarTimeLine :events="events" :timeLine="timeLine"/>
+     <div class="calendar_body d-flex col-12 overflow-auto mb-4">
+        <DayCalendarTimeLine :timeLine="timeLine"/>
+        <DayCalendarEnents :timeLine="timeLine" :events="events"/>
      </div>
  </div>
 </template>
@@ -12,9 +13,11 @@
 <script>
 import DayCalendarHead from "./DayCalendarComponents/DayCalendarHead";
 import DayCalendarTimeLine from "./DayCalendarComponents/DayCalendarTimeLine";
+import DayCalendarEnents from "./DayCalendarComponents/DayCalendarEnents";
 export default {
     name: "DayCalendarInterface",
     components: {
+        DayCalendarEnents,
         DayCalendarHead,
         DayCalendarTimeLine,
     },
@@ -31,7 +34,7 @@ export default {
                 color: '#D2EFFE',
                 title: 'День рождения у К. Карины',
                 start: '00:30',
-                end: '1:00',
+                end: '1',
                 peoples: [1]
             },
             {
@@ -39,7 +42,7 @@ export default {
                 color: '#E0F7D7',
                 title: 'Написать ТЗ',
                 start: '2:30',
-                end: '3:00',
+                end: '2',
                 peoples: [1,2]
             },
             {
@@ -47,8 +50,32 @@ export default {
                 color: '#FEEACC',
                 title: 'Поиск материалов',
                 start: '00:30',
-                end: '4:00',
+                end: '3',
                 peoples: []
+            },
+            {
+                id: 5,
+                color: '#FEEACC',
+                title: ' Бла бла бла',
+                start: '4:00',
+                end: '3',
+                peoples: []
+            },
+            {
+                id: 6,
+                color: '#cffecc',
+                title: ' qweqwe ',
+                start: '5:00',
+                end: '2',
+                peoples: []
+            },
+            {
+                id: 7,
+                color: '#D2EFFE',
+                title: 'День рождения у К. Карины',
+                start: '7:30',
+                end: '1',
+                peoples: [1]
             }
         ]
     })

@@ -8,12 +8,14 @@ const routes = [
     {
         path: '/',
         name: 'DayCalendarInterface',
-        component: DayCalendarInterface
+        component: DayCalendarInterface,
+        props: true
     },
     {
         path: '/month',
         name: 'Month',
-        component: () => import('../components/Month/TheMonth')
+        component: () => import('../components/Month/TheMonth'),
+        props: true
     },
 ]
 
