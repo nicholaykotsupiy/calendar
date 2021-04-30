@@ -1,20 +1,28 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import DayCalendarInterface from '../components/DayCalendar/DayCalendarInterface'
 
 Vue.use(VueRouter)
 
 const routes = [
-    // {
-    //     path: '/',
-    //     name: 'Home',
-    //     component: Home
-    // },
+    {
+        path: '/',
+        name: 'DayCalendarInterface',
+        component: DayCalendarInterface,
+        props: true
+    },
+    {
+        path: '/month',
+        name: 'Month',
+        component: () => import('../components/Month/TheMonth'),
+        props: true
+    },
 ]
 
 const router = new VueRouter({
     mode: 'history',
     base: process.env.BASE_URL,
-    routes
+    routes,
 })
 
 export default router

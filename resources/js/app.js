@@ -2,7 +2,7 @@ require('./bootstrap');
 
 import router from './router'
 import store from './store'
-import App from './App'
+import App from './App.vue'
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 import  'bootstrap-vue/dist/bootstrap-vue.css'
 
