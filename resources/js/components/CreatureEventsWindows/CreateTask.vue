@@ -213,7 +213,6 @@ export default {
 
             //прослушиваем событие close в родительском компоненте
             this.$emit('close');
-
         },
 
         validation() {
