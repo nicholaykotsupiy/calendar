@@ -91,24 +91,68 @@
                 </template>
             </template>
             <template v-else>
-                <div class="col-4 py-2">
-                    <label class="form-label">Начало<span>*</span>:</label>
-                </div>
-                <div class="col-4 py-2">
-                    <input v-model="task.dateStart" type="date" class="form-control" id="dateStartTask" name="dateStartTask">
-                </div>
-                <div class="col-4 py-2">
-                    <input v-model="task.timeStart" type="time" class="form-control" id="timeStartTask" name="timeStartTask" disabled>
-                </div>
-                <div class="col-4 py-2">
-                    <label class="form-label">Окончание<span>*</span>:</label>
-                </div>
-                <div class="col-4 py-2">
-                    <input v-model="task.dateEnd" type="date" class="form-control" id="dateEndTask" name="dateEndTask">
-                </div>
-                <div class="col-4 py-2">
-                    <input v-model="task.timeEnd" type="time" class="form-control" id="timeEndTask" name="timeEndTask" disabled>
-                </div>
+                <template v-if="errorStartDateTask && errorEndDateTask">
+                    <div class="col-4 py-2">
+                        <label class="form-label">Начало<span class="error">*</span>:</label>
+                    </div>
+                    <div class="col-4 py-2">
+                        <input v-model="task.dateStart" type="date" class="form-control error" id="dateStartTask" name="dateStartTask">
+                    </div>
+                    <div class="col-4 py-2">
+                        <input v-model="task.timeStart" type="time" class="form-control" id="timeStartTask" name="timeStartTask" disabled>
+                    </div>
+                    <div class="col-4 py-2">
+                        <label class="form-label">Окончание<span class="error">*</span>:</label>
+                    </div>
+                    <div class="col-4 py-2">
+                        <input v-model="task.dateEnd" type="date" class="form-control error" id="dateEndTask" name="dateEndTask">
+                    </div>
+                    <div class="col-4 py-2">
+                        <input v-model="task.timeEnd" type="time" class="form-control" id="timeEndTask" name="timeEndTask" disabled>
+                    </div>
+                </template>
+                <template v-else-if="errorStartDateTask">
+                    <div class="col-4 py-2">
+                        <label class="form-label">Начало<span class="error">*</span>:</label>
+                    </div>
+                    <div class="col-4 py-2">
+                        <input v-model="task.dateStart" type="date" class="form-control error" id="dateStartTask" name="dateStartTask">
+                    </div>
+                    <div class="col-4 py-2">
+                        <input v-model="task.timeStart" type="time" class="form-control" id="timeStartTask" name="timeStartTask" disabled>
+                    </div>
+                </template>
+                <template v-else-if="errorEndDateTask">
+                    <div class="col-4 py-2">
+                        <label class="form-label">Окончание<span class="error">*</span>:</label>
+                    </div>
+                    <div class="col-4 py-2">
+                        <input v-model="task.dateEnd" type="date" class="form-control error" id="dateEndTask" name="dateEndTask">
+                    </div>
+                    <div class="col-4 py-2">
+                        <input v-model="task.timeEnd" type="time" class="form-control" id="timeEndTask" name="timeEndTask" disabled>
+                    </div>
+                </template>
+                <template v-else>
+                    <div class="col-4 py-2">
+                        <label class="form-label">Начало<span>*</span>:</label>
+                    </div>
+                    <div class="col-4 py-2">
+                        <input v-model="task.dateStart" type="date" class="form-control" id="dateStartTask" name="dateStartTask">
+                    </div>
+                    <div class="col-4 py-2">
+                        <input v-model="task.timeStart" type="time" class="form-control" id="timeStartTask" name="timeStartTask" disabled>
+                    </div>
+                    <div class="col-4 py-2">
+                        <label class="form-label">Окончание<span>*</span>:</label>
+                    </div>
+                    <div class="col-4 py-2">
+                        <input v-model="task.dateEnd" type="date" class="form-control" id="dateEndTask" name="dateEndTask">
+                    </div>
+                    <div class="col-4 py-2">
+                        <input v-model="task.timeEnd" type="time" class="form-control" id="timeEndTask" name="timeEndTask" disabled>
+                    </div>
+                </template>
             </template>
 
         </div>
