@@ -6,13 +6,13 @@
                 <span>Календарь</span>
             </div>
             <div class="col-2">
-                <div class="today day d-flex justify-content-center align-items-center">
-                    <span>Сегодня</span>
-                </div>
+<!--                <div class="today day d-flex justify-content-center align-items-center">-->
+<!--                    <span>Сегодня</span>-->
+<!--                </div>-->
             </div>
             <div class="col-2 arrows d-flex">
-                <div class="arrow-left"><img :src="left_arrow" alt="left-arrow"></div>
-                <div class="arrow-right"><img :src="right_arrow" alt="right-arrow"></div>
+<!--                <div class="arrow-left"><img :src="left_arrow" alt="left-arrow"></div>-->
+<!--                <div class="arrow-right"><img :src="right_arrow" alt="right-arrow"></div>-->
             </div>
             <div class="col-2 date-info">Апрель 2020</div>
             <form class="col-5 search px-2">
@@ -77,7 +77,7 @@ export default {
         line-height: 60px;
         color: #808080;
     }
-    .arrow-left, .arrow-right, .menu img, .menu span {
+    .menu img, .menu span {
         cursor: pointer;
     }
     .day {
@@ -90,12 +90,6 @@ export default {
         font-size: 14px;
         line-height: 60px;
         color: #666666;
-    }
-    .arrows div {
-        padding: 8px;
-        background: #fff;
-        border: 2px solid #F5F5F5;
-        border-radius: 0px 4px 4px 0px;
     }
     .date-info {
         font-weight: 600;
@@ -122,9 +116,6 @@ export default {
         font-size: 14px;
         line-height: 50px;
         color: #999999;
-    }
-    .today {
-        max-width: 120px;
     }
     .main-menu {
         top: 48px;

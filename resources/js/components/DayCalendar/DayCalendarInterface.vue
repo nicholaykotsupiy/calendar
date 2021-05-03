@@ -1,11 +1,12 @@
 <template>
  <div class="wrapper row">
+     <DayCalendarNavigation @current="switchToCurrentDate" @prev="prevDate" @next="nextDate" />
     <div class="w-100">
         <DayCalendarHead />
     </div>
      <div class="calendar_body d-flex col-12 overflow-auto mb-4">
         <DayCalendarTimeLine :timeLine="timeLine"/>
-        <DayCalendarEnents :timeLine="timeLine" :events="events"/>
+        <DayCalendarEnents :currentDate="currentDate.toLocaleDateString()" :timeLine="timeLine" :events="events"/>
      </div>
  </div>
 </template>
@@ -14,14 +15,18 @@
 import DayCalendarHead from "./DayCalendarComponents/DayCalendarHead";
 import DayCalendarTimeLine from "./DayCalendarComponents/DayCalendarTimeLine";
 import DayCalendarEnents from "./DayCalendarComponents/DayCalendarEnents";
+import DayCalendarNavigation from "./DayCalendarComponents/DayCalendarNavigation";
+
 export default {
     name: "DayCalendarInterface",
     components: {
+        DayCalendarNavigation,
         DayCalendarEnents,
         DayCalendarHead,
         DayCalendarTimeLine,
     },
     data: () => ({
+        currentDate: new Date(),
         timeLine: [
             '00:00','1:00','2:00','3:00','4:00','5:00','6:00',
             '7:00','8:00','9:00','10:00','11:00','12:00',
@@ -35,7 +40,8 @@ export default {
                 title: 'День рождения у К. Карины',
                 start: '00:30',
                 end: '1',
-                peoples: [1]
+                peoples: [1],
+                currentDate: '5/3/2021'
             },
             {
                 id: 2,
@@ -43,7 +49,8 @@ export default {
                 title: 'Написать ТЗ',
                 start: '2:30',
                 end: '2',
-                peoples: [1,2]
+                peoples: [1,2],
+                currentDate: '5/2/2021'
             },
             {
                 id: 3,
@@ -51,34 +58,24 @@ export default {
                 title: 'Поиск материалов',
                 start: '00:30',
                 end: '3',
-                peoples: []
+                peoples: [],
+                currentDate: '5/4/2021'
             },
-            {
-                id: 5,
-                color: '#FEEACC',
-                title: ' Бла бла бла',
-                start: '4:00',
-                end: '3',
-                peoples: []
-            },
-            {
-                id: 6,
-                color: '#cffecc',
-                title: ' qweqwe ',
-                start: '5:00',
-                end: '2',
-                peoples: []
-            },
-            {
-                id: 7,
-                color: '#D2EFFE',
-                title: 'День рождения у К. Карины',
-                start: '7:30',
-                end: '1',
-                peoples: [1]
-            }
         ]
-    })
+    }),
+    methods: {
+        prevDate() {
+            const dayMilliseconds = 24*60*60*1000;
+            this.currentDate = new Date(this.currentDate.getTime() - dayMilliseconds)
+        },
+        nextDate() {
+            const dayMilliseconds = 24*60*60*1000;
+            this.currentDate = new Date(this.currentDate.getTime() + dayMilliseconds)
+        },
+        switchToCurrentDate() {
+            this.currentDate = new Date()
+        }
+    }
 }
 </script>
 

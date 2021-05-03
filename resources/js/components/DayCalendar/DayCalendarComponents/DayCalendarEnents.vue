@@ -9,7 +9,8 @@
             v-for="line in timeLine" :key="new Date().time"
             :style="{height: '60px'}">
             <td
-                v-if="line.slice(0, line.indexOf(':')) == event.start.slice(0, event.start.indexOf(':'))"
+                v-if="
+                    line.slice(0, line.indexOf(':')) == event.start.slice(0, event.start.indexOf(':')) && currentDate == event.currentDate"
                 v-for="event of events" :style="{background: event.color}"
                 :key="event.id"
                 :rowspan="event.end"
@@ -33,11 +34,9 @@ import del from '../../../assets/img/DayCalendar/delete.svg'
 import  edit from '../../../assets/img/DayCalendar/edit.svg'
 import  peoples from '../../../assets/img/DayCalendar/peoples.png'
 
-// console.log(155)
-
 export default {
     name: "DayCalendarEnents",
-    props: ['events', 'timeLine'],
+    props: ['events', 'timeLine', 'currentDate'],
     data: () => ({
         del,
         edit,

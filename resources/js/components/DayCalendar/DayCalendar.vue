@@ -27,12 +27,12 @@ export default {
         TheMonth,
     },
     data: () => ({
-        open: true
+        open: true,
     }),
     methods: {
         openLeftBar() {
             this.open = !this.open
-        }
+        },
     }
 }
 </script>
