@@ -2,12 +2,6 @@
 
     <div class="container calendar-center">
 
-        <wrap-events
-            v-show="isShowWrapEvents"
-            @closeWrap="closeWrapEvents"
-        >
-        </wrap-events>
-
         <!--        временные кнопки-->
         <div class="flex">
             <div>
@@ -27,24 +21,24 @@
             </thead>
             <tbody>
             <tr v-for="week in calendar()" class="flex">
-                <!--                    При нажатии на ячейку вызываем окно для создания события-->
-                <!--                    в параметрах передаем день, месяц и год, которые соответствуют текущей ячейке-->
-                <td v-for="(day, index) in week" @click="showWrapEvents()">
+<!--                    При нажатии на ячейку вызываем окно для создания события-->
+<!--                    в параметрах передаем день, месяц и год, которые соответствуют текущей ячейке-->
+                <td v-for="(day, index) in week">
                     <div class="daygrid-day-frame">
                         <div class="daygrid-day-top flex">
 
-                            <!--                                пример как будут отображаться праздники Украины-->
+<!--                                пример как будут отображаться праздники Украины-->
                             <template v-if="day.index === 15">
                                 <div class="daygrid-day-ukr">Праздник Укр </div>
                                 <div class="daygrid-day-number">
-                                    <!--                                        обозначить текущий день-->
+<!--                                        обозначить текущий день-->
                                     <a href="#" :style="{
-                                            'background': day.currentbg,
-                                            'color': day.current,
-                                            'border-radius': '50%',
-                                            'width': '30px',
-                                            'height': '30px',
-                                            'padding': '5px'
+                                        'background': day.currentbg,
+                                        'color': day.current,
+                                        'border-radius': '50%',
+                                        'width': '30px',
+                                        'height': '30px',
+                                        'padding': '5px'
                                         }">
                                         {{ day.index }}
                                     </a>
@@ -53,7 +47,7 @@
 
                             <template v-else>
                                 <div class="daygrid-day-number-without-ukr">
-                                    <!--                                        обозначить текущий день-->
+<!--                                        обозначить текущий день-->
                                     <a href="#"
                                        :style="{
                                             'background': day.currentbg,
@@ -69,7 +63,7 @@
                             </template>
                         </div>
 
-                        <!--                            пример напоминалок на один день, взяла 2-е число-->
+<!--                            пример напоминалок на один день, взяла 2-е число-->
                         <template v-if="day.index === 2">
                             <div class="daygrid-day-reminder">
                                 Напоминание
@@ -93,14 +87,10 @@
 </template>
 
 <script>
-import CreateTask from "../CreatureEventsWindows/CreateTask";
-import CreateEvent from "../CreatureEventsWindows/CreateEvent";
 
 export default {
 
     name: "TheMont",
-
-    components: {CreateEvent, CreateTask},
 
     data() {
 
@@ -111,26 +101,10 @@ export default {
             day:["Понедельник", "Вторник","Среда","Четверг","Пятница","Суббота", "Воскресенье"],
             months: ["Январь","Февраль","Март","Апрель","Май","Июнь","Июль","Август","Сентябрь","Октябрь","Ноябрь","Декабрь"],
             date: new Date(),
-
-            isShowWrapEvents: false,
         }
     },
 
     methods:{
-
-        showWrapEvents() {
-            this.isShowWrapEvents = true;
-        },
-
-        closeWrapEvents() {
-            this.isShowWrapEvents = false;
-        },
-
-        saveClickEvent() {
-            //console.log('Save event')
-            //после удачного сохранения события спрятать форму
-            this.isCreateEventWindowVisible = false;
-        },
 
         calendar: function(){
 
@@ -208,6 +182,7 @@ export default {
 </script>
 
 <style scoped>
+
 .flex {
     display: flex;
     align-content: space-between;
@@ -319,4 +294,5 @@ export default {
     color: #86488A;
     text-align: center;
 }
+
 </style>
