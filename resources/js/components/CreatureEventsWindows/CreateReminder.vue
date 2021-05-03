@@ -1,145 +1,116 @@
 <template>
-    <transition name="window-fade">
-        <div class="content-create-event-window">
-            <div class="backdrop-create-event-window">
-                <div class="create-event-window">
-                    <form class="create-event" id="myForm" @submit.prevent="saveEvent()">
-                        <div class="row justify-content-between py-2 header-create-event">
-                            <div class="col-md-11">
-                                <div class="row text-center py-2">
-                                    <div class="col-md-3">
-                                        <button type="button" class="btn btn-outline-primary">Мероприятие</button>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <button type="button" class="btn btn-primary">Напоминание</button>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <button type="button" class="btn btn-outline-primary">Задача</button>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <button type="button" class="btn btn-outline-primary">День рождения</button>
-                                    </div>
-                                </div>
-                            </div>
-                            <button type="button" class="col-md-1 close" aria-label="Close" @click="close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="row body-create-event">
-                            <div v-show="!isValid" class="col-12 error-title">
-                                <div class="form-label">Заполните все обязательные поля</div>
-                            </div>
-                            <template v-if="!errorNameReminder">
-                                <div class="col-12 py-2">
-                                    <label for="nameReminder" class="form-label">Название<span>*</span></label>
-                                    <input v-model="reminder.name" type="text" class="form-control" id="nameReminder" name="nameReminder">
-                                </div>
-                            </template>
-                            <template v-else>
-                                <div class="col-12 py-2">
-                                    <label for="nameReminder" class="form-label">Название<span class="error">*</span></label>
-                                    <input v-model="reminder.name" type="text" class="form-control error" id="nameReminder" name="nameReminder">
-                                </div>
-                            </template>
+    <form id="myForm" @submit.prevent="saveEvent()">
+        <div class="row body-create-event">
+            <div v-show="!isValid" class="col-12 error-title">
+                <div class="form-label">Заполните все обязательные поля</div>
+            </div>
+            <template v-if="!errorNameReminder">
+                <div class="col-12 py-2">
+                    <label for="nameReminder" class="form-label">Название<span>*</span></label>
+                    <input v-model="reminder.name" type="text" class="form-control" id="nameReminder" name="nameReminder">
+                </div>
+            </template>
+            <template v-else>
+                <div class="col-12 py-2">
+                    <label for="nameReminder" class="form-label">Название<span class="error">*</span></label>
+                    <input v-model="reminder.name" type="text" class="form-control error" id="nameReminder" name="nameReminder">
+                </div>
+            </template>
 
 <!--                            Если выбран флажок "Весь день", то дату скрыть и она не обязательна для заполнения,
-                            в БД будет ложиться NULL в Date (если это возможно или 00:00,но письма должны отправляться каждый час)-->
-                            <template v-if="reminder.allDay">
-                                <template v-if="!errorDateReminder">
-                                    <div class="col-4 py-2">
-                                        <label class="form-label">Дата<span>*</span>:</label>
-                                    </div>
-                                    <div class="col-8 py-2">
-                                        <input v-model="reminder.date" type="date" class="form-control" id="dateStartEvent" name="dateStartEvent">
-                                    </div>
-                                </template>
-                                <template v-else>
-                                    <div class="col-4 py-2">
-                                        <label class="form-label">Дата<span class="error">*</span>:</label>
-                                    </div>
-                                    <div class="col-8 py-2">
-                                        <input v-model="reminder.date" type="date" class="form-control error" id="dateStartEvent" name="dateStartEvent">
-                                    </div>
-                                </template>
-                            </template>
+            в БД будет ложиться NULL в Date (если это возможно или 00:00,но письма должны отправляться каждый час)-->
+            <template v-if="reminder.allDay">
+                <template v-if="!errorDateReminder">
+                    <div class="col-4 py-2">
+                        <label class="form-label">Дата<span>*</span>:</label>
+                    </div>
+                    <div class="col-8 py-2">
+                        <input v-model="reminder.date" type="date" class="form-control" id="dateStartEvent" name="dateStartEvent">
+                    </div>
+                </template>
+                <template v-else>
+                    <div class="col-4 py-2">
+                        <label class="form-label">Дата<span class="error">*</span>:</label>
+                    </div>
+                    <div class="col-8 py-2">
+                        <input v-model="reminder.date" type="date" class="form-control error" id="dateStartEvent" name="dateStartEvent">
+                    </div>
+                </template>
+            </template>
 <!--                            иначе берем дату, время - они обязательны к заполнению -->
-                            <template v-else>
-                                <template v-if="!errorDateReminder && !errorTimeReminder">
-                                    <div class="col-4 py-2">
-                                        <label class="form-label">Дата<span>*</span> / Время<span>*</span>:</label>
-                                    </div>
-                                    <div class="col-4 py-2">
-                                        <input v-model="reminder.date" type="date" class="form-control" id="dateStartEvent" name="dateStartEvent">
-                                    </div>
-                                    <div class="col-4 py-2">
-                                        <input v-model="reminder.time" type="time" class="form-control" id="timeStartEvent" name="timeStartEvent">
-                                    </div>
-                                </template>
-                                <template v-else-if="errorDateReminder && !errorTimeReminder">
-                                    <div class="col-4 py-2">
-                                        <label class="form-label">Дата<span class="error">*</span> / Время<span>*</span>:</label>
-                                    </div>
-                                    <div class="col-4 py-2">
-                                        <input v-model="reminder.date" type="date" class="form-control error" id="dateStartEvent" name="dateStartEvent">
-                                    </div>
-                                    <div class="col-4 py-2">
-                                        <input v-model="reminder.time" type="time" class="form-control" id="timeStartEvent" name="timeStartEvent">
-                                    </div>
-                                </template>
-                                <template v-else-if="!errorDateReminder && errorTimeReminder">
-                                    <div class="col-4 py-2">
-                                        <label class="form-label">Дата<span>*</span> / Время<span class="error">*</span>:</label>
-                                    </div>
-                                    <div class="col-4 py-2">
-                                        <input v-model="reminder.date" type="date" class="form-control" id="dateStartEvent" name="dateStartEvent">
-                                    </div>
-                                    <div class="col-4 py-2">
-                                        <input v-model="reminder.time" type="time" class="form-control error" id="timeStartEvent" name="timeStartEvent">
-                                    </div>
-                                </template>
-                                <template v-else>
-                                    <div class="col-4 py-2">
-                                        <label class="form-label">Дата<span class="error">*</span> / Время<span class="error">*</span>:</label>
-                                    </div>
-                                    <div class="col-4 py-2">
-                                        <input v-model="reminder.date" type="date" class="form-control error" id="dateStartEvent" name="dateStartEvent">
-                                    </div>
-                                    <div class="col-4 py-2">
-                                        <input v-model="reminder.time" type="time" class="form-control error" id="timeStartEvent" name="timeStartEvent">
-                                    </div>
-                                </template>
-                            </template>
+            <template v-else>
+                <template v-if="!errorDateReminder && !errorTimeReminder">
+                    <div class="col-4 py-2">
+                        <label class="form-label">Дата<span>*</span> / Время<span>*</span>:</label>
+                    </div>
+                    <div class="col-4 py-2">
+                        <input v-model="reminder.date" type="date" class="form-control" id="dateStartEvent" name="dateStartEvent">
+                    </div>
+                    <div class="col-4 py-2">
+                        <input v-model="reminder.time" type="time" class="form-control" id="timeStartEvent" name="timeStartEvent">
+                    </div>
+                </template>
+                <template v-else-if="errorDateReminder && !errorTimeReminder">
+                    <div class="col-4 py-2">
+                        <label class="form-label">Дата<span class="error">*</span> / Время<span>*</span>:</label>
+                    </div>
+                    <div class="col-4 py-2">
+                        <input v-model="reminder.date" type="date" class="form-control error" id="dateStartEvent" name="dateStartEvent">
+                    </div>
+                    <div class="col-4 py-2">
+                        <input v-model="reminder.time" type="time" class="form-control" id="timeStartEvent" name="timeStartEvent">
+                    </div>
+                </template>
+                <template v-else-if="!errorDateReminder && errorTimeReminder">
+                    <div class="col-4 py-2">
+                        <label class="form-label">Дата<span>*</span> / Время<span class="error">*</span>:</label>
+                    </div>
+                    <div class="col-4 py-2">
+                        <input v-model="reminder.date" type="date" class="form-control" id="dateStartEvent" name="dateStartEvent">
+                    </div>
+                    <div class="col-4 py-2">
+                        <input v-model="reminder.time" type="time" class="form-control error" id="timeStartEvent" name="timeStartEvent">
+                    </div>
+                </template>
+                <template v-else>
+                    <div class="col-4 py-2">
+                        <label class="form-label">Дата<span class="error">*</span> / Время<span class="error">*</span>:</label>
+                    </div>
+                    <div class="col-4 py-2">
+                        <input v-model="reminder.date" type="date" class="form-control error" id="dateStartEvent" name="dateStartEvent">
+                    </div>
+                    <div class="col-4 py-2">
+                        <input v-model="reminder.time" type="time" class="form-control error" id="timeStartEvent" name="timeStartEvent">
+                    </div>
+                </template>
+            </template>
 
-                            <div class="col-12 py-2">
-                                <div class="row">
-                                    <div class="col-3">
-                                        <label class="" for="check">Весь день:</label>
-                                    </div>
-                                    <div class="col-3">
-                                        <input type="checkbox" class="form-check-input" id="check" @click="changeValueAllDay()" :checked="reminder.allDay">
-                                    </div>
-                                    <div class="col-6">
-                                        <label for="exampleFormControlSelect2">{{ reminder.toRepeat[0] }}</label>
-                                        <select multiple v-model="reminder.toRepeat" class="form-control to-reminder" id="exampleFormControlSelect2">
-                                            <option v-for="(repeatVal, index) in arrayToRepeat">{{ arrayToRepeat[index] }}</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row text-center py-2 footer-create-event">
-                            <div class="col-md-6">
-                                <button type="submit" class="btn btn-primary btn-lg">Сохранить</button>
-                            </div>
-                            <div class="col-md-6">
-                                <button type="button" class="btn btn-outline-secondary btn-lg" @click="close">Отмена</button>
-                            </div>
-                        </div>
-                    </form>
+            <div class="col-12 py-2">
+                <div class="row">
+                    <div class="col-3">
+                        <label class="" for="check">Весь день:</label>
+                    </div>
+                    <div class="col-3">
+                        <input type="checkbox" class="form-check-input" id="check" @click="changeValueAllDay()" :checked="reminder.allDay">
+                    </div>
+                    <div class="col-6">
+                        <label for="exampleFormControlSelect2">{{ reminder.toRepeat[0] }}</label>
+                        <select multiple v-model="reminder.toRepeat" class="form-control to-reminder" id="exampleFormControlSelect2">
+                            <option v-for="(repeatVal, index) in arrayToRepeat">{{ arrayToRepeat[index] }}</option>
+                        </select>
+                    </div>
                 </div>
             </div>
         </div>
-    </transition>
+        <div class="row text-center py-2 footer-create-event">
+            <div class="col-md-6">
+                <button type="submit" class="btn btn-primary btn-lg">Сохранить</button>
+            </div>
+            <div class="col-md-6">
+                <button type="button" class="btn btn-outline-secondary btn-lg" @click="close">Отмена</button>
+            </div>
+        </div>
+    </form>
 </template>
 
 <script>
@@ -307,7 +278,7 @@ export default {
     border-color: #B2B2B2;
 }
 
-form.create-event {
+.create-event {
     padding: 15px;
     text-align: left;
 }

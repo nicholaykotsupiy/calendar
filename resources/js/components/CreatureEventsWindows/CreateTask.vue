@@ -1,155 +1,126 @@
 <template>
-    <transition name="window-fade">
-        <div class="content-create-event-window">
-            <div class="backdrop-create-event-window">
-                <div class="create-event-window">
-                    <form class="create-event" id="myForm" @submit.prevent="saveEvent()">
-                        <div class="row justify-content-between py-2 header-create-event">
-                            <div class="col-md-11">
-                                <div class="row text-center py-2">
-                                    <div class="col-md-3">
-                                        <button type="button" class="btn btn-outline-primary">Мероприятие</button>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <button type="button" class="btn btn-outline-primary">Напоминание</button>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <button type="button" class="btn btn-primary">Задача</button>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <button type="button" class="btn btn-outline-primary">День рождения</button>
-                                    </div>
-                                </div>
-                            </div>
-                            <button type="button" class="col-md-1 close" aria-label="Close" @click="close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="row body-create-event">
-                            <div v-show="!isValid" class="col-12 error-title">
-                                <div class="form-label">Заполните все обязательные поля</div>
-                            </div>
-                            <template v-if="!errorNameTask">
-                                <div class="col-12 py-2">
-                                    <label for="nameTask" class="form-label">Название<span>*</span></label>
-                                    <input v-model="task.name" type="text" class="form-control" id="nameTask" name="nameTask">
-                                </div>
-                            </template>
-                            <template v-else>
-                                <div class="col-12 py-2">
-                                    <label for="nameTask" class="form-label">Название<span class="error">*</span></label>
-                                    <input v-model="task.name" type="text" class="form-control error" id="nameTask" name="nameTask">
-                                </div>
-                            </template>
-                            <div class="col-12 py-2">
-                                <label for="descriptionTask" class="form-label">Описание</label>
-                                <input v-model="task.description" type="text" class="form-control descriptionTask" id="descriptionTask" name="descriptionTask">
-                            </div>
-
-                            <div class="col-3 py-2">
-                                <label class="" for="check">Весь день:</label>
-                            </div>
-                            <div class="col-9 py-2">
-                                <input type="checkbox" class="form-check-input" id="check" @click="changeValueAllDay()" :checked="task.allDay">
-                            </div>
-
-                            <template v-if="!task.allDay">
-                                <template v-if="errorStartDateTask || errorStartTimeTask">
-                                    <div class="col-4 py-2">
-                                        <label class="form-label">Начало<span class="error">*</span>:</label>
-                                    </div>
-                                </template>
-                                <template v-else>
-                                    <div class="col-4 py-2">
-                                        <label class="form-label">Начало<span>*</span>:</label>
-                                    </div>
-                                </template>
-                                <template v-if="errorStartDateTask">
-                                    <div class="col-4 py-2">
-                                        <input v-model="task.dateStart" type="date" class="form-control error" id="dateStartTask" name="dateStartTask">
-                                    </div>
-                                </template>
-                                <template v-else>
-                                    <div class="col-4 py-2">
-                                        <input v-model="task.dateStart" type="date" class="form-control" id="dateStartTask" name="dateStartTask">
-                                    </div>
-                                </template>
-                                <template v-if="errorStartTimeTask">
-                                    <div class="col-4 py-2">
-                                        <input v-model="task.timeStart" type="time" class="form-control error" id="timeStartTask" name="timeStartTask">
-                                    </div>
-                                </template>
-                                <template v-else>
-                                    <div class="col-4 py-2">
-                                        <input v-model="task.timeStart" type="time" class="form-control" id="timeStartTask" name="timeStartTask">
-                                    </div>
-                                </template>
-                                <template v-if="errorEndDateTask || errorEndTimeTask">
-                                    <div class="col-4 py-2">
-                                        <label class="form-label">Окончание<span class="error">*</span>:</label>
-                                    </div>
-                                </template>
-                                <template v-else>
-                                    <div class="col-4 py-2">
-                                        <label class="form-label">Окончание<span>*</span>:</label>
-                                    </div>
-                                </template>
-                                <template v-if="errorEndDateTask">
-                                    <div class="col-4 py-2">
-                                        <input v-model="task.dateEnd" type="date" class="form-control error" id="dateEndTask" name="dateEndTask">
-                                    </div>
-                                </template>
-                                <template v-else>
-                                    <div class="col-4 py-2">
-                                        <input v-model="task.dateEnd" type="date" class="form-control" id="dateEndTask" name="dateEndTask">
-                                    </div>
-                                </template>
-                                <template v-if="errorEndTimeTask">
-                                    <div class="col-4 py-2">
-                                        <input v-model="task.timeEnd" type="time" class="form-control error" id="timeEndTask" name="timeEndTask">
-                                    </div>
-                                </template>
-                                <template v-else>
-                                    <div class="col-4 py-2">
-                                        <input v-model="task.timeEnd" type="time" class="form-control" id="timeEndTask" name="timeEndTask">
-                                    </div>
-                                </template>
-                            </template>
-                            <template v-else>
-                                <div class="col-4 py-2">
-                                    <label class="form-label">Начало<span>*</span>:</label>
-                                </div>
-                                <div class="col-4 py-2">
-                                    <input v-model="task.dateStart" type="date" class="form-control" id="dateStartTask" name="dateStartTask">
-                                </div>
-                                <div class="col-4 py-2">
-                                    <input v-model="task.timeStart" type="time" class="form-control" id="timeStartTask" name="timeStartTask" disabled>
-                                </div>
-                                <div class="col-4 py-2">
-                                    <label class="form-label">Окончание<span>*</span>:</label>
-                                </div>
-                                <div class="col-4 py-2">
-                                    <input v-model="task.dateEnd" type="date" class="form-control" id="dateEndTask" name="dateEndTask">
-                                </div>
-                                <div class="col-4 py-2">
-                                    <input v-model="task.timeEnd" type="time" class="form-control" id="timeEndTask" name="timeEndTask" disabled>
-                                </div>
-                            </template>
-
-                        </div>
-                        <div class="row text-center py-2 footer-create-event">
-                            <div class="col-md-6">
-                                <button type="submit" class="btn btn-primary btn-lg">Сохранить</button>
-                            </div>
-                            <div class="col-md-6">
-                                <button type="button" class="btn btn-outline-secondary btn-lg" @click="close">Отмена</button>
-                            </div>
-                        </div>
-                    </form>
+    <form id="myForm" @submit.prevent="saveEvent()">
+        <div class="row body-create-event">
+            <div v-show="!isValid" class="col-12 error-title">
+                <div class="form-label">Заполните все обязательные поля</div>
+            </div>
+            <template v-if="!errorNameTask">
+                <div class="col-12 py-2">
+                    <label for="nameTask" class="form-label">Название<span>*</span></label>
+                    <input v-model="task.name" type="text" class="form-control" id="nameTask" name="nameTask">
                 </div>
+            </template>
+            <template v-else>
+                <div class="col-12 py-2">
+                    <label for="nameTask" class="form-label">Название<span class="error">*</span></label>
+                    <input v-model="task.name" type="text" class="form-control error" id="nameTask" name="nameTask">
+                </div>
+            </template>
+            <div class="col-12 py-2">
+                <label for="descriptionTask" class="form-label">Описание</label>
+                <input v-model="task.description" type="text" class="form-control descriptionTask" id="descriptionTask" name="descriptionTask">
+            </div>
+
+            <div class="col-3 py-2">
+                <label class="" for="check">Весь день:</label>
+            </div>
+            <div class="col-9 py-2">
+                <input type="checkbox" class="form-check-input" id="check" @click="changeValueAllDay()" :checked="task.allDay">
+            </div>
+
+            <template v-if="!task.allDay">
+                <template v-if="errorStartDateTask || errorStartTimeTask">
+                    <div class="col-4 py-2">
+                        <label class="form-label">Начало<span class="error">*</span>:</label>
+                    </div>
+                </template>
+                <template v-else>
+                    <div class="col-4 py-2">
+                        <label class="form-label">Начало<span>*</span>:</label>
+                    </div>
+                </template>
+                <template v-if="errorStartDateTask">
+                    <div class="col-4 py-2">
+                        <input v-model="task.dateStart" type="date" class="form-control error" id="dateStartTask" name="dateStartTask">
+                    </div>
+                </template>
+                <template v-else>
+                    <div class="col-4 py-2">
+                        <input v-model="task.dateStart" type="date" class="form-control" id="dateStartTask" name="dateStartTask">
+                    </div>
+                </template>
+                <template v-if="errorStartTimeTask">
+                    <div class="col-4 py-2">
+                        <input v-model="task.timeStart" type="time" class="form-control error" id="timeStartTask" name="timeStartTask">
+                    </div>
+                </template>
+                <template v-else>
+                    <div class="col-4 py-2">
+                        <input v-model="task.timeStart" type="time" class="form-control" id="timeStartTask" name="timeStartTask">
+                    </div>
+                </template>
+                <template v-if="errorEndDateTask || errorEndTimeTask">
+                    <div class="col-4 py-2">
+                        <label class="form-label">Окончание<span class="error">*</span>:</label>
+                    </div>
+                </template>
+                <template v-else>
+                    <div class="col-4 py-2">
+                        <label class="form-label">Окончание<span>*</span>:</label>
+                    </div>
+                </template>
+                <template v-if="errorEndDateTask">
+                    <div class="col-4 py-2">
+                        <input v-model="task.dateEnd" type="date" class="form-control error" id="dateEndTask" name="dateEndTask">
+                    </div>
+                </template>
+                <template v-else>
+                    <div class="col-4 py-2">
+                        <input v-model="task.dateEnd" type="date" class="form-control" id="dateEndTask" name="dateEndTask">
+                    </div>
+                </template>
+                <template v-if="errorEndTimeTask">
+                    <div class="col-4 py-2">
+                        <input v-model="task.timeEnd" type="time" class="form-control error" id="timeEndTask" name="timeEndTask">
+                    </div>
+                </template>
+                <template v-else>
+                    <div class="col-4 py-2">
+                        <input v-model="task.timeEnd" type="time" class="form-control" id="timeEndTask" name="timeEndTask">
+                    </div>
+                </template>
+            </template>
+            <template v-else>
+                <div class="col-4 py-2">
+                    <label class="form-label">Начало<span>*</span>:</label>
+                </div>
+                <div class="col-4 py-2">
+                    <input v-model="task.dateStart" type="date" class="form-control" id="dateStartTask" name="dateStartTask">
+                </div>
+                <div class="col-4 py-2">
+                    <input v-model="task.timeStart" type="time" class="form-control" id="timeStartTask" name="timeStartTask" disabled>
+                </div>
+                <div class="col-4 py-2">
+                    <label class="form-label">Окончание<span>*</span>:</label>
+                </div>
+                <div class="col-4 py-2">
+                    <input v-model="task.dateEnd" type="date" class="form-control" id="dateEndTask" name="dateEndTask">
+                </div>
+                <div class="col-4 py-2">
+                    <input v-model="task.timeEnd" type="time" class="form-control" id="timeEndTask" name="timeEndTask" disabled>
+                </div>
+            </template>
+
+        </div>
+        <div class="row text-center py-2 footer-create-event">
+            <div class="col-md-6">
+                <button type="submit" class="btn btn-primary btn-lg">Сохранить</button>
+            </div>
+            <div class="col-md-6">
+                <button type="button" class="btn btn-outline-secondary btn-lg" @click="close">Отмена</button>
             </div>
         </div>
-    </transition>
+    </form>
 </template>
 
 <script>
@@ -338,7 +309,7 @@ export default {
     border-color: #B2B2B2;
 }
 
-form.create-event {
+.create-event {
     padding: 15px;
     text-align: left;
 }

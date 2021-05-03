@@ -2,28 +2,13 @@
 
     <div class="container calendar-center">
 
-<!--        Компонент для создания событий-->
-<!--        <create-event -->
-<!--            v-show="isCreateEventWindowVisible" -->
-<!--            @close="closeCreateEventWindow" -->
-<!--            @saveEvent="addEvent"-->
-<!--        >-->
-<!--        </create-event>-->
-        <!--        Компонент для создания событий-->
-<!--        <create-reminder-->
-<!--            v-show="isCreateEventWindowVisible"-->
-<!--            @close="closeCreateEventWindow"-->
-<!--            @saveEvent="addEvent"-->
-<!--        >-->
-<!--        </create-reminder>-->
-        <create-task
-            v-show="isCreateEventWindowVisible"
-            @close="closeCreateEventWindow"
-            @saveEvent="addEvent"
+        <wrap-events
+            v-show="isShowWrapEvents"
+            @closeWrap="closeWrapEvents"
         >
-        </create-task>
+        </wrap-events>
 
-<!--        временные кнопки-->
+        <!--        временные кнопки-->
         <div class="flex">
             <div>
                 <button v-on:click="decrease"><</button>
@@ -42,17 +27,17 @@
             </thead>
             <tbody>
             <tr v-for="week in calendar()" class="flex">
-<!--                    При нажатии на ячейку вызываем окно для создания события-->
-<!--                    в параметрах передаем день, месяц и год, которые соответствуют текущей ячейке-->
-                <td v-for="(day, index) in week" @click="showCreateEventWindow(day.index, months[month], year)">
+                <!--                    При нажатии на ячейку вызываем окно для создания события-->
+                <!--                    в параметрах передаем день, месяц и год, которые соответствуют текущей ячейке-->
+                <td v-for="(day, index) in week" @click="showWrapEvents()">
                     <div class="daygrid-day-frame">
                         <div class="daygrid-day-top flex">
 
-<!--                                пример как будут отображаться праздники Украины-->
+                            <!--                                пример как будут отображаться праздники Украины-->
                             <template v-if="day.index === 15">
                                 <div class="daygrid-day-ukr">Праздник Укр </div>
                                 <div class="daygrid-day-number">
-<!--                                        обозначить текущий день-->
+                                    <!--                                        обозначить текущий день-->
                                     <a href="#" :style="{
                                             'background': day.currentbg,
                                             'color': day.current,
@@ -68,7 +53,7 @@
 
                             <template v-else>
                                 <div class="daygrid-day-number-without-ukr">
-<!--                                        обозначить текущий день-->
+                                    <!--                                        обозначить текущий день-->
                                     <a href="#"
                                        :style="{
                                             'background': day.currentbg,
@@ -82,10 +67,9 @@
                                     </a>
                                 </div>
                             </template>
-
                         </div>
 
-<!--                            пример напоминалок на один день, взяла 2-е число-->
+                        <!--                            пример напоминалок на один день, взяла 2-е число-->
                         <template v-if="day.index === 2">
                             <div class="daygrid-day-reminder">
                                 Напоминание
@@ -109,13 +93,17 @@
 </template>
 
 <script>
-
 import CreateTask from "../CreatureEventsWindows/CreateTask";
+import CreateEvent from "../CreatureEventsWindows/CreateEvent";
+
 export default {
 
     name: "TheMont",
-    components: {CreateTask},
+
+    components: {CreateEvent, CreateTask},
+
     data() {
+
         return {
             month: new Date().getMonth(),
             year: new Date().getFullYear(),
@@ -123,35 +111,25 @@ export default {
             day:["Понедельник", "Вторник","Среда","Четверг","Пятница","Суббота", "Воскресенье"],
             months: ["Январь","Февраль","Март","Апрель","Май","Июнь","Июль","Август","Сентябрь","Октябрь","Ноябрь","Декабрь"],
             date: new Date(),
-            isCreateEventWindowVisible: false,
+
+            isShowWrapEvents: false,
         }
     },
 
     methods:{
 
-        showCreateEventWindow(index, month, year) {
-
-            this.isCreateEventWindowVisible = true;
-            // console.log(index)
-            // console.log(month)
-            // console.log(year)
-            //дальше создать глобальные переменные (или объект) для хранения ДАТЫ, на которую назначается новое событие
-            //и туда положить эти переменные чтобы брать значения в методе addEvent
+        showWrapEvents() {
+            this.isShowWrapEvents = true;
         },
 
-        closeCreateEventWindow() {
-
-            this.isCreateEventWindowVisible = false;
-
+        closeWrapEvents() {
+            this.isShowWrapEvents = false;
         },
 
-        //для добавления события в календарь (БД)
-        addEvent() {
-
+        saveClickEvent() {
             //console.log('Save event')
             //после удачного сохранения события спрятать форму
             this.isCreateEventWindowVisible = false;
-
         },
 
         calendar: function(){
