@@ -2,28 +2,7 @@
 
     <div class="container calendar-center">
 
-<!--        Компонент для создания событий-->
-<!--        <create-event -->
-<!--            v-show="isCreateEventWindowVisible" -->
-<!--            @close="closeCreateEventWindow" -->
-<!--            @saveEvent="addEvent"-->
-<!--        >-->
-<!--        </create-event>-->
-        <!--        Компонент для создания событий-->
-<!--        <create-reminder-->
-<!--            v-show="isCreateEventWindowVisible"-->
-<!--            @close="closeCreateEventWindow"-->
-<!--            @saveEvent="addEvent"-->
-<!--        >-->
-<!--        </create-reminder>-->
-        <create-task
-            v-show="isCreateEventWindowVisible"
-            @close="closeCreateEventWindow"
-            @saveEvent="addEvent"
-        >
-        </create-task>
-
-<!--        временные кнопки-->
+        <!--        временные кнопки-->
         <div class="flex">
             <div>
                 <button v-on:click="decrease"><</button>
@@ -44,7 +23,7 @@
             <tr v-for="week in calendar()" class="flex">
 <!--                    При нажатии на ячейку вызываем окно для создания события-->
 <!--                    в параметрах передаем день, месяц и год, которые соответствуют текущей ячейке-->
-                <td v-for="(day, index) in week" @click="showCreateEventWindow(day.index, months[month], year)">
+                <td v-for="(day, index) in week">
                     <div class="daygrid-day-frame">
                         <div class="daygrid-day-top flex">
 
@@ -54,12 +33,12 @@
                                 <div class="daygrid-day-number">
 <!--                                        обозначить текущий день-->
                                     <a href="#" :style="{
-                                            'background': day.currentbg,
-                                            'color': day.current,
-                                            'border-radius': '50%',
-                                            'width': '30px',
-                                            'height': '30px',
-                                            'padding': '5px'
+                                        'background': day.currentbg,
+                                        'color': day.current,
+                                        'border-radius': '50%',
+                                        'width': '30px',
+                                        'height': '30px',
+                                        'padding': '5px'
                                         }">
                                         {{ day.index }}
                                     </a>
@@ -82,7 +61,6 @@
                                     </a>
                                 </div>
                             </template>
-
                         </div>
 
 <!--                            пример напоминалок на один день, взяла 2-е число-->
@@ -110,12 +88,12 @@
 
 <script>
 
-import CreateTask from "../CreatureEventsWindows/CreateTask";
 export default {
 
     name: "TheMont",
-    components: {CreateTask},
+
     data() {
+
         return {
             month: new Date().getMonth(),
             year: new Date().getFullYear(),
@@ -123,36 +101,10 @@ export default {
             day:["Понедельник", "Вторник","Среда","Четверг","Пятница","Суббота", "Воскресенье"],
             months: ["Январь","Февраль","Март","Апрель","Май","Июнь","Июль","Август","Сентябрь","Октябрь","Ноябрь","Декабрь"],
             date: new Date(),
-            isCreateEventWindowVisible: false,
         }
     },
 
     methods:{
-
-        showCreateEventWindow(index, month, year) {
-
-            this.isCreateEventWindowVisible = true;
-            // console.log(index)
-            // console.log(month)
-            // console.log(year)
-            //дальше создать глобальные переменные (или объект) для хранения ДАТЫ, на которую назначается новое событие
-            //и туда положить эти переменные чтобы брать значения в методе addEvent
-        },
-
-        closeCreateEventWindow() {
-
-            this.isCreateEventWindowVisible = false;
-
-        },
-
-        //для добавления события в календарь (БД)
-        addEvent() {
-
-            //console.log('Save event')
-            //после удачного сохранения события спрятать форму
-            this.isCreateEventWindowVisible = false;
-
-        },
 
         calendar: function(){
 
@@ -230,6 +182,7 @@ export default {
 </script>
 
 <style scoped>
+
 .flex {
     display: flex;
     align-content: space-between;
@@ -341,4 +294,5 @@ export default {
     color: #86488A;
     text-align: center;
 }
+
 </style>
