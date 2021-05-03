@@ -41,8 +41,9 @@ export default {
     cursor: pointer;
 }
 .nav {
-    top: -11%;
-    left: -18%;
+    z-index: 100;
+    top: 116px;
+    left: 20%;
 }
 .today {
     max-width: 120px;

@@ -1,6 +1,7 @@
 <template>
     <div>
         <TopNavigation />
+        <DayCalendarNavigation @current="switchToCurrentDate" @prev="prevDate" @next="nextDate" />
         <div class="container-fluid">
             <div class="row">
                 <LeftNavigation />
@@ -14,12 +15,22 @@
 import TopNavigation from "../Navigation/TopNavigationBar/TopNavigation"
 import LeftNavigation from "../Navigation/LeftNavigationBar/LeftNavigation"
 import DayCalendar from  "./DayCalendar"
+import { mapMutations } from 'vuex'
+import DayCalendarNavigation from "./DayCalendarComponents/DayCalendarNavigation";
 export default {
     name: "DayCalendarWrapper",
     components: {
+        DayCalendarNavigation,
         LeftNavigation,
         TopNavigation,
         DayCalendar
+    },
+    methods: {
+        ...mapMutations([
+            'switchToCurrentDate',
+            'prevDate',
+            'nextDate'
+        ])
     }
 }
 </script>

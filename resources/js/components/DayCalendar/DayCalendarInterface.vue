@@ -1,6 +1,5 @@
 <template>
  <div class="wrapper row">
-     <DayCalendarNavigation @current="switchToCurrentDate" @prev="prevDate" @next="nextDate" />
     <div class="w-100">
         <DayCalendarHead />
     </div>
@@ -15,18 +14,16 @@
 import DayCalendarHead from "./DayCalendarComponents/DayCalendarHead";
 import DayCalendarTimeLine from "./DayCalendarComponents/DayCalendarTimeLine";
 import DayCalendarEnents from "./DayCalendarComponents/DayCalendarEnents";
-import DayCalendarNavigation from "./DayCalendarComponents/DayCalendarNavigation";
+import { mapGetters } from 'vuex'
 
 export default {
     name: "DayCalendarInterface",
     components: {
-        DayCalendarNavigation,
         DayCalendarEnents,
         DayCalendarHead,
         DayCalendarTimeLine,
     },
     data: () => ({
-        currentDate: new Date(),
         timeLine: [
             '00:00','1:00','2:00','3:00','4:00','5:00','6:00',
             '7:00','8:00','9:00','10:00','11:00','12:00',
@@ -63,18 +60,12 @@ export default {
             },
         ]
     }),
+    computed: {
+        ...mapGetters([
+            'currentDate'
+        ])
+    },
     methods: {
-        prevDate() {
-            const dayMilliseconds = 24*60*60*1000;
-            this.currentDate = new Date(this.currentDate.getTime() - dayMilliseconds)
-        },
-        nextDate() {
-            const dayMilliseconds = 24*60*60*1000;
-            this.currentDate = new Date(this.currentDate.getTime() + dayMilliseconds)
-        },
-        switchToCurrentDate() {
-            this.currentDate = new Date()
-        }
     }
 }
 </script>
