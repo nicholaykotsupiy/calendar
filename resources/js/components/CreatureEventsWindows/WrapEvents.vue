@@ -24,7 +24,7 @@
                                             </button>
                                         </div>
                                         <div class="col-md-3">
-                                            <button type="button" class="btn btn-outline-primary">
+                                            <button type="button" class="btn btn-outline-primary" @click="showCreateBirthdayWindow">
                                                 День рождения
                                             </button>
                                         </div>
@@ -46,7 +46,7 @@
                                             </button>
                                         </div>
                                         <div class="col-md-3">
-                                            <button type="button" class="btn btn-outline-primary">
+                                            <button type="button" class="btn btn-outline-primary" @click="showCreateBirthdayWindow">
                                                 День рождения
                                             </button>
                                         </div>
@@ -68,7 +68,7 @@
                                             </button>
                                         </div>
                                         <div class="col-md-3">
-                                            <button type="button" class="btn btn-outline-primary">
+                                            <button type="button" class="btn btn-outline-primary" @click="showCreateBirthdayWindow">
                                                 День рождения
                                             </button>
                                         </div>
@@ -90,7 +90,7 @@
                                             </button>
                                         </div>
                                         <div class="col-md-3">
-                                            <button type="button" class="btn btn-primary">
+                                            <button type="button" class="btn btn-primary" @click="showCreateBirthdayWindow">
                                                 День рождения
                                             </button>
                                         </div>
@@ -126,6 +126,14 @@
                         >
                         </create-task>
 
+<!--        Компонент - модальное окно для создания Дня рождения -->
+                        <create-birthday
+                            v-show="isCreateBirthdayWindowVisible"
+                            @close="closeCreateBirthdayWindow"
+                            @saveEvent="saveClickBirthday"
+                        >
+                        </create-birthday>
+
                     </div>
                 </div>
             </div>
@@ -137,6 +145,7 @@
 import CreateEvent from "./CreateEvent";
 import CreateReminder from "./CreateReminder";
 import CreateTask from "./CreateTask";
+import CreateBirthday from "./CreateBirthday";
 
 export default {
 
@@ -145,7 +154,8 @@ export default {
     components: {
         CreateEvent,
         CreateReminder,
-        CreateTask
+        CreateTask,
+        CreateBirthday
     },
 
     data() {
