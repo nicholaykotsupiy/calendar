@@ -17,7 +17,8 @@ class CreateRemindersTable extends Migration
             $table->id();
             $table->string('name');
             $table->date('date');
-            $table->foreignId('notification_id')->constrained();
+            $table->time('time');
+            $table->set('repeat',['ежедневно', 'еженедельно', 'каждый год', 'не повторять', 'весь день'])->default('не повторять');
             $table->foreignId('user_id')->constrained();
             $table->timestamps();
         });

@@ -18,7 +18,9 @@ class CreateBirthdaysTable extends Migration
             $table->string('name');
             $table->string('description');
             $table->date('date');
-            $table->foreignId('notification_id')->constrained();
+            $table->time('time');
+            $table->boolean('all_day')->default(false);
+            $table->boolean('every_year')->default(false);
             $table->foreignId('user_id')->constrained();
             $table->timestamps();
         });

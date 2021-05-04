@@ -16,12 +16,13 @@ class CreateEventsTable extends Migration
         Schema::create('events', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('location');
+            $table->string('location')->nullable();
             $table->text('description');
             $table->date('date_start');
+            $table->time('time_start');
+            $table->time('time_end');
             $table->date('date_end');
             $table->foreignId('user_id')->constrained();
-            $table->foreignId('notification_id')->constrained();
             $table->timestamps();
         });
     }
