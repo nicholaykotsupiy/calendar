@@ -12,9 +12,7 @@ Vue.component('top-navigation', require('./components/Navigation/TopNavigationBa
 Vue.component('left-navigation', require('./components/Navigation/LeftNavigationBar/LeftNavigation.vue').default);
 Vue.component('the-year', require('./components/Year/TheYear.vue').default);
 Vue.component('day-calendar', require('./components/DayCalendar/DayCalendarWrapper').default);
-Vue.component('create-event', require('./components/CreatureEventsWindows/CreateEvent').default);
-Vue.component('create-reminder', require('./components/CreatureEventsWindows/CreateReminder.vue').default);
-Vue.component('create-reminder', require('./components/CreatureEventsWindows/CreateTask.vue').default);
+Vue.component('wrap-events', require('./components/CreatureEventsWindows/WrapEvents.vue').default);
 
 Vue.use(BootstrapVue)
 Vue.use(IconsPlugin)
