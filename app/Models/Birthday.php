@@ -9,6 +9,16 @@ class Birthday extends Model
 {
     use HasFactory;
 
+    public $fillable = [
+        'name',
+        'description',
+        'date',
+        'time',
+        'all_day',
+        'every_year',
+        'user_id',
+    ];
+
     public function user()
     {
         return $this->belongsTo(User::class);

@@ -2,6 +2,10 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\API\BirthdayController;
+use App\Http\Controllers\API\EventController;
+use App\Http\Controllers\API\ReminderController;
+use App\Http\Controllers\API\TaskController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,3 +21,19 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::post('/birthday-store', [BirthdayController::class, 'store']);
+Route::put('/birthday-update', [BirthdayController::class, 'update']);
+Route::delete('/birthday-destroy/{id}', [BirthdayController::class, 'destroy']);
+
+Route::post('/event-store', [EventController::class, 'store']);
+Route::put('/event-update', [EventController::class, 'update']);
+Route::delete('/event-destroy/{id}', [EventController::class, 'destroy']);
+
+Route::post('/reminder-store', [ReminderController::class, 'store']);
+Route::put('/reminder-update', [ReminderController::class, 'update']);
+Route::delete('/reminder-destroy/{id}', [ReminderController::class, 'destroy']);
+
+Route::post('/task-store', [TaskController::class, 'store']);
+Route::put('/task-update', [TaskController::class, 'update']);
+Route::delete('/task-destroy/{id}', [TaskController::class, 'destroy']);
