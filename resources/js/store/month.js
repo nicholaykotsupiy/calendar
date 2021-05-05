@@ -72,6 +72,7 @@ export default {
 
         switchToCurrentMonth(state) {
             state.monthCalendarMonth = new Date().getMonth()
+            state.yearCalendarMonth = new Date().getFullYear()
             state.titleNavigationCalendarMonth = state.monthsCalendarMonth[new Date().getMonth()]+' '+new Date().getFullYear()
         }
 
