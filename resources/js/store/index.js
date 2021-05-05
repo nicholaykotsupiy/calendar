@@ -1,12 +1,25 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import month from "./month";
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
+
+    modules: {
+        month,
+    },
+
     state: {
+
+        tasks: [],
+        birthdays: [],
+        events: [],
+        reminders: [],
+
     //    Базовая структура стейта
     // tasks: {
+    //     id: '' ,
     //     name: '',
     //     description: '',
     //     dateStart: '',
@@ -14,16 +27,20 @@ export default new Vuex.Store({
     //     dateEnd: '',
     //     timeEnd: '',
     //     allDay: '',
+    //     user_id: '',
     // },
     // birthdays: {
+    //     id: '' ,
     //     name: '',
     //     description: '',
     //     date: '',
     //     time: '',
     //     allDay: '',
     //     everyYear: '',
+    //     user_id: '',
     // },
     // events: {
+    //     id: '' ,
     //     name: '',
     //     guests: '',
     //     location: '',
@@ -32,12 +49,15 @@ export default new Vuex.Store({
     //     timeStart: '',
     //     dateEnd: '',
     //     timeEnd: '',
+    //     user_id: '',
     // },
     // reminders: {
-    //         name: '',
-    //         date: '',
-    //         time: '',
-    //         toRepeat: ''
+    //     id: '' ,
+    //     name: '',
+    //     date: '',
+    //     time: '',
+    //     toRepeat: '',
+    //     user_id: '',
     // },
         currentDate: new Date(),
     },
