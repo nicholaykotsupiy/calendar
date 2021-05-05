@@ -41,7 +41,7 @@ export default {
     cursor: pointer;
 }
 .nav {
-    z-index: 100;
+    z-index: 10;
     top: 116px;
     left: 20%;
 }

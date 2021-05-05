@@ -14,7 +14,14 @@
 <!--                <div class="arrow-left"><img :src="left_arrow" alt="left-arrow"></div>-->
 <!--                <div class="arrow-right"><img :src="right_arrow" alt="right-arrow"></div>-->
             </div>
-            <div class="col-2 date-info">Апрель 2020</div>
+<!--            если отображается календарь в масштабе месяц -->
+            <template v-if="isMonth">
+                <div class="col-2 date-info">{{ titleNavigationCalendarMonth }}</div>
+            </template>
+<!--            если отображается календарь в масштабе день-->
+            <template v-else>
+                <div class="col-2 date-info">Апрель 2020</div>
+            </template>
             <form class="col-5 search px-2">
                 <img :src="search" alt="search">
                 <input type="text" class="border-0" placeholder="Поиск">
@@ -41,9 +48,12 @@ import left_arrow from "../../../assets/img/DayCalendar/left-arrow.png"
 import right_arrow from "../../../assets/img/DayCalendar/right-arrow.png"
 import arrow_down from "../../../assets/img/DayCalendar/arrow_down1.png"
 import search from "../../../assets/img/DayCalendar/search.png"
+import { mapGetters } from 'vuex'
 
 export default {
+
     name: "BaseHeaderCalendar",
+
     data: () => ({
         activeMenu: false,
         menu,
@@ -52,6 +62,23 @@ export default {
         arrow_down,
         search,
     }),
+
+    computed: {
+
+        isMonth() {
+            return this.isMonth
+        },
+
+        titleNavigationCalendarMonth() {
+            return this.titleNavigationCalendarMonth
+        },
+
+        ...mapGetters([
+            'isMonth',
+            'titleNavigationCalendarMonth',
+        ])
+    },
+
     methods: {
         clickhandler() {
             this.$emit('open')
