@@ -7,13 +7,13 @@
             <template v-if="!errorNameReminder">
                 <div class="col-12 py-2">
                     <label for="nameReminder" class="form-label">Название<span>*</span></label>
-                    <input v-model="reminder.name" type="text" class="form-control" id="nameReminder" name="nameReminder">
+                    <input v-model.trim="reminder.name" type="text" class="form-control" id="nameReminder" name="nameReminder">
                 </div>
             </template>
             <template v-else>
                 <div class="col-12 py-2">
                     <label for="nameReminder" class="form-label">Название<span class="error">*</span></label>
-                    <input v-model="reminder.name" type="text" class="form-control error" id="nameReminder" name="nameReminder">
+                    <input v-model.trim="reminder.name" type="text" class="form-control error" id="nameReminder" name="nameReminder">
                 </div>
             </template>
 
@@ -25,10 +25,10 @@
                         <label class="form-label">Дата<span>*</span> / Время<span>*</span>:</label>
                     </div>
                     <div class="col-4 py-2">
-                        <input v-model="reminder.date" type="date" class="form-control" id="dateStartEvent" name="dateStartEvent">
+                        <input v-model.trim="reminder.date" type="date" class="form-control" id="dateStartEvent" name="dateStartEvent">
                     </div>
                     <div class="col-4 py-2">
-                        <input v-model="reminder.time" type="time" class="form-control" id="timeStartEvent" name="timeStartEvent" disabled>
+                        <input v-model.trim="reminder.time" type="time" class="form-control" id="timeStartEvent" name="timeStartEvent" disabled>
                     </div>
                 </template>
                 <template v-else>
@@ -36,10 +36,10 @@
                         <label class="form-label">Дата<span class="error">*</span> / Время<span>*</span>:</label>
                     </div>
                     <div class="col-4 py-2">
-                        <input v-model="reminder.date" type="date" class="form-control error" id="dateStartEvent" name="dateStartEvent">
+                        <input v-model.trim="reminder.date" type="date" class="form-control error" id="dateStartEvent" name="dateStartEvent">
                     </div>
                     <div class="col-4 py-2">
-                        <input v-model="reminder.time" type="time" class="form-control" id="timeStartEvent" name="timeStartEvent" disabled>
+                        <input v-model.trim="reminder.time" type="time" class="form-control" id="timeStartEvent" name="timeStartEvent" disabled>
                     </div>
                 </template>
             </template>
@@ -50,10 +50,10 @@
                         <label class="form-label">Дата<span>*</span> / Время<span>*</span>:</label>
                     </div>
                     <div class="col-4 py-2">
-                        <input v-model="reminder.date" type="date" class="form-control" id="dateStartEvent" name="dateStartEvent">
+                        <input v-model.trim="reminder.date" type="date" class="form-control" id="dateStartEvent" name="dateStartEvent">
                     </div>
                     <div class="col-4 py-2">
-                        <input v-model="reminder.time" type="time" class="form-control" id="timeStartEvent" name="timeStartEvent">
+                        <input v-model.trim="reminder.time" type="time" class="form-control" id="timeStartEvent" name="timeStartEvent">
                     </div>
                 </template>
                 <template v-else-if="errorDateReminder && !errorTimeReminder">
@@ -61,10 +61,10 @@
                         <label class="form-label">Дата<span class="error">*</span> / Время<span>*</span>:</label>
                     </div>
                     <div class="col-4 py-2">
-                        <input v-model="reminder.date" type="date" class="form-control error" id="dateStartEvent" name="dateStartEvent">
+                        <input v-model.trim="reminder.date" type="date" class="form-control error" id="dateStartEvent" name="dateStartEvent">
                     </div>
                     <div class="col-4 py-2">
-                        <input v-model="reminder.time" type="time" class="form-control" id="timeStartEvent" name="timeStartEvent">
+                        <input v-model.trim="reminder.time" type="time" class="form-control" id="timeStartEvent" name="timeStartEvent">
                     </div>
                 </template>
                 <template v-else-if="!errorDateReminder && errorTimeReminder">
@@ -72,10 +72,10 @@
                         <label class="form-label">Дата<span>*</span> / Время<span class="error">*</span>:</label>
                     </div>
                     <div class="col-4 py-2">
-                        <input v-model="reminder.date" type="date" class="form-control" id="dateStartEvent" name="dateStartEvent">
+                        <input v-model.trim="reminder.date" type="date" class="form-control" id="dateStartEvent" name="dateStartEvent">
                     </div>
                     <div class="col-4 py-2">
-                        <input v-model="reminder.time" type="time" class="form-control error" id="timeStartEvent" name="timeStartEvent">
+                        <input v-model.trim="reminder.time" type="time" class="form-control error" id="timeStartEvent" name="timeStartEvent">
                     </div>
                 </template>
                 <template v-else>
@@ -83,10 +83,10 @@
                         <label class="form-label">Дата<span class="error">*</span> / Время<span class="error">*</span>:</label>
                     </div>
                     <div class="col-4 py-2">
-                        <input v-model="reminder.date" type="date" class="form-control error" id="dateStartEvent" name="dateStartEvent">
+                        <input v-model.trim="reminder.date" type="date" class="form-control error" id="dateStartEvent" name="dateStartEvent">
                     </div>
                     <div class="col-4 py-2">
-                        <input v-model="reminder.time" type="time" class="form-control error" id="timeStartEvent" name="timeStartEvent">
+                        <input v-model.trim="reminder.time" type="time" class="form-control error" id="timeStartEvent" name="timeStartEvent">
                     </div>
                 </template>
             </template>
@@ -120,7 +120,7 @@
 <script>
 export default {
 
-    name: "CreateReminder",
+    name: "TheReminder",
 
     data() {
         return {
@@ -130,33 +130,44 @@ export default {
             errorDateReminder: false,
             errorTimeReminder: false,
 
-            // arrayToRepeat: ['Ежедневно', 'Еженедельно', 'Каждый год', 'Не повторять', 'Другое'],
             arrayToRepeat: ['Не повторять', 'Ежедневно', 'Еженедельно', 'Каждый год', 'Весь день'],
             allDay: false,
 
             reminder: {
-                name: '',
-                date: '',
-                time: '',
-                toRepeat: 'Не повторять', // Не повторять - default
+                name: this.name,
+                date: this.date,
+                time: this.time,
+                toRepeat: this.toRepeat || 'Не повторять', // Не повторять - default
             },
 
         }
     },
 
+    props: [
+        'name',
+        'date',
+        'time',
+        'toRepeat'
+    ],
+
     mounted() {
-        document.querySelector('#selectToReminder').value = 'Не повторять'
+        document.querySelector('#selectToReminder').value = this.toRepeat || 'Не повторять'
+
+        if (this.toRepeat === 'Весь день') {
+            this.allDay = true
+            this.reminder.time = '00:01' // задаем время по ум. чтобы оно не было пустым и прошло валидацию
+        } else {
+            this.allDay = false
+        }
     },
 
     methods: {
 
         changeValueAllDay() {
 
-            //console.log(this.reminder.toRepeat)
-
             if (this.reminder.toRepeat === 'Весь день') {
                 this.allDay = true
-                this.reminder.time = '00:00' // задаем время по ум. чтобы оно не было пустым и прошло валидацию
+                this.reminder.time = '00:01' // задаем время по ум. чтобы оно не было пустым и прошло валидацию
             } else {
                 this.allDay = false
             }
@@ -165,22 +176,27 @@ export default {
 
         close() {
 
-            //очищаем форму
-            document.getElementById("myForm").reset()
-            //устанавливаем значения по умолчанию
-            document.querySelector('#selectToReminder').value = 'Не повторять'
-            this.allDay = false
+            //устанавливаем значения по умолчанию с учетом возможных пропсов
+            //сбрасываем reminder
+            this.reminder.name = this.name
+            this.reminder.date = this.date
+            this.reminder.time = this.time
+            this.reminder.toRepeat = this.toRepeat || 'Не повторять'
+
+            if (this.toRepeat === 'Весь день') {
+                this.allDay = true
+                this.reminder.time = '00:01' // задаем время по ум. чтобы оно не было пустым и прошло валидацию
+            } else {
+                this.allDay = false
+            }
+
+            document.querySelector('#selectToReminder').value = this.reminder.toRepeat
+
             //сбрасываем ошибки
             this.isValid = true
             this.errorNameReminder = false
             this.errorDateReminder = false
             this.errorTimeReminder = false
-
-            //очищаем reminder
-            this.reminder.name = ''
-            this.reminder.date = ''
-            this.reminder.time = ''
-            this.reminder.toRepeat = 'Не повторять'
 
             //прослушиваем событие close в родительском компоненте
             this.$emit('close');
@@ -225,24 +241,25 @@ export default {
 
             if (this.isValid) {
 
-                // console.log(this.reminder.name)
-                // console.log(this.reminder.date)
-                // console.log(this.reminder.time)
-                // console.log(this.reminder.toRepeat)
-
                 //прослушиваем событие saveEvent в родительском компоненте
-                this.$emit('saveEvent')
+                this.$emit('saveEvent', this.reminder)
 
-                //очищаем форму
-                document.getElementById("myForm").reset()
-                //устанавливаем значения по умолчанию
-                document.querySelector('#selectToReminder').value = 'Не повторять'
-                this.allDay = false
-                //очищаем reminder
-                this.reminder.name = ''
-                this.reminder.date = ''
-                this.reminder.time = ''
-                this.reminder.toRepeat = 'Не повторять'
+                //устанавливаем значения по умолчанию с учетом возможных пропсов
+                //сбрасываем reminder
+                this.reminder.name = this.name
+                this.reminder.date = this.date
+                this.reminder.time = this.time
+                this.reminder.toRepeat = this.toRepeat || 'Не повторять'
+                console.log( this.reminder.toRepeat)
+
+                if (this.toRepeat === 'Весь день') {
+                    this.allDay = true
+                    this.reminder.time = '00:01' // задаем время по ум. чтобы оно не было пустым и прошло валидацию
+                } else {
+                    this.allDay = false
+                }
+
+                document.querySelector('#selectToReminder').value = this.reminder.toRepeat
 
             }
 
@@ -253,63 +270,6 @@ export default {
 </script>
 
 <style scoped>
-
-.content-create-event-window {
-    max-width: 1200px;
-}
-
-.backdrop-create-event-window {
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background-color: rgba(0, 0, 0, 0.3);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.create-event-window {
-    border-radius: 6px;
-    width: 800px;
-    background: #FFFFFF;
-    box-shadow: 2px 2px 20px 1px;
-    overflow-x: auto;
-    overflow-y: auto;
-}
-
-.window-fade-enter,
-.window-fade-leave-active {
-    opacity: 0;
-}
-
-.window-fade-enter-active,
-.window-fade-leave-active {
-    transition: opacity .5s ease
-}
-
-.btn-outline-primary {
-    color: #B2B2B2;
-    border-color: #B2B2B2;
-}
-
-.create-event {
-    padding: 15px;
-    text-align: left;
-}
-
-.button-close {
-    margin-top: 10px;
-    padding: 0;
-    width: 30px;
-    max-width: 100%;
-}
-
-.header-create-event {
-    border-bottom: 3px solid #F5F5F5;
-    padding-bottom: 15px;
-}
 
 .body-create-event {
     padding: 15px 70px;

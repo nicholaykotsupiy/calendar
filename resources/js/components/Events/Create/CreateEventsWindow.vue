@@ -103,36 +103,36 @@
                         </div>
 
 <!--        Компонент - модальное окно для создания Мероприятия-->
-                        <create-event
+                        <the-event
                             v-show="isCreateEventWindowVisible"
                             @close="closeCreateEventWindow"
-                            @saveEvent="saveClickEvent"
+                            @saveEvent="saveEvent"
                         >
-                        </create-event>
+                        </the-event>
 
 <!--        Компонент - модальное окно для создания Напоминания-->
-                        <create-reminder
+                        <the-reminder
                             v-show="isCreateReminderWindowVisible"
                             @close="closeCreateReminderWindow"
-                            @saveEvent="saveClickReminder"
+                            @saveEvent="saveReminder"
                         >
-                        </create-reminder>
+                        </the-reminder>
 
 <!--        Компонент - модальное окно для создания Задачи -->
-                        <create-task
+                        <the-task
                             v-show="isCreateTaskWindowVisible"
                             @close="closeCreateTaskWindow"
-                            @saveEvent="saveClickTask"
+                            @saveEvent="saveTask"
                         >
-                        </create-task>
+                        </the-task>
 
 <!--        Компонент - модальное окно для создания Дня рождения -->
-                        <create-birthday
+                        <the-birthday
                             v-show="isCreateBirthdayWindowVisible"
                             @close="closeCreateBirthdayWindow"
-                            @saveEvent="saveClickBirthday"
+                            @saveEvent="saveBirthday"
                         >
-                        </create-birthday>
+                        </the-birthday>
 
                     </div>
                 </div>
@@ -142,20 +142,20 @@
 </template>
 
 <script>
-import CreateEvent from "./CreateEvent";
-import CreateReminder from "./CreateReminder";
-import CreateTask from "./CreateTask";
-import CreateBirthday from "./CreateBirthday";
+import TheEvent from "../TheEvent";
+import TheReminder from "../TheReminder";
+import TheTask from "../TheTask";
+import TheBirthday from "../TheBirthday";
 
 export default {
 
-    name: "WrapEvents",
+    name: "CreateEvents",
 
     components: {
-        CreateEvent,
-        CreateReminder,
-        CreateTask,
-        CreateBirthday
+        TheEvent,
+        TheReminder,
+        TheTask,
+        TheBirthday
     },
 
     data() {
@@ -173,16 +173,11 @@ export default {
             this.$emit('closeWrap');
         },
 
-        showCreateEventWindow(index, month, year) {
+        showCreateEventWindow() {
             this.isCreateEventWindowVisible = true;
             this.isCreateReminderWindowVisible = false;
             this.isCreateTaskWindowVisible = false;
             this.isCreateBirthdayWindowVisible = false;
-            // console.log(index)
-            // console.log(month)
-            // console.log(year)
-            //дальше создать глобальные переменные (или объект) для хранения ДАТЫ, на которую назначается новое событие
-            //и туда положить эти переменные чтобы брать значения в методе addEvent
         },
         showCreateReminderWindow() {
             this.isCreateReminderWindowVisible = true;
@@ -232,8 +227,20 @@ export default {
             this.isCreateTaskWindowVisible = false;
         },
 
-        saveClickEvent() {
-            console.log('Save event')
+        saveEvent(event) {
+
+            //здесь будет метод сохранения данных в БД, пока - в консоль
+            console.log('Save event in parent component')
+            console.log(event.name)
+            console.log(event.description)
+            console.log(event.guests)
+            console.log(event.location)
+            console.log(event.description)
+            console.log(event.dateStart)
+            console.log(event.dateEnd)
+            console.log(event.timeStart)
+            console.log(event.timeEnd)
+
             //после удачного сохранения события спрятать форму
             this.close();
             this.isCreateEventWindowVisible = true;
@@ -241,21 +248,33 @@ export default {
             this.isCreateReminderWindowVisible = false;
             this.isCreateTaskWindowVisible = false;
         },
-        saveClickReminder() {
+
+        saveReminder(reminder) {
+            //здесь будет метод сохранения данных в БД, пока - в консоль
+            console.log('Save reminder in parent component')
+
             this.close();
             this.isCreateEventWindowVisible = true;
             this.isCreateBirthdayWindowVisible = false;
             this.isCreateReminderWindowVisible = false;
             this.isCreateTaskWindowVisible = false;
         },
-        saveClickTask() {
+
+        saveTask(task) {
+            //здесь будет метод сохранения данных в БД, пока - в консоль
+            console.log('Save reminder in parent component')
+
             this.close();
             this.isCreateEventWindowVisible = true;
             this.isCreateBirthdayWindowVisible = false;
             this.isCreateReminderWindowVisible = false;
             this.isCreateTaskWindowVisible = false;
         },
-        saveClickBirthday() {
+
+        saveBirthday(birthday) {
+            //здесь будет метод сохранения данных в БД, пока - в консоль
+            console.log('Save reminder in parent component')
+
             this.close();
             this.isCreateEventWindowVisible = true;
             this.isCreateBirthdayWindowVisible = false;
@@ -299,7 +318,7 @@ export default {
 }
 .window-fade-enter-active,
 .window-fade-leave-active {
-    transition: opacity .2s ease
+    transition: opacity .5s ease
 }
 .btn-outline-primary {
     color: #B2B2B2;
@@ -318,6 +337,7 @@ export default {
 .header-create-event {
     border-bottom: 3px solid #F5F5F5;
     padding-bottom: 15px;
+    position: relative;
 }
 .body-create-event {
     padding: 15px 70px;
@@ -332,6 +352,13 @@ export default {
 .error {
     color: #F44336;
     border-color: #F44336
+}
+
+.close {
+    position: absolute;
+    width: 25px;
+    top: 0px;
+    right: 10px;
 }
 
 </style>

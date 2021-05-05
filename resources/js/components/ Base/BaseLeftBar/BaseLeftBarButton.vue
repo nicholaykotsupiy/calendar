@@ -1,14 +1,43 @@
 <template>
     <div class="col-6">
 
-        <wrap-events
-            v-show="isShowWrapEvents"
-            @closeWrap="closeWrapEvents"
+<!--        Модальное окно для создания всех событий-->
+        <create-events-window
+            v-show="isVisibleModal"
+            @closeWrap="close"
         >
-        </wrap-events>
+        </create-events-window>
+
+<!--        пример вызова окна редактирования Мероприятия-->
+<!--                <edit-event-window-->
+<!--                    v-show="isVisibleModal"-->
+<!--                    @closeEditEventWindow="close"-->
+<!--                >-->
+<!--                </edit-event-window>-->
+
+<!--        пример вызова окна редактирования Дня рождения-->
+<!--        <edit-birthday-window-->
+<!--            v-show="isVisibleModal"-->
+<!--            @closeEditBirthdayWindow="close"-->
+<!--        >-->
+<!--        </edit-birthday-window>-->
+
+<!--        пример вызова окна редактирования Напоминания-->
+<!--        <edit-reminder-window-->
+<!--            v-show="isVisibleModal"-->
+<!--            @closeEditReminderWindow="close"-->
+<!--        >-->
+<!--        </edit-reminder-window>-->
+
+<!--        пример вызова окна редактирования Задачи-->
+<!--        <edit-task-window-->
+<!--            v-show="isVisibleModal"-->
+<!--            @closeEditTaskWindow="close"-->
+<!--        >-->
+<!--        </edit-task-window>-->
 
         <div class="button d-flex justify-content-center text-white fw-bold text-uppercase rounded border-2 ml-5 mb-2"
-             @click="showWrapEvents()">
+             @click="showModal()">
             Создать
         </div>
 
@@ -23,18 +52,18 @@ export default {
     data() {
 
         return {
-            isShowWrapEvents: false,
+            isVisibleModal: false,
         }
     },
 
     methods: {
 
-        showWrapEvents() {
-            this.isShowWrapEvents = true;
+        showModal() {
+            this.isVisibleModal = true;
         },
 
-        closeWrapEvents() {
-            this.isShowWrapEvents = false;
+        close() {
+            this.isVisibleModal = false;
         },
 
         saveClickEvent() {
@@ -47,14 +76,14 @@ export default {
 </script>
 
 <style scoped>
-    .button {
-        font-family: Roboto;
-        background: #1875F0;
-        font-weight: 900;
-        font-size: 12px;
-        line-height: 50px;
-        letter-spacing: 1.5px;
-        padding: 2px 15px;
-        cursor: pointer;
-    }
+.button {
+    font-family: Roboto;
+    background: #1875F0;
+    font-weight: 900;
+    font-size: 12px;
+    line-height: 50px;
+    letter-spacing: 1.5px;
+    padding: 2px 15px;
+    cursor: pointer;
+}
 </style>

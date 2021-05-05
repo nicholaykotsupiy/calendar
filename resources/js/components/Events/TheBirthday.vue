@@ -7,25 +7,25 @@
             <template v-if="!errorNameBirthday">
                 <div class="col-12 py-2">
                     <label for="nameBirthday" class="form-label">Название<span>*</span></label>
-                    <input v-model="birthday.name" type="text" class="form-control" id="nameBirthday" name="nameBirthday">
+                    <input v-model.trim="birthday.name" type="text" class="form-control" id="nameBirthday" name="nameBirthday">
                 </div>
             </template>
             <template v-else>
                 <div class="col-12 py-2">
                     <label for="nameBirthday" class="form-label">Название<span class="error">*</span></label>
-                    <input v-model="birthday.name" type="text" class="form-control error" id="nameBirthday" name="nameBirthday">
+                    <input v-model.trim="birthday.name" type="text" class="form-control error" id="nameBirthday" name="nameBirthday">
                 </div>
             </template>
             <template v-if="!errorDescriptionBirthday">
                 <div class="col-12 py-2">
                     <label for="descriptionBirthday" class="form-label">Описание<span>*</span></label>
-                    <input v-model="birthday.description" type="text" class="form-control" id="descriptionBirthday" name="descriptionBirthday">
+                    <input v-model.trim="birthday.description" type="text" class="form-control" id="descriptionBirthday" name="descriptionBirthday">
                 </div>
             </template>
             <template v-else>
                 <div class="col-12 py-2">
                     <label for="descriptionBirthday" class="form-label">Описание<span class="error">*</span></label>
-                    <input v-model="birthday.description" type="text" class="form-control error" id="descriptionBirthday" name="descriptionBirthday">
+                    <input v-model.trim="birthday.description" type="text" class="form-control error" id="descriptionBirthday" name="descriptionBirthday">
                 </div>
             </template>
 <!--        Если выбрано значение "Весь день", то время сделать неактивным и оно не обязательно для заполнения,
@@ -36,10 +36,10 @@
                         <label class="form-label">Дата<span>*</span> / Время<span>*</span>:</label>
                     </div>
                     <div class="col-4 py-2">
-                        <input v-model="birthday.date" type="date" class="form-control" id="dateBirthday" name="dateStartBirthday">
+                        <input v-model.trim="birthday.date" type="date" class="form-control" id="dateBirthday" name="dateStartBirthday">
                     </div>
                     <div class="col-4 py-2">
-                        <input v-model="birthday.time" type="time" class="form-control" id="timeBirthday" name="timeStartBirthday" disabled>
+                        <input v-model.trim="birthday.time" type="time" class="form-control" id="timeBirthday" name="timeStartBirthday" disabled>
                     </div>
                 </template>
                 <template v-else>
@@ -47,10 +47,10 @@
                         <label class="form-label">Дата<span class="error">*</span> / Время<span>*</span>:</label>
                     </div>
                     <div class="col-4 py-2">
-                        <input v-model="birthday.date" type="date" class="form-control error" id="dateStartBirthday" name="dateStartBirthday">
+                        <input v-model.trim="birthday.date" type="date" class="form-control error" id="dateStartBirthday" name="dateStartBirthday">
                     </div>
                     <div class="col-4 py-2">
-                        <input v-model="birthday.time" type="time" class="form-control" id="timeStartBirthday" name="timeStartBirthday" disabled>
+                        <input v-model.trim="birthday.time" type="time" class="form-control" id="timeStartBirthday" name="timeStartBirthday" disabled>
                     </div>
                 </template>
             </template>
@@ -61,10 +61,10 @@
                         <label class="form-label">Дата<span>*</span> / Время<span>*</span>:</label>
                     </div>
                     <div class="col-4 py-2">
-                        <input v-model="birthday.date" type="date" class="form-control" id="dateStartBirthday" name="dateStartBirthday">
+                        <input v-model.trim="birthday.date" type="date" class="form-control" id="dateStartBirthday" name="dateStartBirthday">
                     </div>
                     <div class="col-4 py-2">
-                        <input v-model="birthday.time" type="time" class="form-control" id="timeStartBirthday" name="timeStartBirthday">
+                        <input v-model.trim="birthday.time" type="time" class="form-control" id="timeStartBirthday" name="timeStartBirthday">
                     </div>
                 </template>
                 <template v-else-if="errorDateBirthday && !errorTimeBirthday">
@@ -72,10 +72,10 @@
                         <label class="form-label">Дата<span class="error">*</span> / Время<span>*</span>:</label>
                     </div>
                     <div class="col-4 py-2">
-                        <input v-model="birthday.date" type="date" class="form-control error" id="dateStartBirthday" name="dateStartBirthday">
+                        <input v-model.trim="birthday.date" type="date" class="form-control error" id="dateStartBirthday" name="dateStartBirthday">
                     </div>
                     <div class="col-4 py-2">
-                        <input v-model="birthday.time" type="time" class="form-control" id="timeStartBirthday" name="timeStartBirthday">
+                        <input v-model.trim="birthday.time" type="time" class="form-control" id="timeStartBirthday" name="timeStartBirthday">
                     </div>
                 </template>
                 <template v-else-if="!errorDateBirthday && errorTimeBirthday">
@@ -83,10 +83,10 @@
                         <label class="form-label">Дата<span>*</span> / Время<span class="error">*</span>:</label>
                     </div>
                     <div class="col-4 py-2">
-                        <input v-model="birthday.date" type="date" class="form-control" id="dateStartBirthday" name="dateStartBirthday">
+                        <input v-model.trim="birthday.date" type="date" class="form-control" id="dateStartBirthday" name="dateStartBirthday">
                     </div>
                     <div class="col-4 py-2">
-                        <input v-model="birthday.time" type="time" class="form-control error" id="timeStartBirthday" name="timeStartBirthday">
+                        <input v-model.trim="birthday.time" type="time" class="form-control error" id="timeStartBirthday" name="timeStartBirthday">
                     </div>
                 </template>
                 <template v-else>
@@ -94,10 +94,10 @@
                         <label class="form-label">Дата<span class="error">*</span> / Время<span class="error">*</span>:</label>
                     </div>
                     <div class="col-4 py-2">
-                        <input v-model="birthday.date" type="date" class="form-control error" id="dateStartBirthday" name="dateStartBirthday">
+                        <input v-model.trim="birthday.date" type="date" class="form-control error" id="dateStartBirthday" name="dateStartBirthday">
                     </div>
                     <div class="col-4 py-2">
-                        <input v-model="birthday.time" type="time" class="form-control error" id="timeStartBirthday" name="timeStartBirthday">
+                        <input v-model.trim="birthday.time" type="time" class="form-control error" id="timeStartBirthday" name="timeStartBirthday">
                     </div>
                 </template>
             </template>
@@ -130,7 +130,7 @@
 <script>
 export default {
 
-    name: "CreateBirthday",
+    name: "TheBirthday",
 
     data() {
         return {
@@ -141,36 +141,75 @@ export default {
             errorTimeBirthday: false,
 
             birthday: {
-                name: '',
-                description: '',
-                date: '',
-                time: '',
-                allDay: false,
-                everyYear: false,
+                name: this.name,
+                description: this.description,
+                date: this.date,
+                time: this.time,
+                allDay: Boolean,
+                everyYear: Boolean,
             },
         }
     },
 
+    mounted() {
+
+        if (this.allDay === 'true') {
+            this.birthday.allDay = true
+        } else {
+            this.birthday.allDay = false
+        }
+        document.getElementById("checkAllDay").checked = this.birthday.allDay
+
+        if (this.everyYear === 'true') {
+            this.birthday.everyYear = true
+        } else {
+            this.birthday.everyYear = false
+        }
+        document.getElementById("checkEveryYear").checked = this.birthday.everyYear
+    },
+
+    props: [
+        'name',
+        'description',
+        'date',
+        'time',
+        'allDay',
+        'everyYear',
+    ],
+
     methods: {
 
         close() {
-            //очищаем форму
-            document.getElementById("myForm").reset()
-            document.getElementById("checkAllDay").checked = false
-            document.getElementById("checkEveryYear").checked = false
+
             //сбрасываем ошибки
             this.isValid = true
             this.errorNameBirthday = false
             this.errorDescriptionBirthday = false
             this.errorDateBirthday = false
             this.errorTimeBirthday = false
-            //очищаем birthday
-            this.birthday.name = ''
-            this.birthday.description = ''
-            this.birthday.date = ''
-            this.birthday.time = ''
-            this.birthday.allDay = false
-            this.birthday.everyYear = false
+
+            //сбасываем birthday
+            //если пропсы есть (для редактировния), то поля заполнятся их значениями
+            //иначе - поля очистятся
+            this.birthday.name = this.name
+            this.birthday.description = this.description
+            this.birthday.date = this.date
+            this.birthday.time = this.time
+
+            if (this.allDay === 'true') {
+                this.birthday.allDay = true
+            } else {
+                this.birthday.allDay = false
+            }
+            document.getElementById("checkAllDay").checked = this.birthday.allDay
+
+            if (this.everyYear === 'true') {
+                this.birthday.everyYear = true
+            } else {
+                this.birthday.everyYear = false
+            }
+            document.getElementById("checkEveryYear").checked = this.birthday.everyYear
+
             //прослушиваем событие close в родительском компоненте
             this.$emit('close');
         },
@@ -196,6 +235,7 @@ export default {
             if (!this.birthday.time) {
                 this.errorTimeBirthday = true
             }
+
             if (!this.errorNameBirthday && !this.errorDescriptionBirthday && !this.errorDateBirthday && !this.errorTimeBirthday) {
                 this.isValid = true
             } else {
@@ -207,39 +247,50 @@ export default {
         saveEvent() {
 
             this.validation()
-            //console.log(this.isValid)
 
             if (this.isValid) {
 
-                console.log(this.birthday.name)
-                console.log(this.birthday.description)
-                console.log(this.birthday.date)
-                console.log(this.birthday.time)
-                console.log(this.birthday.allDay)
-                console.log(this.birthday.everyYear)
+                // console.log(this.birthday.name)
+                // console.log(this.birthday.description)
+                // console.log(this.birthday.date)
+                // console.log(this.birthday.time)
+                // console.log(this.birthday.allDay)
+                // console.log(this.birthday.everyYear)
 
                 //прослушиваем событие saveEvent в родительском компоненте
-                this.$emit('saveEvent')
+                //передаем параметры - this.birthday
+                this.$emit('saveEvent', this.birthday)
 
-                //очищаем форму
-                document.getElementById("myForm").reset()
-                document.getElementById("checkAllDay").checked = false
-                document.getElementById("checkEveryYear").checked = false
                 this.isValid = true
-                //очищаем birthday
-                this.birthday.name = ''
-                this.birthday.description = ''
-                this.birthday.date = ''
-                this.birthday.time = ''
-                this.birthday.allDay = false
-                this.birthday.everyYear = false
+
+                //сбасываем birthday
+                //если пропсы есть (для редактировния), то поля заполнятся их значениями
+                //иначе - поля очистятся
+                this.birthday.name = this.name
+                this.birthday.description = this.description
+                this.birthday.date = this.date
+                this.birthday.time = this.time
+
+                if (this.allDay === 'true') {
+                    this.birthday.allDay = true
+                } else {
+                    this.birthday.allDay = false
+                }
+                document.getElementById("checkAllDay").checked = this.birthday.allDay
+
+                if (this.everyYear === 'true') {
+                    this.birthday.everyYear = true
+                } else {
+                    this.birthday.everyYear = false
+                }
+                document.getElementById("checkEveryYear").checked = this.birthday.everyYear
             }
         },
 
         changeValueAllDay() {
 
             this.birthday.allDay = !this.birthday.allDay
-            this.birthday.time = '00:00' // задаем время по ум. чтобы оно не было пустым и прошло валидацию
+            this.birthday.time = '00:01' // задаем время по ум. чтобы оно не было пустым и прошло валидацию
 
         },
 
