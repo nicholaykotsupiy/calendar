@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import month from "./month";
+import birthdaySave from "./birthdaySave";
 
 Vue.use(Vuex)
 
@@ -8,6 +9,7 @@ export default new Vuex.Store({
 
     modules: {
         month,
+        birthdaySave
     },
 
     state: {
