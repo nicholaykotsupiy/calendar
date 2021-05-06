@@ -14,7 +14,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <button type="button" class="col-md-1 close" aria-label="Close" @click="close">
+                            <button type="button" class="col-md-1 close my-close" aria-label="Close" @click="close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
@@ -127,7 +127,7 @@ export default {
     position: relative;
 }
 
-.close {
+.my-close {
     position: absolute;
     width: 25px;
     top: 0px;

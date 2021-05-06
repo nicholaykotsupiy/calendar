@@ -14,24 +14,25 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class BirthdayController extends Controller
 {
-//    complete
+
     public function store(StoreRequest $request): JsonResponse
     {
         $birthday = new Birthday;
 
+//        $birthday->fill($request->all());
         $birthday->name = $request->name;
         $birthday->description = $request->description;
         $birthday->date = $request->date;
         $birthday->time = $request->time;
-        $birthday->all_day = $request->all_day;
-        $birthday->every_year = $request->every_year;
-        $birthday->user_id = $request->user_id;
+        $birthday->all_day = $request->allDay;
+        $birthday->every_year = $request->everyYear;
+        $birthday->user_id = 1;//потом нужно добавлять user_id через аутентификацию
 
         $birthday->save();
 
         return response()->json(new StoreResource($birthday));
     }
-//    complete
+
     public function update(EditRequest $request): JsonResponse
     {
         $birthday = Birthday::find($request->id);

@@ -2,16 +2,18 @@
 
     <div class="container calendar-center">
 
-        <!--        временные кнопки-->
-        <div class="flex">
-            <div>
-                <button v-on:click="decrease"><</button>
-            </div>
-            <div>
-                <button v-on:click="increase">></button>
-            </div>
-            <div> {{months[month]}} {{year}} </div>
-        </div>
+<!--        убрала -->
+<!--        &lt;!&ndash;        временные кнопки&ndash;&gt;-->
+<!--        <div class="flex">-->
+<!--            <div>-->
+<!--                <button v-on:click="prevMonth"><</button>-->
+<!--            </div>-->
+<!--            <div>-->
+<!--                <button v-on:click="nextMonth">></button>-->
+<!--            </div>-->
+<!--&lt;!&ndash;            <div> {{ titleNavigationCalendarMonth }} </div>&ndash;&gt;-->
+<!--            <div> {{months[month]}} {{year}} </div>-->
+<!--        </div>-->
 
         <table class="table-month">
             <thead>
@@ -21,8 +23,6 @@
             </thead>
             <tbody>
             <tr v-for="week in calendar()" class="flex">
-<!--                    При нажатии на ячейку вызываем окно для создания события-->
-<!--                    в параметрах передаем день, месяц и год, которые соответствуют текущей ячейке-->
                 <td v-for="(day, index) in week">
                     <div class="daygrid-day-frame">
                         <div class="daygrid-day-top flex">
@@ -87,26 +87,78 @@
 </template>
 
 <script>
+import DayCalendarNavigation from "../DayCalendar/DayCalendarComponents/DayCalendarNavigation";
+import { mapGetters, mapMutations } from 'vuex'
 
 export default {
 
     name: "TheMont",
 
+    components: {DayCalendarNavigation},
+
     data() {
 
         return {
-            month: new Date().getMonth(),
-            year: new Date().getFullYear(),
+            //перенесла в стейт
+            // month: new Date().getMonth(),
+            // year: new Date().getFullYear(),
             dFirstMonth: 1,
             day:["Понедельник", "Вторник","Среда","Четверг","Пятница","Суббота", "Воскресенье"],
-            months: ["Январь","Февраль","Март","Апрель","Май","Июнь","Июль","Август","Сентябрь","Октябрь","Ноябрь","Декабрь"],
+            // months: ["Январь","Февраль","Март","Апрель","Май","Июнь","Июль","Август","Сентябрь","Октябрь","Ноябрь","Декабрь"],
             date: new Date(),
         }
     },
 
+    computed: {
+
+        isMonth() {
+            return this.isMonth
+        },
+
+        month() {
+            return this.monthCalendarMonth
+        },
+
+        months() {
+            return this.monthsCalendarMonth
+        },
+
+        year() {
+            return this.yearCalendarMonth
+        },
+
+        titleNavigationCalendarMonth() {
+            return this.titleNavigationCalendarMonth
+        },
+
+        ...mapGetters([
+            'isMonth',
+            'monthCalendarMonth',
+            'monthsCalendarMonth',
+            'yearCalendarMonth',
+            'titleNavigationCalendarMonth',
+        ])
+    },
+
+    mounted() {
+        this.setIsMonth(true)
+        this.setTitleNavigationCalendarMonth(this.months[this.month]+' '+this.year)
+    },
+
+    beforeDestroy() {
+        this.setIsMonth(false)
+    },
+
     methods:{
 
-        calendar: function(){
+        ...mapMutations([
+            'setIsMonth',
+            'prevMonth',
+            'nextMonth',
+            'setTitleNavigationCalendarMonth'
+        ]),
+
+        calendar() {
 
             let days = []
             let week = 0
@@ -156,27 +208,28 @@ export default {
 
         },
 
-        decrease: function(){
-
-            this.month--
-            if (this.month < 0) {
-                this.month = 12
-                this.month--
-                this.year--
-            }
-
-        },
-
-        increase: function(){
-
-            this.month++
-            if (this.month > 11) {
-                this.month = -1
-                this.month++
-                this.year++
-            }
-
-        },
+        //тоже вынесла в стейт
+        // prevMonth() {
+        //
+        //     this.month--
+        //     if (this.month < 0) {
+        //         this.month = 12
+        //         this.month--
+        //         this.year--
+        //     }
+        //
+        // },
+        //
+        // nextMonth() {
+        //
+        //     this.month++
+        //     if (this.month > 11) {
+        //         this.month = -1
+        //         this.month++
+        //         this.year++
+        //     }
+        //
+        // },
     },
 }
 </script>
