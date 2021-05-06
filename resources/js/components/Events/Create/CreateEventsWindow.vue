@@ -287,47 +287,47 @@ export default {
                     //вывод ошибки
                     //если есть ошибка валидации name
                     if (error.response.data.errors.name) {
-                        console.log('errors date', error.response.data.errors.name)
+                        //console.log('errors date', error.response.data.errors.name)
                         for (let i=0; i<error.response.data.errors.name.length; i++) {
                             errorsArray.push(error.response.data.errors.name[i])
                         }
                     }
                     //если есть ошибка валидации description
                     if (error.response.data.errors.description) {
-                        console.log('errors date', error.response.data.errors.description)
+                        //console.log('errors date', error.response.data.errors.description)
                         for (let i=0; i<error.response.data.errors.description.length; i++) {
                             errorsArray.push(error.response.data.errors.description[i])
                         }
                     }
                     //если есть ошибка валидации даты
                     if (error.response.data.errors.dateStart) {
-                        console.log('errors date', error.response.data.errors.dateStart)
+                        //console.log('errors date', error.response.data.errors.dateStart)
                         for (let i=0; i<error.response.data.errors.dateStart.length; i++) {
                             errorsArray.push(error.response.data.errors.dateStart[i])
                         }
                     }
                     if (error.response.data.errors.dateEnd) {
-                        console.log('errors date', error.response.data.errors.dateEnd)
+                        //console.log('errors date', error.response.data.errors.dateEnd)
                         for (let i=0; i<error.response.data.errors.dateEnd.length; i++) {
                             errorsArray.push(error.response.data.errors.dateEnd[i])
                         }
                     }
                     //если есть ошибка валидации времени
                     if (error.response.data.errors.timeStart) {
-                        console.log('errors date', error.response.data.errors.timeStart)
+                        //console.log('errors date', error.response.data.errors.timeStart)
                         for (let i=0; i<error.response.data.errors.timeStart.length; i++) {
                             errorsArray.push(error.response.data.errors.timeStart[i])
                         }
                     }
                     if (error.response.data.errors.timeEnd) {
-                        console.log('errors date', error.response.data.errors.timeEnd)
+                        //console.log('errors date', error.response.data.errors.timeEnd)
                         for (let i=0; i<error.response.data.errors.timeEnd.length; i++) {
                             errorsArray.push(error.response.data.errors.timeEnd[i])
                         }
                     }
                     //если есть ошибка зачени "Весь день"
                     if (error.response.data.errors.allDay) {
-                        console.log('errors date', error.response.data.errors.allDay)
+                        //console.log('errors date', error.response.data.errors.allDay)
                         for (let i=0; i<error.response.data.errors.allDay.length; i++) {
                             errorsArray.push(error.response.data.errors.allDay[i])
                         }
