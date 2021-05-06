@@ -37,7 +37,7 @@
                                                         'border-radius': '50%',
                                                         'width': '30px',
                                                         'height': '30px',
-                                                        'padding': '5px'
+                                                        'padding': day.index < 10 ? '5px 8px' : '5px' 
                                                     }">
                                                     {{ day.index }}
                                                 </a>
