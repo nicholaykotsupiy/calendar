@@ -5,7 +5,11 @@
     </div>
      <div class="calendar_body d-flex col-12 overflow-auto mb-4">
         <DayCalendarTimeLine :timeLine="timeLine"/>
-        <DayCalendarEnents :currentDate="currentDate.toLocaleDateString()" :timeLine="timeLine" :events="events"/>
+        <DayCalendarEnents
+            :currentDate="currentDate.toLocaleDateString()"
+            :timeLine="timeLine"
+            :events="allEventsForDay"
+        />
      </div>
  </div>
 </template>
@@ -30,39 +34,40 @@ export default {
             '13:00','14:00','15:00','16:00','17:00','18:00',
             '19:00','20:00','21:00','22:00','23:00',
         ],
-        events: [
-            {
-                id: 1,
-                color: '#D2EFFE',
-                title: 'День рождения у К. Карины',
-                start: '00:30',
-                end: '1',
-                peoples: [1],
-                currentDate: '5/3/2021'
-            },
-            {
-                id: 2,
-                color: '#E0F7D7',
-                title: 'Написать ТЗ',
-                start: '2:30',
-                end: '2',
-                peoples: [1,2],
-                currentDate: '5/2/2021'
-            },
-            {
-                id: 3,
-                color: '#FEEACC',
-                title: 'Поиск материалов',
-                start: '00:30',
-                end: '3',
-                peoples: [],
-                currentDate: '5/4/2021'
-            },
-        ]
+        // events: [
+        //     {
+        //         id: 1,
+        //         color: '#D2EFFE',
+        //         title: 'День рождения у К. Карины',
+        //         start: '00:30',
+        //         end: '1',
+        //         peoples: [1],
+        //         currentDate: '5/3/2021'
+        //     },
+        //     {
+        //         id: 2,
+        //         color: '#E0F7D7',
+        //         title: 'Написать ТЗ',
+        //         start: '2:30',
+        //         end: '2',
+        //         peoples: [1,2],
+        //         currentDate: '5/2/2021'
+        //     },
+        //     {
+        //         id: 3,
+        //         color: '#FEEACC',
+        //         title: 'Поиск материалов',
+        //         start: '00:30',
+        //         end: '3',
+        //         peoples: [],
+        //         currentDate: '5/4/2021'
+        //     },
+        // ]
     }),
     computed: {
         ...mapGetters([
-            'currentDate'
+            'currentDate',
+            'allEventsForDay'
         ])
     },
     methods: {

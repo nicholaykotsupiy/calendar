@@ -1,7 +1,7 @@
 <template>
     <div>
         <TopNavigation />
-        <DayCalendarNavigation @current="switchToCurrentDate" @prev="prevDate" @next="nextDate" />
+        <DayCalendarNavigation @current="currentDateToDayCalendar" @prev="prevDateToDayCalendar" @next="nextDateToDayCalendar" />
         <div class="container-fluid">
             <div class="row">
                 <LeftNavigation />
@@ -27,9 +27,9 @@ export default {
     },
     methods: {
         ...mapMutations([
-            'switchToCurrentDate',
-            'prevDate',
-            'nextDate'
+            'prevDateToDayCalendar',
+            'nextDateToDayCalendar',
+            'currentDateToDayCalendar'
         ])
     }
 }
