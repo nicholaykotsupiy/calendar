@@ -29,9 +29,8 @@ class StoreRequest extends FormRequest
             'description' => 'required|string|max:255',
             'date' => 'required|date',
             'time' => 'required|date_format:"H:i"',
-            'all_day' => 'boolean',
-            'every_year' => 'boolean',
-//            'user_id' => 'required|integer|exists:users,id',
+            'allDay' => 'boolean',
+            'everyYear' => 'boolean',
         ];
     }
 //
@@ -56,8 +55,8 @@ class StoreRequest extends FormRequest
 //            'date.date'  => 'Неправильный формат даты',
 //            'time.required' => 'Необходимо указать время',
 //            'time.date_format:"H:i"'  => 'Неправильный формат времени',
-//            'all_day.boolean'  => 'Неправильный формат данных для поля "Весь день"',
-//            'every_year.boolean'  => 'Неправильный формат данных для поля "Каждый год"',
+//            'allDay.boolean'  => 'Неправильный формат данных для поля "Весь день"',
+//            'everyYear.boolean'  => 'Неправильный формат данных для поля "Каждый год"',
 //        ];
 //    }
 }
