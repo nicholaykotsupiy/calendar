@@ -1,18 +1,26 @@
 <template>
     <div>
+
         <!-- Модальное окно для сообщений-->
         <b-modal id="modal-message" hide-footer :title="titleModalMessage">
             <p class="my-4">{{ bodyModalMessage }}</p>
             <div class="row modal-footer text-center">
                 <div class="col-12">
-                    <button type="button" class="btn btn-primary btn-lg" data-dismiss="modal" @click="$bvModal.hide('modal-message')">ОК</button>
-<!--                    <button type="button" class="btn btn-primary btn-lg" data-dismiss="modal" @click="hideModal">ОК</button>-->
+                    <button type="button" class="btn btn-primary btn-lg" data-dismiss="modal"
+                            @click="$bvModal.hide('modal-message')"
+                    >
+                        ОК
+                    </button>
                 </div>
 <!--                <div class="col-6">-->
 <!--                    <button type="button" class="btn btn-primary btn-lg" data-dismiss="modal">ОК</button>-->
 <!--                </div>-->
 <!--                <div class="col-6">-->
-<!--                    <button type="button" class="btn btn-outline-secondary btn-lg" data-dismiss="modal">Отмена</button>-->
+<!--                    <button type="button" class="btn btn-outline-secondary btn-lg" data-dismiss="modal"-->
+<!--                            @click="$bvModal.hide('modal-message')"-->
+<!--                    >-->
+<!--                        Отмена-->
+<!--                    </button>-->
 <!--                </div>-->
             </div>
         </b-modal>
@@ -137,7 +145,6 @@
             <div class="row text-center py-3 footer-create-event">
                 <div class="col-md-6">
                     <button type="submit" class="btn btn-primary btn-lg">Сохранить</button>
-<!--                    <button type="submit" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#exampleModal">Сохранить</button>-->
                 </div>
                 <div class="col-md-6">
                     <button type="button" class="btn btn-outline-secondary btn-lg" @click="close">Отмена</button>
@@ -207,6 +214,7 @@ export default {
     },
 
     props: [
+        'id',
         'name',
         'description',
         'date',
@@ -229,6 +237,7 @@ export default {
             //сбасываем birthday
             //если пропсы есть (для редактировния), то поля заполнятся их значениями
             //иначе - поля очистятся
+            this.birthday.id = this.id
             this.birthday.name = this.name
             this.birthday.description = this.description
             this.birthday.date = this.date
@@ -306,6 +315,7 @@ export default {
                 //сбасываем birthday
                 //если пропсы есть (для редактировния), то поля заполнятся их значениями
                 //иначе - поля очистятся
+                this.birthday.id = this.id
                 this.birthday.name = this.name
                 this.birthday.description = this.description
                 this.birthday.date = this.date

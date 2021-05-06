@@ -146,7 +146,7 @@ import TheEvent from "../TheEvent";
 import TheReminder from "../TheReminder";
 import TheTask from "../TheTask";
 import TheBirthday from "../TheBirthday";
-import { mapMutations } from 'vuex'
+import { mapGetters, mapMutations } from 'vuex'
 
 export default {
 
@@ -159,13 +159,27 @@ export default {
         TheBirthday
     },
 
-    data() {
-        return {
-            isCreateEventWindowVisible: true,
-            isCreateReminderWindowVisible: false,
-            isCreateTaskWindowVisible: false,
-            isCreateBirthdayWindowVisible: false,
-        }
+    computed: {
+
+        isCreateEventWindowVisible() {
+            return this.isCreateEventWindowVisible
+        },
+        isCreateReminderWindowVisible() {
+            return this.isCreateReminderWindowVisible
+        },
+        isCreateTaskWindowVisible() {
+            return this.isCreateTaskWindowVisible
+        },
+        isCreateBirthdayWindowVisible() {
+            return this.isCreateBirthdayWindowVisible
+        },
+
+        ...mapGetters([
+            'isCreateEventWindowVisible',
+            'isCreateReminderWindowVisible',
+            'isCreateTaskWindowVisible',
+            'isCreateBirthdayWindowVisible',
+        ])
     },
 
     methods: {
@@ -173,64 +187,51 @@ export default {
         ...mapMutations([
             'setTitleModalMessage',
             'setBodyModalMessage',
+            'setIsCreateEventWindowVisible',
+            'setIsCreateReminderWindowVisible',
+            'setIsCreateTaskWindowVisible',
+            'setIsCreateBirthdayWindowVisible',
+            'showCreateEventWindow',
         ]),
 
         close() {
             this.$emit('closeWrap');
         },
 
-        showCreateEventWindow() {
-            this.isCreateEventWindowVisible = true;
-            this.isCreateReminderWindowVisible = false;
-            this.isCreateTaskWindowVisible = false;
-            this.isCreateBirthdayWindowVisible = false;
-        },
         showCreateReminderWindow() {
-            this.isCreateReminderWindowVisible = true;
-            this.isCreateEventWindowVisible = false;
-            this.isCreateTaskWindowVisible = false;
-            this.isCreateBirthdayWindowVisible = false;
+            this.setIsCreateReminderWindowVisible(true);
+            this.setIsCreateEventWindowVisible(false);
+            this.setIsCreateTaskWindowVisible(false);
+            this.setIsCreateBirthdayWindowVisible(false);
         },
         showCreateTaskWindow() {
-            this.isCreateTaskWindowVisible = true;
-            this.isCreateEventWindowVisible = false;
-            this.isCreateReminderWindowVisible = false;
-            this.isCreateBirthdayWindowVisible = false;
+            this.setIsCreateTaskWindowVisible(true);
+            this.setIsCreateEventWindowVisible(false);
+            this.setIsCreateReminderWindowVisible(false);
+            this.setIsCreateBirthdayWindowVisible(false);
         },
         showCreateBirthdayWindow() {
-            this.isCreateBirthdayWindowVisible = true;
-            this.isCreateEventWindowVisible = false;
-            this.isCreateReminderWindowVisible = false;
-            this.isCreateTaskWindowVisible = false;
+            this.setIsCreateBirthdayWindowVisible(true);
+            this.setIsCreateEventWindowVisible(false);
+            this.setIsCreateReminderWindowVisible(false);
+            this.setIsCreateTaskWindowVisible(false);
         },
 
         closeCreateEventWindow() {
             this.close();
-            this.isCreateEventWindowVisible = true;
-            this.isCreateBirthdayWindowVisible = false;
-            this.isCreateReminderWindowVisible = false;
-            this.isCreateTaskWindowVisible = false;
+            this.showCreateEventWindow()
         },
         closeCreateReminderWindow() {
             this.close();
-            this.isCreateEventWindowVisible = true;
-            this.isCreateBirthdayWindowVisible = false;
-            this.isCreateReminderWindowVisible = false;
-            this.isCreateTaskWindowVisible = false;
+            this.showCreateEventWindow()
         },
         closeCreateTaskWindow() {
             this.close();
-            this.isCreateEventWindowVisible = true;
-            this.isCreateBirthdayWindowVisible = false;
-            this.isCreateReminderWindowVisible = false;
-            this.isCreateTaskWindowVisible = false;
+            this.showCreateEventWindow()
         },
         closeCreateBirthdayWindow() {
             this.close();
-            this.isCreateEventWindowVisible = true;
-            this.isCreateBirthdayWindowVisible = false;
-            this.isCreateReminderWindowVisible = false;
-            this.isCreateTaskWindowVisible = false;
+            this.showCreateEventWindow()
         },
 
         saveEvent(event) {
@@ -278,7 +279,7 @@ export default {
         },
 
         saveBirthday(birthday) {
-            //здесь будет метод сохранения данных в БД, пока - в консоль
+
             console.log('Save reminder in parent component')
             console.log(birthday.name)
             console.log(birthday.description)
@@ -294,29 +295,38 @@ export default {
             // })
             axios.post(`/api/birthday-store`, birthday)
                 .then(response => {
-
+                    //параметры для модалки с сообщением
                     this.setTitleModalMessage('')
                     this.setBodyModalMessage('Событие добавлено!')
-                    console.log('Событие добавлено!')//вызвать здесь модалку с сообщением
+                    console.log('Событие добавлено!')
                     //вызвать действие для загрузки БД в состояние (обновить)
 
                     // закрыть окно
                     this.close();
-                    this.isCreateEventWindowVisible = true;
-                    this.isCreateBirthdayWindowVisible = false;
-                    this.isCreateReminderWindowVisible = false;
-                    this.isCreateTaskWindowVisible = false;
+                    this.showCreateEventWindow()
                 })
                 .catch(error => {
-
                     console.log('error', error.response.data)
                     console.log('errors', error.response.data.errors)
 
                     //массив, для ошибок валидации на бэке
                     let errorsArray = []
 
-                    //вывод ошибки даты, как один из пунктов
-
+                    //вывод ошибки
+                    //если есть ошибка валидации name
+                    if (error.response.data.errors.name) {
+                        console.log('errors date', error.response.data.errors.name)
+                        for (let i=0; i<error.response.data.errors.name.length; i++) {
+                            errorsArray.push(error.response.data.errors.name[i])
+                        }
+                    }
+                    //если есть ошибка валидации description
+                    if (error.response.data.errors.description) {
+                        console.log('errors date', error.response.data.errors.description)
+                        for (let i=0; i<error.response.data.errors.description.length; i++) {
+                            errorsArray.push(error.response.data.errors.description[i])
+                        }
+                    }
                     //если есть ошибка валидации даты
                     if (error.response.data.errors.date) {
                         console.log('errors date', error.response.data.errors.date)
@@ -331,17 +341,28 @@ export default {
                             errorsArray.push(error.response.data.errors.time[i])
                         }
                     }
-                    //и так для каждого поля нужно сделать
+                    //если есть ошибка зачени "Весь день"
+                    if (error.response.data.errors.all_day) {
+                        console.log('errors date', error.response.data.errors.all_day)
+                        for (let i=0; i<error.response.data.errors.all_day.length; i++) {
+                            errorsArray.push(error.response.data.errors.all_day[i])
+                        }
+                    }
+                    //если есть ошибка зачени "Каждый год"
+                    if (error.response.data.errors.every_year) {
+                        console.log('errors date', error.response.data.errors.every_year)
+                        for (let i=0; i<error.response.data.errors.every_year.length; i++) {
+                            errorsArray.push(error.response.data.errors.every_year[i])
+                        }
+                    }
 
                     this.setTitleModalMessage('Ошибка! Событие не добавлено!')
-
                     let message =''
                     for (let i=0; i<errorsArray.length; i++) {
                         message += errorsArray[i]+"\n"
                     }
                     this.setBodyModalMessage(message)
                     console.log(message)
-
                     console.log('Ошибка! Событие не добавлено!')
                 });
 
