@@ -1,9 +1,9 @@
-<template>
+0.<template>
     <div>
 
         <!-- Модальное окно для сообщений-->
         <b-modal id="modal-message" hide-footer :title="titleModalMessage">
-            <p class="my-4">{{ bodyModalMessage }}</p>
+            <p class="my-4 body-message">{{ bodyModalMessage }}</p>
             <div class="row modal-footer text-center">
                 <div class="col-12">
                     <button type="button" class="btn btn-primary btn-lg" data-dismiss="modal"
@@ -373,12 +373,17 @@ export default {
     border-color: #F44336
 }
 
-div .modal-content .modal-header {
+.modal-header {
     border-bottom: none;
 }
 
 .modal-body .modal-footer {
     border-top: none;
+}
+
+.body-message {
+    text-align: center;
+    font-size: 18px;
 }
 
 </style>
