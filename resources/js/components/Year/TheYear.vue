@@ -30,15 +30,16 @@
                                         <div class="daygrid-day-top flex">
                                             <div class="daygrid-day-number-without-ukr">
                                                 <!--обозначить текущий день-->
-                                                <a href="#"
+                                                <a
+                                                    @click="dayClickHandler(day)"
                                                     :style="{
                                                         'background': day.currentbg,
-                                                        'color': day.current,
+                                                        'color': day.curcurrentYearrent,
                                                         'border-radius': '50%',
                                                         'width': '30px',
                                                         'height': '30px',
                                                         'padding': day.index < 10 ? '5px 8px' : '5px' 
-                                                    }">
+                                                    }"> 
                                                     {{ day.index }}
                                                 </a>
                                             </div>
@@ -111,6 +112,9 @@ export default {
         },
         increase() {
             this.currentYear++
+        },
+        dayClickHandler(e) {
+            console.log(e)
         },
     },
 }
