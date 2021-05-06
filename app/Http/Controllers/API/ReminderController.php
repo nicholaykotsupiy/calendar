@@ -20,6 +20,7 @@ class ReminderController extends Controller
         $reminder->time = $request->time;
         $reminder->repeat = $request->toRepeat;
         $reminder->user_id = 1;//потом нужно добавлять user_id через аутентификацию
+//        $reminder->user_id = Auth::user()->id;
 
         $reminder->save();
 

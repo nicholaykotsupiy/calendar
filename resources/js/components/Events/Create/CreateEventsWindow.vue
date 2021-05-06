@@ -299,11 +299,11 @@ export default {
                             errorsArray.push(error.response.data.errors.time[i])
                         }
                     }
-                    //если есть ошибка валидации repeat
-                    if (error.response.data.errors.repeat) {
-                        console.log('errors date', error.response.data.errors.repeat)
-                        for (let i=0; i<error.response.data.errors.repeat.length; i++) {
-                            errorsArray.push(error.response.data.errors.repeat[i])
+                    //если есть ошибка валидации toRepeat
+                    if (error.response.data.errors.toRepeat) {
+                        console.log('errors date', error.response.data.errors.toRepeat)
+                        for (let i=0; i<error.response.data.errors.toRepeat.length; i++) {
+                            errorsArray.push(error.response.data.errors.toRepeat[i])
                         }
                     }
 

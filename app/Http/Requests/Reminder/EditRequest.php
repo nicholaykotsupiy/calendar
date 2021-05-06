@@ -6,7 +6,7 @@ use App\Models\Reminder;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class StoreRequest extends FormRequest
+class EditRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

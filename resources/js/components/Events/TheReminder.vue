@@ -149,14 +149,14 @@ export default {
             errorDateReminder: false,
             errorTimeReminder: false,
 
-            arrayToRepeat: ['Не повторять', 'Ежедневно', 'Еженедельно', 'Каждый год', 'Весь день'],
+            arrayToRepeat: ['не повторять', 'ежедневно', 'еженедельно', 'каждый год', 'весь день'],
             allDay: false,
 
             reminder: {
                 name: this.name,
                 date: this.date,
                 time: this.time,
-                toRepeat: this.toRepeat || 'Не повторять', // Не повторять - default
+                toRepeat: this.toRepeat || 'не повторять', // Не повторять - default
             },
 
         }
@@ -187,9 +187,9 @@ export default {
     ],
 
     mounted() {
-        document.querySelector('#selectToReminder').value = this.toRepeat || 'Не повторять'
+        document.querySelector('#selectToReminder').value = this.toRepeat || 'не повторять'
 
-        if (this.toRepeat === 'Весь день') {
+        if (this.toRepeat === 'весь день') {
             this.allDay = true
             this.reminder.time = '00:01' // задаем время по ум. чтобы оно не было пустым и прошло валидацию
         } else {
@@ -201,7 +201,7 @@ export default {
 
         changeValueAllDay() {
 
-            if (this.reminder.toRepeat === 'Весь день') {
+            if (this.reminder.toRepeat === 'весь день') {
                 this.allDay = true
                 this.reminder.time = '00:01' // задаем время по ум. чтобы оно не было пустым и прошло валидацию
             } else {
@@ -217,7 +217,7 @@ export default {
             this.reminder.name = this.name
             this.reminder.date = this.date
             this.reminder.time = this.time
-            this.reminder.toRepeat = this.toRepeat || 'Не повторять'
+            this.reminder.toRepeat = this.toRepeat || 'не повторять'
 
             if (this.toRepeat === 'Весь день') {
                 this.allDay = true
@@ -286,7 +286,7 @@ export default {
                 this.reminder.name = this.name
                 this.reminder.date = this.date
                 this.reminder.time = this.time
-                this.reminder.toRepeat = this.toRepeat || 'Не повторять'
+                this.reminder.toRepeat = this.toRepeat || 'не повторять'
                 // console.log( this.reminder.toRepeat)
 
                 if (this.toRepeat === 'Весь день') {
@@ -324,6 +324,19 @@ export default {
 .error {
     color: #F44336;
     border-color: #F44336
+}
+
+.modal-header {
+    border-bottom: none;
+}
+
+.modal-body .modal-footer {
+    border-top: none;
+}
+
+.body-message {
+    text-align: center;
+    font-size: 18px;
 }
 
 </style>
