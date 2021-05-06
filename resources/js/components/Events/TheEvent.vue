@@ -1,12 +1,12 @@
 <template>
     <div>
         <!-- Модальное окно для сообщений-->
-        <b-modal id="modal-message" hide-footer :title="titleModalMessage">
+        <b-modal id="modal-message-event" hide-footer :title="titleModalMessage">
             <p class="my-4 body-message">{{ bodyModalMessage }}</p>
             <div class="row modal-footer text-center">
                 <div class="col-12">
                     <button type="button" class="btn btn-primary btn-lg" data-dismiss="modal"
-                            @click="$bvModal.hide('modal-message')"
+                            @click="$bvModal.hide('modal-message-event')"
                     >
                         ОК
                     </button>
@@ -277,7 +277,7 @@ export default {
                 //прослушиваем событие saveEvent в родительском компоненте и передаем туда объект this.event
                 this.$emit('saveEvent', this.event)
 
-                this.$bvModal.show('modal-message')
+                this.$bvModal.show('modal-message-event')
 
                 this.isValid = true
 
