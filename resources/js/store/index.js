@@ -1,9 +1,17 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import month from "./month";
+import birthday from "./birthday";
+import allEvents from "./allEvents";
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
+    modules: {
+        month,
+        birthday,
+        allEvents
+    },
     state: {
     //    Базовая структура стейта'
         tasks: [
