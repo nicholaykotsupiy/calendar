@@ -33,12 +33,12 @@
                                                 <a
                                                     @click="dayClickHandler(day)"
                                                     :style="{
-                                                        'background': day.currentbg,
-                                                        'color': day.curcurrentYearrent,
+                                                        'background': day.isCurrent ? '#1875f0' : day.isHoliday ? '#fbdddd' : '#ffffff',
+                                                        'color': day.isCurrent ? '#ffffff' : day.isHoliday ? '#f44336' : '#666666',
                                                         'border-radius': '50%',
                                                         'width': '30px',
                                                         'height': '30px',
-                                                        'padding': day.index < 10 ? '5px 8px' : '5px' 
+                                                        'padding': day.index < 10 ? '5px 8px' : '5px'
                                                     }"> 
                                                     {{ day.index }}
                                                 </a>
@@ -66,7 +66,23 @@ export default {
             day:["Пн", "Вт","Ср","Чт","Пт","Сб", "Вс"],
             months: ["Январь","Февраль","Март","Апрель","Май","Июнь","Июль","Август","Сентябрь","Октябрь","Ноябрь","Декабрь"],
             date: new Date(),
+            holidays: {},
         }
+    },
+    mounted() {
+        axios
+            .get('https://www.googleapis.com/calendar/v3/calendars/ru.ukrainian%23holiday%40group.v.calendar.google.com/events?key=AIzaSyCXtY_r4WvIlu_2N_iVZC8WTc_iXDkZMGM')
+            .then(response => {
+                let holidays = {};
+                for (let i = 0; i < response.data.items.length; i++) {
+                    let day = response.data.items[i].start.date
+                    if (!(day in holidays)) {
+                        holidays[day] = []
+                    }
+                    holidays[day].push(response.data.items[i])
+                }
+                this.holidays = holidays
+            });
     },
     computed: {
         calendar() {
@@ -84,17 +100,28 @@ export default {
             days[week] = []
             let lastDayOfMonth = new Date(year, month + 1, 0).getDate();
             for (let i = 1; i <= lastDayOfMonth; i++) {
-                if (new Date(year, month, i).getDay() === this.firstDayOfWeek && i !== 1) {
+                let dayOfMonthDateObj = new Date(year, month, i)
+                //формирование недель месяца
+                if (dayOfMonthDateObj.getDay() === this.firstDayOfWeek && i !== 1) {
                     week++
                     days[week] = []
                 }
-                let a = {index:i}
+                let a = {
+                    index:i,
+                    isHoliday: false,
+                    isCurrent: false,
+                }
                 days[week].push(a)
+                let dayOfMonthIsoDate = dayOfMonthDateObj.toISOString().substring(0, 10)
+                //проверка что день праздничный
+                if (dayOfMonthIsoDate in this.holidays) {
+                    a.isHoliday = true
+                }
+
                 // проверка на текущий день
                 if (i === new Date().getDate() && year === new Date().getFullYear() && month === new Date().getMonth())
                 {
-                    a.current = '#ffffff'
-                    a.currentbg = '#1875F0'
+                    a.isCurrent = true
                 }
             }
 
