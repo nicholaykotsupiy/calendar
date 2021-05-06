@@ -1,4 +1,4 @@
-<template>
+<template xmlns="http://www.w3.org/1999/html">
     <div>
         <div class="flex">
             <div>
@@ -19,8 +19,25 @@
             <tr>
                 <td>1:00</td>
                 <td></td>
+                <!--                отображение мод.окна-->
                 <td>
-                    <div class="pink">Вселенная через...</div>
+                    <div class="pink" :id="`event`" variant="primary">Вселенная через...</div>
+                    <b-popover
+                        :show.sync="pop"
+                        target="event"
+                        placement="leftbottom"
+                        triggers="click"
+                    >
+                        <template  #title>
+                            <div class="icons">
+                                <span class="material-icons">delete</span>
+                                <span class="material-icons" @click="doEdit">edit</span>
+                                <span class="material-icons"  @click="popClose">close</span>
+                            </div>
+                        </template>
+                        <span class="title">Вселенная через 1 час</span><br>
+                        <span class="time">Суббота, 7 января 4:00 - 4:10</span>
+                    </b-popover>
                 </td>
                 <td>
                     <div class="pink">Вселенная через...</div>
@@ -88,8 +105,11 @@
     </div>
 </template>
 <script>
+
+
 export default {
     name: "Week",
+
     data() {
         return {
             month: new Date().getMonth(),
@@ -97,9 +117,7 @@ export default {
             dFirstMonth: 1,
             day: ["Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота", "Воскресенье"],
             months: ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"],
-            date: new Date(),
-            days: [],
-            daysOfCurrentWeek: [],
+            pop: false,
         }
     },
     created() {
@@ -130,15 +148,18 @@ export default {
         },
 
         increase() {
-           const startDate = this.$moment(this.days[0].full_date).add('7', 'days');
-           const endDate = this.$moment(this.days[this.days.length - 1].full_date).add('7', 'days');
-           this.days = this.getDaysBetweenTwoDates(startDate, endDate);
+            const startDate = this.$moment(this.days[0].full_date).add('7', 'days');
+            const endDate = this.$moment(this.days[this.days.length - 1].full_date).add('7', 'days');
+            this.days = this.getDaysBetweenTwoDates(startDate, endDate);
+        },
+        popClose() {
+            this.pop = false
         },
     }
 }
 </script>
 
-<style>
+<style scoped>
 .main th {
     padding: 10px 5px;
     font-family: "Nunito", sans-serif;
@@ -146,6 +167,7 @@ export default {
     font-size: 12px;
     line-height: 30px;
     text-align: center;
+    margin: 0 auto;
 }
 
 table {
@@ -220,5 +242,8 @@ td {
 .flex {
     display: flex;
     align-content: space-between;
+}
+.icons{
+    text-align:end;
 }
 </style>

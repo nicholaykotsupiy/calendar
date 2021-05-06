@@ -6,9 +6,7 @@
                 <BaseLeftBarCalendar class="left_bar"/>
             </div>
             <div class="col-8">
-<!--                <DayCalendarInterface />-->
-<!--                <TheMonth/>-->
-                <Week/>
+                <router-view></router-view>
             </div>
         </div>
     </div>
@@ -18,6 +16,7 @@
 import BaseHeaderCalendar from "../ Base/BaseTopBar/BaseHeaderCalendar";
 import BaseLeftBarCalendar from "../ Base/BaseLeftBar/BaseLeftBarCalendar";
 import DayCalendarInterface from "./DayCalendarInterface";
+import TheYear from "../Year/TheYear";
 import TheMonth from "../Month/TheMonth";
 import Week from "../Week/WeekComponent";
 export default {
@@ -28,6 +27,7 @@ export default {
         BaseHeaderCalendar,
         TheMonth,
         Week,
+        TheYear,
     },
     data: () => ({
         open: true
