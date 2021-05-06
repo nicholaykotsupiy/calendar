@@ -31,6 +31,9 @@
                                             <div class="daygrid-day-number-without-ukr">
                                                 <!--обозначить текущий день-->
                                                 <a
+                                                    data-toggle="tooltip"
+                                                    data-placement="top" 
+                                                    :title="day.summary"
                                                     @click="dayClickHandler(day)"
                                                     :style="{
                                                         'background': getDayBgColor(day),
@@ -109,13 +112,29 @@ export default {
                 let a = {
                     index:i,
                     isHoliday: false,
+                    summary: '',
                     isCurrent: false,
                 }
-                days[week].push(a)
-                let dayOfMonthIsoDate = dayOfMonthDateObj.toISOString().substring(0, 10)
+                let yyyymmdd = function(dateObj) {
+                    var mm = dateObj.getMonth() + 1; // getMonth() is zero-based
+                    var dd = dateObj.getDate();
+
+                    return [dateObj.getFullYear(),
+                            (mm>9 ? '' : '0') + mm,
+                            (dd>9 ? '' : '0') + dd
+                            ].join('-');
+                };
+                function capitalizeFirstLetter(string) {
+                    return string.charAt(0).toUpperCase() + string.slice(1);
+                }
+                let dayOfMonthIsoDate = yyyymmdd(dayOfMonthDateObj)
                 //проверка что день праздничный
                 if (dayOfMonthIsoDate in this.holidays) {
                     a.isHoliday = true
+                    for (let j = 0; j < this.holidays[dayOfMonthIsoDate].length; j++) {
+                        a.summary += capitalizeFirstLetter(this.holidays[dayOfMonthIsoDate][j].summary + '. ')
+                    }
+                     
                 }
 
                 // проверка на текущий день
@@ -123,6 +142,8 @@ export default {
                 {
                     a.isCurrent = true
                 }
+
+                days[week].push(a)
             }
 
             for (let i = days[0].length; i < 7; i++) {
