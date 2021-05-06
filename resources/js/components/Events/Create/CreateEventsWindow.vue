@@ -278,43 +278,43 @@ export default {
                         }
                     }
                     //если есть ошибка валидации guests
-                    if (error.response.data.errors.guests) {
-                        console.log('errors date', error.response.data.errors.guests)
-                        for (let i=0; i<error.response.data.errors.guests.length; i++) {
-                            errorsArray.push(error.response.data.errors.guests[i])
-                        }
-                    }
+                    // if (error.response.data.errors.guests) {
+                    //     console.log('errors date', error.response.data.errors.guests)
+                    //     for (let i=0; i<error.response.data.errors.guests.length; i++) {
+                    //         errorsArray.push(error.response.data.errors.guests[i])
+                    //     }
+                    // }
                     //если есть ошибка валидации location
-                    if (error.response.data.errors.guests) {
+                    if (error.response.data.errors.location) {
                         console.log('errors date', error.response.data.errors.location)
                         for (let i=0; i<error.response.data.errors.location.length; i++) {
                             errorsArray.push(error.response.data.errors.location[i])
                         }
                     }
                     //если есть ошибка валидации даты
-                    if (error.response.data.errors.date_start) {
-                        console.log('errors date', error.response.data.errors.date_start)
-                        for (let i=0; i<error.response.data.errors.date_start.length; i++) {
-                            errorsArray.push(error.response.data.errors.date_start[i])
+                    if (error.response.data.errors.dateStart) {
+                        console.log('errors date', error.response.data.errors.dateStart)
+                        for (let i=0; i<error.response.data.errors.dateStart.length; i++) {
+                            errorsArray.push(error.response.data.errors.dateStart[i])
                         }
                     }
-                    if (error.response.data.errors.date_end) {
-                        console.log('errors date', error.response.data.errors.date_end)
-                        for (let i=0; i<error.response.data.errors.date_end.length; i++) {
-                            errorsArray.push(error.response.data.errors.date_end[i])
+                    if (error.response.data.errors.dateEnd) {
+                        console.log('errors date', error.response.data.errors.dateEnd)
+                        for (let i=0; i<error.response.data.errors.dateEnd.length; i++) {
+                            errorsArray.push(error.response.data.errors.dateEnd[i])
                         }
                     }
                     //если есть ошибка валидации времени
-                    if (error.response.data.errors.time_start) {
-                        console.log('errors date', error.response.data.errors.time_start)
-                        for (let i=0; i<error.response.data.errors.time_start.length; i++) {
-                            errorsArray.push(error.response.data.errors.time_start[i])
+                    if (error.response.data.errors.timeStart) {
+                        console.log('errors date', error.response.data.errors.timeStart)
+                        for (let i=0; i<error.response.data.errors.timeStart.length; i++) {
+                            errorsArray.push(error.response.data.errors.timeStart[i])
                         }
                     }
-                    if (error.response.data.errors.time_end) {
-                        console.log('errors date', error.response.data.errors.time_end)
-                        for (let i=0; i<error.response.data.errors.time_end.length; i++) {
-                            errorsArray.push(error.response.data.errors.time_end[i])
+                    if (error.response.data.errors.timeEnd) {
+                        console.log('errors date', error.response.data.errors.timeEnd)
+                        for (let i=0; i<error.response.data.errors.timeEnd.length; i++) {
+                            errorsArray.push(error.response.data.errors.timeEnd[i])
                         }
                     }
 

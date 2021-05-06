@@ -10,11 +10,9 @@ class Guest extends Model
 {
     use HasFactory;
 
-    private $arrGuests;
-
     public $fillable = [
         'mail',
-        'user_id'
+//        'event_id'
     ];
 
     public function enent()
@@ -24,13 +22,27 @@ class Guest extends Model
 
     public static function saveForEvent(Request $request, Event $event)
     {
-        $arrGuests = explode(' ', $request->guests);
-        foreach ($arrGuests as $item){
+        $strGuests = explode(',', $request->guests);
+
+        $guests = [];
+        $k = 0;
+
+        foreach ($strGuests as $item) {
+
             $guest = new Guest();
+
+            $item = trim($item);
             $guest->mail = $item;
             $guest->event_id = $event->id;
-            //$guest->save();
+
+            $guest->save();
+
+            $guests[$k] = $guest;
+            $k++;
+
         }
+
+        return $guests;
 
     }
 }

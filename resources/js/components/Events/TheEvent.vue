@@ -32,7 +32,7 @@
                     </div>
                 </template>
                 <div class="col-12 py-2">
-                    <label for="guestsEvent" class="form-label">Гости</label>
+                    <label for="guestsEvent" class="form-label">Гости <span class="warning">(емейлы гостей через запятую)</span></label>
                     <input v-model.trim="event.guests" type="text" class="form-control" id="guestsEvent" name="guestsEvent">
                 </div>
                 <div class="col-12 py-2">
@@ -314,6 +314,23 @@ export default {
 .error {
     color: #F44336;
     border-color: #F44336
+}
+
+.modal-header {
+    border-bottom: none;
+}
+
+.modal-body .modal-footer {
+    border-top: none;
+}
+
+.body-message {
+    text-align: center;
+    font-size: 18px;
+}
+
+.warning {
+    color: darkred;
 }
 
 </style>
