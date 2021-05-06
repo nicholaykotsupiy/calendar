@@ -5,11 +5,11 @@
     </div>
      <div class="calendar_body d-flex col-12 overflow-auto mb-4">
         <DayCalendarTimeLine :timeLine="timeLine"/>
-        <DayCalendarEnents
-            :currentDate="currentDate.toLocaleDateString()"
-            :timeLine="timeLine"
-            :events="allEventsForDay"
-        />
+         <DayCalendarEnents
+             :currentDate="currentDate"
+             :timeLine="timeLine"
+             :events="allEventsForDay"
+         />
      </div>
  </div>
 </template>
@@ -18,7 +18,8 @@
 import DayCalendarHead from "./DayCalendarComponents/DayCalendarHead";
 import DayCalendarTimeLine from "./DayCalendarComponents/DayCalendarTimeLine";
 import DayCalendarEnents from "./DayCalendarComponents/DayCalendarEnents";
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions, mapMutations } from 'vuex'
+import axios from "axios";
 
 export default {
     name: "DayCalendarInterface",
@@ -29,48 +30,36 @@ export default {
     },
     data: () => ({
         timeLine: [
-            '00:00','1:00','2:00','3:00','4:00','5:00','6:00',
-            '7:00','8:00','9:00','10:00','11:00','12:00',
+            '00:00','01:00','02:00','03:00','04:00','05:00','06:00',
+            '07:00','08:00','09:00','10:00','11:00','12:00',
             '13:00','14:00','15:00','16:00','17:00','18:00',
             '19:00','20:00','21:00','22:00','23:00',
         ],
-        // events: [
-        //     {
-        //         id: 1,
-        //         color: '#D2EFFE',
-        //         title: 'День рождения у К. Карины',
-        //         start: '00:30',
-        //         end: '1',
-        //         peoples: [1],
-        //         currentDate: '5/3/2021'
-        //     },
-        //     {
-        //         id: 2,
-        //         color: '#E0F7D7',
-        //         title: 'Написать ТЗ',
-        //         start: '2:30',
-        //         end: '2',
-        //         peoples: [1,2],
-        //         currentDate: '5/2/2021'
-        //     },
-        //     {
-        //         id: 3,
-        //         color: '#FEEACC',
-        //         title: 'Поиск материалов',
-        //         start: '00:30',
-        //         end: '3',
-        //         peoples: [],
-        //         currentDate: '5/4/2021'
-        //     },
-        // ]
     }),
+    methods: {
+        ...mapActions([
+            'getDataFromServer'
+        ]),
+        ...mapMutations([
+            'addTasksToState',
+            'addBirthdaysToState',
+            'addEventsToState',
+            'addRemindersToState',
+        ]),
+        load() {
+            axios.get('/api/events').then(response => {
+                this.getDataFromServer(response.data)
+            })
+        }
+    },
     computed: {
         ...mapGetters([
             'currentDate',
             'allEventsForDay'
         ])
     },
-    methods: {
+    mounted() {
+        this.load()
     }
 }
 </script>
