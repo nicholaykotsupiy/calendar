@@ -14,7 +14,7 @@
 <!--                <div class="arrow-left"><img :src="left_arrow" alt="left-arrow"></div>-->
 <!--                <div class="arrow-right"><img :src="right_arrow" alt="right-arrow"></div>-->
             </div>
-            <div class="col-2 date-info">Апрель 2020</div>
+            <div class="col-2 date-info">{{ dateInterface }}</div>
             <form class="col-5 search px-2">
                 <img :src="search" alt="search">
                 <input type="text" class="border-0" placeholder="Поиск">
@@ -41,6 +41,7 @@ import left_arrow from "../../../assets/img/DayCalendar/left-arrow.png"
 import right_arrow from "../../../assets/img/DayCalendar/right-arrow.png"
 import arrow_down from "../../../assets/img/DayCalendar/arrow_down1.png"
 import search from "../../../assets/img/DayCalendar/search.png"
+import {mapGetters} from "vuex";
 
 export default {
     name: "BaseHeaderCalendar",
@@ -52,6 +53,11 @@ export default {
         arrow_down,
         search,
     }),
+    computed: {
+        ...mapGetters([
+            'dateInterface'
+        ])
+    },
     methods: {
         clickhandler() {
             this.$emit('open')

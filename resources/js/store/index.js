@@ -94,6 +94,16 @@ export default new Vuex.Store({
         currentDate(state) {
             return state.currentDate
         },
+        dateInterface(state) {
+            let manthArr = [
+                'Январь','Февраль','Март','Апрель','Май','Июнь','Июль',
+                'Август','Сентябрь','Октябрь','Ноябрь','Декабрь',
+            ]
+            const month = state.currentDate.getMonth()
+            const year = state.currentDate.getFullYear()
+
+            return `${manthArr[month]} ${year}`
+        },
         allEventsForDay(state) {
              return [].concat(state.events, state.birthdays, state.reminders, state.tasks)
         }
