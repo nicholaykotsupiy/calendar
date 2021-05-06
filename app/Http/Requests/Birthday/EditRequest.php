@@ -24,12 +24,12 @@ class EditRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'string|max:255',
-            'description' => 'string|max:1000',
-            'date' => '',
-            'time' => '',
-            'all_day' => 'boolean',
-            'every_year' => 'boolean',
+            'name' => 'required|string|max:255',
+            'description' => 'required|string|max:255',
+            'date' => 'required|date',
+            'time' => 'required|date_format:"H:i"',
+            'allDay' => 'boolean',
+            'everyYear' => 'boolean',
         ];
     }
 }

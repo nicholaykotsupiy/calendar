@@ -342,17 +342,17 @@ export default {
                         }
                     }
                     //если есть ошибка зачени "Весь день"
-                    if (error.response.data.errors.all_day) {
-                        console.log('errors date', error.response.data.errors.all_day)
-                        for (let i=0; i<error.response.data.errors.all_day.length; i++) {
-                            errorsArray.push(error.response.data.errors.all_day[i])
+                    if (error.response.data.errors.allDay) {
+                        console.log('errors date', error.response.data.errors.allDay)
+                        for (let i=0; i<error.response.data.errors.allDay.length; i++) {
+                            errorsArray.push(error.response.data.errors.allDay[i])
                         }
                     }
                     //если есть ошибка зачени "Каждый год"
-                    if (error.response.data.errors.every_year) {
-                        console.log('errors date', error.response.data.errors.every_year)
-                        for (let i=0; i<error.response.data.errors.every_year.length; i++) {
-                            errorsArray.push(error.response.data.errors.every_year[i])
+                    if (error.response.data.errors.everyYear) {
+                        console.log('errors date', error.response.data.errors.everyYear)
+                        for (let i=0; i<error.response.data.errors.everyYear.length; i++) {
+                            errorsArray.push(error.response.data.errors.everyYear[i])
                         }
                     }
 
