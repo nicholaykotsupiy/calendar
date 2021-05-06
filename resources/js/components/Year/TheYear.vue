@@ -33,8 +33,8 @@
                                                 <a
                                                     @click="dayClickHandler(day)"
                                                     :style="{
-                                                        'background': day.isCurrent ? '#1875f0' : day.isHoliday ? '#fbdddd' : '#ffffff',
-                                                        'color': day.isCurrent ? '#ffffff' : day.isHoliday ? '#f44336' : '#666666',
+                                                        'background': getDayBgColor(day),
+                                                        'color': getDayColor(day),
                                                         'border-radius': '50%',
                                                         'width': '30px',
                                                         'height': '30px',
@@ -142,6 +142,24 @@ export default {
         },
         dayClickHandler(e) {
             console.log(e)
+        },
+        getDayBgColor(day) {
+            if (day.isCurrent) {
+                return '#1875f0'
+            }
+            if (day.isHoliday) {
+                return '#fbdddd'
+            } 
+            return '#ffffff'
+        },
+        getDayColor(day) {
+            if (day.isCurrent) {
+                return '#ffffff'
+            }
+            if (day.isHoliday) {
+                return '#f44336'
+            } 
+            return '#666666'
         },
     },
 }
