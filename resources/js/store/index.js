@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 import month from "./month";
 import birthday from "./birthday";
 import allEvents from "./allEvents";
+import axios from "axios";
 
 Vue.use(Vuex)
 
@@ -13,90 +14,43 @@ export default new Vuex.Store({
         allEvents
     },
     state: {
-    //    Базовая структура стейта'
-        tasks: [
-            {
-                id: 1,
-                type: 'task',
-                name: 'Новая задачка',
-                description: 'Описание задачи',
-                dateStart: '5/7/2021', // currentDate
-                timeStart: '2:30',
-                dateEnd: '5/7/2021',
-                timeEnd: '12:00',
-                allDay: false,
-                user_id: 1,
-                end: 2,
-            },
-        ],
-        birthdays: [
-            {
-                id: 1,
-                type: 'birthday',
-                name: 'День рожденья',
-                description: '',
-                dateStart: '5/7/2021', // currentDate
-                timeStart: '1:00',
-                allDay: false,
-                everyYear: false,
-                user_id: 1,
-                end: 1
-            },
-        ],
-        events: [
-            {
-                id: 1,
-                name: 'Крутое мероприятие',
-                type: 'event',
-                guests: ['qwe'],
-                location: 'Kramatorsk Park',
-                description: '',
-                dateStart: '5/6/2021', // currentDate
-                dateEnd: '5/7/2021',
-                timeStart: '4:30',
-                timeEnd: '5:00',
-                user_id: 1,
-                end: 1
-            },
-        ],
-        reminders: [
-            {
-                id: 1,
-                type: 'reminder',
-                name: 'Напоминание на экзамен',
-                dateStart: '5/6/2021', // currentDate
-                timeStart: '00:00',
-                toRepeat: false,
-                user_id: 1,
-                end: 1
-            },
-            {
-                id: 2,
-                type: 'reminder',
-                name: 'Напоминание на экзамен',
-                dateStart: '5/6/2021', // currentDate
-                timeStart: '00:00',
-                toRepeat: false,
-                user_id: 1,
-                end: 1
-            },
-        ],
+        tasks: [],
+        birthdays: [],
+        events: [],
+        reminders: [],
         currentDate: new Date(),
     },
     mutations: {
         prevDateToDayCalendar(state) {
-            const dayMilliseconds = 24*60*60*1000;
-            state.currentDate = new Date(state.currentDate.getTime() - dayMilliseconds)
+            state.currentDate = new Date(state.currentDate.getTime() - 24*60*60*1000)
         },
         nextDateToDayCalendar(state) {
-            const dayMilliseconds = 24*60*60*1000;
-            state.currentDate = new Date(state.currentDate.getTime() + dayMilliseconds)
+            state.currentDate = new Date(state.currentDate.getTime() + 24*60*60*1000)
         },
         currentDateToDayCalendar(state) {
             state.currentDate = new Date()
-        }
+        },
+        addTasksToState(state, tasks) {
+            tasks.forEach(item => state.tasks.push(item))
+        },
+        addBirthdaysToState(state, birthdays) {
+            birthdays.forEach(item => state.birthdays.push(item))
+        },
+        addEventsToState(state, events) {
+            events.forEach(item => state.events.push(item))
+        },
+        addRemindersToState(state, reminders) {
+            reminders.forEach(item => state.reminders.push(item))
+        },
     },
     actions: {
+        getDataFromServer({ commit, state }, payload) {
+
+            commit('addTasksToState', payload.tasks)
+            commit('addBirthdaysToState', payload.birthdays)
+            commit('addEventsToState', payload.events)
+            commit('addRemindersToState', payload.reminders)
+        }
     },
     getters: {
         currentDate(state) {
@@ -113,6 +67,7 @@ export default new Vuex.Store({
             return `${manthArr[month]} ${year}`
         },
         allEventsForDay(state) {
+            // console.log(state.tasks)
              return [].concat(state.events, state.birthdays, state.reminders, state.tasks)
         }
     }

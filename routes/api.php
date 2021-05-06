@@ -6,6 +6,7 @@ use App\Http\Controllers\API\BirthdayController;
 use App\Http\Controllers\API\EventController;
 use App\Http\Controllers\API\ReminderController;
 use App\Http\Controllers\API\TaskController;
+use App\Http\Controllers\API\CalendarController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,6 +22,8 @@ use App\Http\Controllers\API\TaskController;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::get('/events', [CalendarController::class, 'index']);
 
 Route::post('/birthday-store', [BirthdayController::class, 'store']);
 Route::put('/birthday-update', [BirthdayController::class, 'update']);

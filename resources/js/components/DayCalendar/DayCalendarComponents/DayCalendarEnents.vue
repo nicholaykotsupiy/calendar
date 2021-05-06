@@ -9,11 +9,19 @@
             v-for="line in timeLine" :key="new Date().time"
             :style="{height: '60px'}">
             <td
-                v-if="line.slice(0, line.indexOf(':')) == event.timeStart.slice(0, event.timeStart.indexOf(':')) && currentDate == event.dateStart"
                 v-for="(event, index) of events"
+                v-if="
+                    (line.slice(0, line.indexOf(':')) == event.timeStart.slice(0, event.timeStart.indexOf(':'))
+                    &&
+                    event.longsDate.includes(formatedDate)
+                    &&
+                    (event.longsDate.length < 1 || event.longsDate.indexOf(formatedDate) === 0))
+                    ||
+                    (line.slice(0, line.indexOf(':')) === '00' && event.longsDate.includes(formatedDate) && event.longsDate.indexOf(formatedDate) > 0)"
                 :style="{background: '#D2EFFE'}"
                 :key="index"
-                :rowspan="event.end"
+                :rowspan="event.longsDate.includes(virification)
+                            ? 24 - event.timeStart.slice(0, event.timeStart.indexOf(':')) : event.longsDate.length > 1 ? event.end+1: event.end"
                 class="event_item border col-auto position-relative">
                 <div class="info d-flex align-items-top position-absolute top-0">
                     <span class="exect_time">{{ event.timeStart }}</span>
@@ -33,6 +41,8 @@
 import del from '../../../assets/img/DayCalendar/delete.svg'
 import  edit from '../../../assets/img/DayCalendar/edit.svg'
 import  peoples from '../../../assets/img/DayCalendar/peoples.png'
+import dateformat from "dateformat";
+
 
 export default {
     name: "DayCalendarEnents",
@@ -41,12 +51,29 @@ export default {
         del,
         edit,
         peoples,
+        formatedDate: ''
     }),
     mounted() {
+        this.formatedDate = dateformat(this.currentDate, 'yyyy-mm-dd')
+
+        console.log(this.virification)
         for(let tr of this.$refs.tr){
             if(tr.querySelectorAll('td').length == 1 && tr.querySelector('td').getAttribute('rowspan') == 1) {
                 tr.querySelector('td').setAttribute('colspan', 2)
             }
+        }
+    },
+    computed: {
+        virification() {
+            let date = new Date(this.currentDate)
+
+            date.setDate(date.getDate() + 1)
+            return dateformat(date, 'yyyy-mm-dd')
+        }
+    },
+    watch: {
+        currentDate() {
+            this.formatedDate = dateformat(this.currentDate, 'yyyy-mm-dd')
         }
     }
 }

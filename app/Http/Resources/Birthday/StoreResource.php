@@ -16,12 +16,16 @@ class StoreResource extends JsonResource
     {
         return [
             'id' => $this->id,
+            'type' => 'birthday',
             'name' => $this->name,
             'description' => $this->description,
-            'date' => $this->date,
-            'time' => $this->time,
-            'all_day' => boolval($this->all_day),
-            'every_year' => boolval($this->every_year),
+            'dateStart' => $this->date,
+            'timeStart' => $this->time,
+            'allDay' => boolval($this->all_day),
+            'everyYear' => boolval($this->every_year),
+            'user_id' => $this->user_id,
+            'end' => 1,
+            'longsDate' => [$this->date],
         ];
     }
 }
