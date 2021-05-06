@@ -257,14 +257,66 @@ export default {
         },
 
         saveReminder(reminder) {
-            //здесь будет метод сохранения данных в БД, пока - в консоль
-            console.log('Save reminder in parent component')
 
-            this.close();
-            this.isCreateEventWindowVisible = true;
-            this.isCreateBirthdayWindowVisible = false;
-            this.isCreateReminderWindowVisible = false;
-            this.isCreateTaskWindowVisible = false;
+            axios.post(`/api/reminder-store`, reminder)
+                .then(response => {
+                    //параметры для модалки с сообщением
+                    this.setTitleModalMessage('')
+                    this.setBodyModalMessage('Событие добавлено!')
+                    console.log('Событие добавлено!')
+                    //вызвать действие для загрузки БД в состояние (обновить)
+
+                    // закрыть окно
+                    this.close();
+                    this.showCreateEventWindow()
+                })
+                .catch(error => {
+                    console.log('error', error.response.data)
+                    console.log('errors', error.response.data.errors)
+
+                    //массив, для ошибок валидации на бэке
+                    let errorsArray = []
+
+                    //вывод ошибки
+                    //если есть ошибка валидации name
+                    if (error.response.data.errors.name) {
+                        console.log('errors date', error.response.data.errors.name)
+                        for (let i=0; i<error.response.data.errors.name.length; i++) {
+                            errorsArray.push(error.response.data.errors.name[i])
+                        }
+                    }
+                    //если есть ошибка валидации даты
+                    if (error.response.data.errors.date) {
+                        console.log('errors date', error.response.data.errors.date)
+                        for (let i=0; i<error.response.data.errors.date.length; i++) {
+                            errorsArray.push(error.response.data.errors.date[i])
+                        }
+                    }
+                    //если есть ошибка валидации времени
+                    if (error.response.data.errors.time) {
+                        console.log('errors date', error.response.data.errors.time)
+                        for (let i=0; i<error.response.data.errors.time.length; i++) {
+                            errorsArray.push(error.response.data.errors.time[i])
+                        }
+                    }
+                    //если есть ошибка валидации toRepeat
+                    if (error.response.data.errors.toRepeat) {
+                        console.log('errors date', error.response.data.errors.toRepeat)
+                        for (let i=0; i<error.response.data.errors.toRepeat.length; i++) {
+                            errorsArray.push(error.response.data.errors.toRepeat[i])
+                        }
+                    }
+
+                    this.setTitleModalMessage('Ошибка! Событие не добавлено!')
+                    let message =''
+                    for (let i=0; i<errorsArray.length; i++) {
+                        message += errorsArray[i]+"\n"
+                    }
+                    this.setBodyModalMessage(message)
+                    console.log(message)
+                    console.log('Ошибка! Событие не добавлено!')
+                });
+
         },
 
         saveTask(task) {
