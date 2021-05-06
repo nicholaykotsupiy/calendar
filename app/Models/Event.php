@@ -9,6 +9,17 @@ class Event extends Model
 {
     use HasFactory;
 
+    public $fillable = [
+        'name',
+        'location',
+        'description',
+        'date_start',
+        'date_end',
+        'time_start',
+        'time_end',
+        'user_id'
+    ];
+
     public function guests()
     {
         return $this->hasMany(Guest::class);
