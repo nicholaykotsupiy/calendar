@@ -27,6 +27,7 @@ class BirthdayController extends Controller
         $birthday->all_day = $request->allDay;
         $birthday->every_year = $request->everyYear;
         $birthday->user_id = 1;//потом нужно добавлять user_id через аутентификацию
+//        $birthday->user_id= Auth::user()->id;
 
         $birthday->save();
 

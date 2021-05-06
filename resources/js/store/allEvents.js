@@ -6,6 +6,9 @@ export default {
             isCreateReminderWindowVisible: false,
             isCreateTaskWindowVisible: false,
             isCreateBirthdayWindowVisible: false,
+
+            titleModalMessage: '',
+            bodyModalMessage: ''
         }
     },
 
@@ -24,6 +27,13 @@ export default {
             return state.isCreateBirthdayWindowVisible
         },
 
+        titleModalMessage(state) {
+            return state.titleModalMessage
+        },
+
+        bodyModalMessage(state) {
+            return state.bodyModalMessage
+        },
 
     },
 
@@ -47,6 +57,13 @@ export default {
             state.isCreateReminderWindowVisible = false
             state.isCreateTaskWindowVisible = false
             state.isCreateBirthdayWindowVisible = false
+        },
+
+        setTitleModalMessage(state, value) {
+            state.titleModalMessage = value
+        },
+        setBodyModalMessage(state, value) {
+            state.bodyModalMessage = value
         },
 
     },

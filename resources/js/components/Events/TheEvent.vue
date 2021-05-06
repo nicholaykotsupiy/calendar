@@ -1,114 +1,132 @@
 <template>
-    <form id="myForm" @submit.prevent="saveEvent()">
-        <div class="row body-create-event">
-            <div v-show="!isValid" class="col-12 error-title">
-                <div class="form-label">Заполните все обязательные поля</div>
-            </div>
-            <template v-if="!errorNameEvent">
+    <div>
+        <!-- Модальное окно для сообщений-->
+        <b-modal id="modal-message" hide-footer :title="titleModalMessage">
+            <p class="my-4 body-message">{{ bodyModalMessage }}</p>
+            <div class="row modal-footer text-center">
                 <div class="col-12">
-                    <label for="nameEvent" class="form-label">Название<span>*</span></label>
-                    <input v-model.trim="event.name" type="text" class="form-control" id="nameEvent" name="nameEvent">
+                    <button type="button" class="btn btn-primary btn-lg" data-dismiss="modal"
+                            @click="$bvModal.hide('modal-message')"
+                    >
+                        ОК
+                    </button>
                 </div>
-            </template>
-            <template v-else>
-                <div class="col-12">
-                    <label for="nameEvent" class="form-label">Название<span class="error">*</span></label>
-                    <input v-model.trim="event.name" type="text" class="form-control error" id="nameEvent" name="nameEvent">
+            </div>
+        </b-modal>
+
+        <form id="myForm" @submit.prevent="saveEvent()">
+            <div class="row body-create-event">
+                <div v-show="!isValid" class="col-12 error-title">
+                    <div class="form-label">Заполните все обязательные поля</div>
                 </div>
-            </template>
-            <div class="col-12 py-2">
-                <label for="guestsEvent" class="form-label">Гости</label>
-                <input v-model.trim="event.guests" type="text" class="form-control" id="guestsEvent" name="guestsEvent">
-            </div>
-            <div class="col-12 py-2">
-                <label for="locationEvent" class="form-label">Место расположения</label>
-                <input v-model.trim="event.location" type="text" class="form-control" id="locationEvent" name="locationEvent">
-            </div>
-            <template v-if="!errorDescriptionEvent">
+                <template v-if="!errorNameEvent">
+                    <div class="col-12">
+                        <label for="nameEvent" class="form-label">Название<span>*</span></label>
+                        <input v-model.trim="event.name" type="text" class="form-control" id="nameEvent" name="nameEvent">
+                    </div>
+                </template>
+                <template v-else>
+                    <div class="col-12">
+                        <label for="nameEvent" class="form-label">Название<span class="error">*</span></label>
+                        <input v-model.trim="event.name" type="text" class="form-control error" id="nameEvent" name="nameEvent">
+                    </div>
+                </template>
                 <div class="col-12 py-2">
-                    <label for="descriptionEvent" class="form-label">Описание<span>*</span></label>
-                    <input v-model.trim="event.description" type="text" class="form-control" id="descriptionEvent" name="descriptionEvent">
+                    <label for="guestsEvent" class="form-label">Гости</label>
+                    <input v-model.trim="event.guests" type="text" class="form-control" id="guestsEvent" name="guestsEvent">
                 </div>
-            </template>
-            <template v-else>
                 <div class="col-12 py-2">
-                    <label for="descriptionEvent" class="form-label">Описание<span class="error">*</span></label>
-                    <input v-model.trim="event.description" type="text" class="form-control error" id="descriptionEvent" name="descriptionEvent">
+                    <label for="locationEvent" class="form-label">Место расположения</label>
+                    <input v-model.trim="event.location" type="text" class="form-control" id="locationEvent" name="locationEvent">
                 </div>
-            </template>
-            <template v-if="!errorDateStartEvent && !errorTimeStartEvent">
-                <div class="col-4 py-2">
-                    <label class="form-label">Начало<span>*</span>:</label>
-                </div>
-            </template>
-            <template v-else>
-                <div class="col-4 py-2">
-                    <label class="form-label">Начало<span class="error">*</span>:</label>
-                </div>
-            </template>
-            <template v-if="!errorDateStartEvent">
-                <div class="col-4 py-2">
-                    <input v-model.trim="event.dateStart" type="date" class="form-control" id="dateStartEvent" name="dateStartEvent">
-                </div>
-            </template>
-            <template v-else>
-                <div class="col-4 py-2">
-                    <input v-model.trim="event.dateStart" type="date" class="form-control error" id="dateStartEvent" name="dateStartEvent">
-                </div>
-            </template>
-            <template v-if="!errorTimeStartEvent">
-                <div class="col-4 py-2">
-                    <input v-model.trim="event.timeStart" type="time" class="form-control" id="timeStartEvent" name="timeStartEvent">
-                </div>
-            </template>
-            <template v-else>
-                <div class="col-4 py-2">
-                    <input v-model.trim="event.timeStart" type="time" class="form-control error" id="timeStartEvent" name="timeStartEvent">
-                </div>
-            </template>
-            <template v-if="!errorDateEndEvent && !errorTimeEndEvent">
-                <div class="col-4 py-2">
-                    <label class="form-label">Окончание<span>*</span>:</label>
-                </div>
-            </template>
-            <template v-else>
-                <div class="col-4 py-3">
-                    <label class="form-label">Окончание<span class="error">*</span>:</label>
-                </div>
-            </template>
-            <template v-if="!errorDateEndEvent">
-                <div class="col-4 py-3">
-                    <input v-model.trim="event.dateEnd" type="date" class="form-control" id="dateEndEvent" name="dateStartEvent">
-                </div>
-            </template>
-            <template v-else>
-                <div class="col-4 py-3">
-                    <input v-model.trim="event.dateEnd" type="date" class="form-control error" id="dateEndEvent" name="dateStartEvent">
-                </div>
-            </template>
-            <template v-if="!errorTimeEndEvent">
-                <div class="col-4 py-3">
-                    <input v-model.trim="event.timeEnd" type="time" class="form-control" id="timeEndEvent" name="timeStartEvent">
-                </div>
-            </template>
-            <template v-else>
-                <div class="col-4 py-3">
-                    <input v-model.trim="event.timeEnd" type="time" class="form-control error" id="timeEndEvent" name="timeStartEvent">
-                </div>
-            </template>
-        </div>
-        <div class="row text-center py-3 footer-create-event">
-            <div class="col-md-6">
-                <button type="submit" class="btn btn-primary btn-lg">Сохранить</button>
+                <template v-if="!errorDescriptionEvent">
+                    <div class="col-12 py-2">
+                        <label for="descriptionEvent" class="form-label">Описание<span>*</span></label>
+                        <input v-model.trim="event.description" type="text" class="form-control" id="descriptionEvent" name="descriptionEvent">
+                    </div>
+                </template>
+                <template v-else>
+                    <div class="col-12 py-2">
+                        <label for="descriptionEvent" class="form-label">Описание<span class="error">*</span></label>
+                        <input v-model.trim="event.description" type="text" class="form-control error" id="descriptionEvent" name="descriptionEvent">
+                    </div>
+                </template>
+                <template v-if="!errorDateStartEvent && !errorTimeStartEvent">
+                    <div class="col-4 py-2">
+                        <label class="form-label">Начало<span>*</span>:</label>
+                    </div>
+                </template>
+                <template v-else>
+                    <div class="col-4 py-2">
+                        <label class="form-label">Начало<span class="error">*</span>:</label>
+                    </div>
+                </template>
+                <template v-if="!errorDateStartEvent">
+                    <div class="col-4 py-2">
+                        <input v-model.trim="event.dateStart" type="date" class="form-control" id="dateStartEvent" name="dateStartEvent">
+                    </div>
+                </template>
+                <template v-else>
+                    <div class="col-4 py-2">
+                        <input v-model.trim="event.dateStart" type="date" class="form-control error" id="dateStartEvent" name="dateStartEvent">
+                    </div>
+                </template>
+                <template v-if="!errorTimeStartEvent">
+                    <div class="col-4 py-2">
+                        <input v-model.trim="event.timeStart" type="time" class="form-control" id="timeStartEvent" name="timeStartEvent">
+                    </div>
+                </template>
+                <template v-else>
+                    <div class="col-4 py-2">
+                        <input v-model.trim="event.timeStart" type="time" class="form-control error" id="timeStartEvent" name="timeStartEvent">
+                    </div>
+                </template>
+                <template v-if="!errorDateEndEvent && !errorTimeEndEvent">
+                    <div class="col-4 py-2">
+                        <label class="form-label">Окончание<span>*</span>:</label>
+                    </div>
+                </template>
+                <template v-else>
+                    <div class="col-4 py-3">
+                        <label class="form-label">Окончание<span class="error">*</span>:</label>
+                    </div>
+                </template>
+                <template v-if="!errorDateEndEvent">
+                    <div class="col-4 py-3">
+                        <input v-model.trim="event.dateEnd" type="date" class="form-control" id="dateEndEvent" name="dateStartEvent">
+                    </div>
+                </template>
+                <template v-else>
+                    <div class="col-4 py-3">
+                        <input v-model.trim="event.dateEnd" type="date" class="form-control error" id="dateEndEvent" name="dateStartEvent">
+                    </div>
+                </template>
+                <template v-if="!errorTimeEndEvent">
+                    <div class="col-4 py-3">
+                        <input v-model.trim="event.timeEnd" type="time" class="form-control" id="timeEndEvent" name="timeStartEvent">
+                    </div>
+                </template>
+                <template v-else>
+                    <div class="col-4 py-3">
+                        <input v-model.trim="event.timeEnd" type="time" class="form-control error" id="timeEndEvent" name="timeStartEvent">
+                    </div>
+                </template>
             </div>
-            <div class="col-md-6">
-                <button type="button" class="btn btn-outline-secondary btn-lg" @click="close">Отмена</button>
+            <div class="row text-center py-3 footer-create-event">
+                <div class="col-md-6">
+                    <button type="submit" class="btn btn-primary btn-lg">Сохранить</button>
+                </div>
+                <div class="col-md-6">
+                    <button type="button" class="btn btn-outline-secondary btn-lg" @click="close">Отмена</button>
+                </div>
             </div>
-        </div>
-    </form>
+        </form>
+    </div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
 
     name: "TheEvent",
@@ -137,7 +155,24 @@ export default {
         }
     },
 
+    computed: {
+
+        titleModalMessage() {
+            return this.titleModalMessage
+        },
+
+        bodyModalMessage() {
+            return this.bodyModalMessage
+        },
+
+        ...mapGetters([
+            'titleModalMessage',
+            'bodyModalMessage',
+        ])
+    },
+
     props: [
+        'id',
         'name',
         'guests',
         'location',
@@ -226,9 +261,9 @@ export default {
         saveEvent() {
 
             this.validation()
-            //console.log(this.isValid)
 
             if (this.isValid) {
+
                 // console.log(this.event.name)
                 // console.log(this.event.description)
                 // console.log(this.event.guests)
@@ -242,8 +277,7 @@ export default {
                 //прослушиваем событие saveEvent в родительском компоненте и передаем туда объект this.event
                 this.$emit('saveEvent', this.event)
 
-                //очищаем форму
-                //document.getElementById("myForm").reset()
+                this.$bvModal.show('modal-message')
 
                 this.isValid = true
 

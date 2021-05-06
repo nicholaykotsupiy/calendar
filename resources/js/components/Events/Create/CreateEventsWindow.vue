@@ -242,18 +242,89 @@ export default {
             console.log(event.description)
             console.log(event.guests)
             console.log(event.location)
-            console.log(event.description)
             console.log(event.dateStart)
             console.log(event.dateEnd)
             console.log(event.timeStart)
             console.log(event.timeEnd)
 
-            //после удачного сохранения события спрятать форму
-            this.close();
-            this.isCreateEventWindowVisible = true;
-            this.isCreateBirthdayWindowVisible = false;
-            this.isCreateReminderWindowVisible = false;
-            this.isCreateTaskWindowVisible = false;
+            axios.post(`/api/event-store`, event)
+                .then(response => {
+                    //параметры для модалки с сообщением
+                    this.setTitleModalMessage('')
+                    this.setBodyModalMessage('Событие добавлено!')
+                    //вызвать действие для загрузки БД в состояние (обновить)
+
+                    // закрыть окно
+                    this.close();
+                    this.showCreateEventWindow()
+                })
+                .catch(error => {
+                    //массив, для ошибок валидации на бэке
+                    let errorsArray = []
+
+                    //вывод ошибки
+                    //если есть ошибка валидации name
+                    if (error.response.data.errors.name) {
+                        console.log('errors date', error.response.data.errors.name)
+                        for (let i=0; i<error.response.data.errors.name.length; i++) {
+                            errorsArray.push(error.response.data.errors.name[i])
+                        }
+                    }
+                    //если есть ошибка валидации description
+                    if (error.response.data.errors.description) {
+                        console.log('errors date', error.response.data.errors.description)
+                        for (let i=0; i<error.response.data.errors.description.length; i++) {
+                            errorsArray.push(error.response.data.errors.description[i])
+                        }
+                    }
+                    //если есть ошибка валидации guests
+                    if (error.response.data.errors.guests) {
+                        console.log('errors date', error.response.data.errors.guests)
+                        for (let i=0; i<error.response.data.errors.guests.length; i++) {
+                            errorsArray.push(error.response.data.errors.guests[i])
+                        }
+                    }
+                    //если есть ошибка валидации location
+                    if (error.response.data.errors.guests) {
+                        console.log('errors date', error.response.data.errors.location)
+                        for (let i=0; i<error.response.data.errors.location.length; i++) {
+                            errorsArray.push(error.response.data.errors.location[i])
+                        }
+                    }
+                    //если есть ошибка валидации даты
+                    if (error.response.data.errors.date_start) {
+                        console.log('errors date', error.response.data.errors.date_start)
+                        for (let i=0; i<error.response.data.errors.date_start.length; i++) {
+                            errorsArray.push(error.response.data.errors.date_start[i])
+                        }
+                    }
+                    if (error.response.data.errors.date_end) {
+                        console.log('errors date', error.response.data.errors.date_end)
+                        for (let i=0; i<error.response.data.errors.date_end.length; i++) {
+                            errorsArray.push(error.response.data.errors.date_end[i])
+                        }
+                    }
+                    //если есть ошибка валидации времени
+                    if (error.response.data.errors.time_start) {
+                        console.log('errors date', error.response.data.errors.time_start)
+                        for (let i=0; i<error.response.data.errors.time_start.length; i++) {
+                            errorsArray.push(error.response.data.errors.time_start[i])
+                        }
+                    }
+                    if (error.response.data.errors.time_end) {
+                        console.log('errors date', error.response.data.errors.time_end)
+                        for (let i=0; i<error.response.data.errors.time_end.length; i++) {
+                            errorsArray.push(error.response.data.errors.time_end[i])
+                        }
+                    }
+
+                    this.setTitleModalMessage('Ошибка! Событие не добавлено!')
+                    let message =''
+                    for (let i=0; i<errorsArray.length; i++) {
+                        message += errorsArray[i]+"\n"
+                    }
+                    this.setBodyModalMessage(message)
+                });
         },
 
         saveReminder(reminder) {
@@ -295,6 +366,8 @@ export default {
             // })
             axios.post(`/api/birthday-store`, birthday)
                 .then(response => {
+                    console.log(response)
+
                     //параметры для модалки с сообщением
                     this.setTitleModalMessage('')
                     this.setBodyModalMessage('Событие добавлено!')
