@@ -1,42 +1,42 @@
 <template>
     <div class="col-6">
 
-<!--        Модальное окно для создания всех событий-->
+        <!--        Модальное окно для создания всех событий-->
         <create-events-window
             v-show="isVisibleModal"
             @closeWrap="close"
         >
         </create-events-window>
 
-<!--        пример вызова окна редактирования Мероприятия-->
-<!--                <edit-event-window-->
-<!--                    v-show="isVisibleModal"-->
-<!--                    @closeEditEventWindow="close"-->
-<!--                >-->
-<!--                </edit-event-window>-->
+        <!--        пример вызова окна редактирования Мероприятия-->
+        <!--                <edit-event-window-->
+        <!--                    v-show="isVisibleModal"-->
+        <!--                    @closeEditEventWindow="close"-->
+        <!--                >-->
+        <!--                </edit-event-window>-->
 
-<!--        пример вызова окна редактирования Дня рождения-->
-<!--        <edit-birthday-window-->
-<!--            v-show="isVisibleModal"-->
-<!--            @closeEditBirthdayWindow="close"-->
-<!--        >-->
-<!--        </edit-birthday-window>-->
+        <!--        пример вызова окна редактирования Дня рождения-->
+        <!--        <edit-birthday-window-->
+        <!--            v-show="isVisibleModal"-->
+        <!--            @closeEditBirthdayWindow="close"-->
+        <!--        >-->
+        <!--        </edit-birthday-window>-->
 
-<!--        пример вызова окна редактирования Напоминания-->
-<!--        <edit-reminder-window-->
-<!--            v-show="isVisibleModal"-->
-<!--            @closeEditReminderWindow="close"-->
-<!--        >-->
-<!--        </edit-reminder-window>-->
+        <!--        пример вызова окна редактирования Напоминания-->
+        <!--        <edit-reminder-window-->
+        <!--            v-show="isVisibleModal"-->
+        <!--            @closeEditReminderWindow="close"-->
+        <!--        >-->
+        <!--        </edit-reminder-window>-->
 
-<!--        пример вызова окна редактирования Задачи-->
-<!--        <edit-task-window-->
-<!--            v-show="isVisibleModal"-->
-<!--            @closeEditTaskWindow="close"-->
-<!--        >-->
-<!--        </edit-task-window>-->
+        <!--        пример вызова окна редактирования Задачи-->
+        <!--        <edit-task-window-->
+        <!--            v-show="isVisibleModal"-->
+        <!--            @closeEditTaskWindow="close"-->
+        <!--        >-->
+        <!--        </edit-task-window>-->
 
-        <div class="button d-flex justify-content-center text-white fw-bold text-uppercase rounded border-2 ml-5 mb-2"
+        <div class="button d-flex justify-content-center text-white fw-bold text-uppercase rounded border-2 mb-2"
              @click="showModal()">
             Создать
         </div>

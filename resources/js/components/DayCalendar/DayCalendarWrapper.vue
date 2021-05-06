@@ -15,7 +15,7 @@
 <!--        </template>-->
 <!--        если выбран календарь в масштабе день-->
         <template v-else>
-            <DayCalendarNavigation @current="switchToCurrentDate" @prev="prevDate" @next="nextDate" />
+            <DayCalendarNavigation @current="currentDateToDayCalendar" @prev="prevDateToDayCalendar" @next="nextDateToDayCalendar" />
         </template>
         <div class="container-fluid">
             <div class="row">
@@ -58,9 +58,9 @@ export default {
     methods: {
 
         ...mapMutations([
-            'switchToCurrentDate',
-            'prevDate',
-            'nextDate',
+            'prevDateToDayCalendar',
+            'nextDateToDayCalendar',
+            'currentDateToDayCalendar',
             'prevMonth',
             'nextMonth',
             'switchToCurrentMonth',

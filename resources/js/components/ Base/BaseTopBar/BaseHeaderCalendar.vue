@@ -20,7 +20,7 @@
             </template>
 <!--            если отображается календарь в масштабе день-->
             <template v-else>
-                <div class="col-2 date-info">Апрель 2020</div>
+                <div class="col-2 date-info">{{ dateInterface }}</div>
             </template>
             <form class="col-5 search px-2">
                 <img :src="search" alt="search">
@@ -76,6 +76,7 @@ export default {
         ...mapGetters([
             'isMonth',
             'titleNavigationCalendarMonth',
+            'dateInterface'
         ])
     },
 
