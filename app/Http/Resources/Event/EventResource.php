@@ -48,6 +48,7 @@ class EventResource extends JsonResource
             'dateEnd' => $this->date_end,
             'user_id' => $this->user_id,
             'end' => $end,
+            'guests' => $this->guests()->get()
         ];
     }
 }

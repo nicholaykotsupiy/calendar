@@ -29,16 +29,32 @@ export default new Vuex.Store({
             state.currentDate = new Date()
         },
         addTasksToState(state, tasks) {
-            tasks.forEach(item => state.tasks.push(item))
+            tasks.forEach(item => {
+                if(!state.tasks.find(elem => elem.id === item.id)) {
+                    state.tasks.push(item)
+                }
+            })
         },
         addBirthdaysToState(state, birthdays) {
-            birthdays.forEach(item => state.birthdays.push(item))
+            birthdays.forEach(item => {
+                if(!state.birthdays.find(elem => elem.id === item.id)) {
+                    state.birthdays.push(item)
+                }
+            })
         },
         addEventsToState(state, events) {
-            events.forEach(item => state.events.push(item))
+            events.forEach(item => {
+                if(!state.events.find(elem => elem.id === item.id)) {
+                    state.events.push(item)
+                }
+            })
         },
         addRemindersToState(state, reminders) {
-            reminders.forEach(item => state.reminders.push(item))
+            reminders.forEach(item => {
+                if(!state.reminders.find(elem => elem.id === item.id)) {
+                    state.reminders.push(item)
+                }
+            })
         },
     },
     actions: {
