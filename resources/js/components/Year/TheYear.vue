@@ -216,7 +216,7 @@ export default {
         border-bottom: 3px solid rgb(245, 245, 245);
     }
     .table-month {
-        padding-left: 5px;
+        padding-left: 10px;
         padding-top: 10px;
         padding-right: 20px;
         padding-bottom: 15px;
@@ -226,5 +226,8 @@ export default {
         color: inherit;
         text-decoration: none;
         padding-left: 10px;
+    }
+    .daygrid-day-frame {
+        padding: 3px;
     }
 </style>
