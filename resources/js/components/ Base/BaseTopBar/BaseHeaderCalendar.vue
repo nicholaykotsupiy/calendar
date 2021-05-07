@@ -6,15 +6,22 @@
                 <span>Календарь</span>
             </div>
             <div class="col-2">
-                <div class="today day d-flex justify-content-center align-items-center">
-                    <span>Сегодня</span>
-                </div>
+<!--                <div class="today day d-flex justify-content-center align-items-center">-->
+<!--                    <span>Сегодня</span>-->
+<!--                </div>-->
             </div>
             <div class="col-2 arrows d-flex">
-                <div class="arrow-left"><img :src="left_arrow" alt="left-arrow"></div>
-                <div class="arrow-right"><img :src="right_arrow" alt="right-arrow"></div>
+<!--                <div class="arrow-left"><img :src="left_arrow" alt="left-arrow"></div>-->
+<!--                <div class="arrow-right"><img :src="right_arrow" alt="right-arrow"></div>-->
             </div>
-            <div class="col-2 date-info">Апрель 2020</div>
+<!--            если отображается календарь в масштабе месяц -->
+            <template v-if="isMonth">
+                <div class="col-2 date-info">{{ titleNavigationCalendarMonth }}</div>
+            </template>
+<!--            если отображается календарь в масштабе день-->
+            <template v-else>
+                <div class="col-2 date-info">{{ dateInterface }}</div>
+            </template>
             <form class="col-5 search px-2">
                 <img :src="search" alt="search">
                 <input type="text" class="border-0" placeholder="Поиск">
@@ -41,9 +48,12 @@ import left_arrow from "../../../assets/img/DayCalendar/left-arrow.png"
 import right_arrow from "../../../assets/img/DayCalendar/right-arrow.png"
 import arrow_down from "../../../assets/img/DayCalendar/arrow_down1.png"
 import search from "../../../assets/img/DayCalendar/search.png"
+import { mapGetters } from 'vuex'
 
 export default {
+
     name: "BaseHeaderCalendar",
+
     data: () => ({
         activeMenu: false,
         menu,
@@ -52,6 +62,24 @@ export default {
         arrow_down,
         search,
     }),
+
+    computed: {
+
+        isMonth() {
+            return this.isMonth
+        },
+
+        titleNavigationCalendarMonth() {
+            return this.titleNavigationCalendarMonth
+        },
+
+        ...mapGetters([
+            'isMonth',
+            'titleNavigationCalendarMonth',
+            'dateInterface'
+        ])
+    },
+
     methods: {
         clickhandler() {
             this.$emit('open')
@@ -77,7 +105,7 @@ export default {
         line-height: 60px;
         color: #808080;
     }
-    .arrow-left, .arrow-right, .menu img, .menu span {
+    .menu img, .menu span {
         cursor: pointer;
     }
     .day {
@@ -90,12 +118,6 @@ export default {
         font-size: 14px;
         line-height: 60px;
         color: #666666;
-    }
-    .arrows div {
-        padding: 8px;
-        background: #fff;
-        border: 2px solid #F5F5F5;
-        border-radius: 0px 4px 4px 0px;
     }
     .date-info {
         font-weight: 600;
@@ -122,9 +144,6 @@ export default {
         font-size: 14px;
         line-height: 50px;
         color: #999999;
-    }
-    .today {
-        max-width: 120px;
     }
     .main-menu {
         top: 48px;

@@ -19,31 +19,24 @@
             <tr>
                 <td>1:00</td>
                 <td></td>
-                <!--                отображение мод.окна-->
+
                 <td>
                     <div class="pink" :id="`event`" variant="primary">Вселенная через...</div>
-                    <b-popover
-                        :show.sync="pop"
-                        target="event"
-                        placement="leftbottom"
-                        triggers="click"
-                    >
-                        <template  #title>
-                            <div class="icons">
-                                <span class="material-icons">delete</span>
-                                <span class="material-icons" @click="doEdit">edit</span>
-                                <span class="material-icons"  @click="popClose">close</span>
-                            </div>
-                        </template>
-                        <span class="title">Вселенная через 1 час</span><br>
-                        <span class="time">Суббота, 7 января 4:00 - 4:10</span>
-                    </b-popover>
+
+                    <modal-edit :id="`event`">
+                    </modal-edit>
+
+
                 </td>
                 <td>
-                    <div class="pink">Вселенная через...</div>
+                    <div class="pink" :id="`event-1`" variant="primary">Вселенная через...</div>
+                    <modal-edit :id="`event-1`">
+                    </modal-edit>
                 </td>
                 <td>
-                    <div class="pink">Вселенная через...</div>
+                    <div class="pink" :id="`event-2`" variant="primary">Вселенная через...</div>
+                    <modal-edit :id="`event-2`">
+                    </modal-edit>
                 </td>
                 <td></td>
                 <td></td>
@@ -83,7 +76,9 @@
                 <td></td>
                 <td></td>
                 <td>
-                    <div class="green">Вселенная через...</div>
+                    <div class="green" :id="`event-3`" variant="primary">Вселенная через...</div>
+                    <modal-edit :id="`event-3`">
+                    </modal-edit>
                 </td>
                 <td></td>
                 <td></td>
@@ -97,7 +92,9 @@
                 <td></td>
                 <td></td>
                 <td>
-                    <div class="brown">Вселенная через...</div>
+                    <div class="brown" :id="`event-4`" variant="primary">Вселенная через...</div>
+                    <modal-edit :id="`event-4`">
+                    </modal-edit>
                 </td>
                 <td></td>
             </tr>
@@ -117,7 +114,7 @@ export default {
             dFirstMonth: 1,
             day: ["Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота", "Воскресенье"],
             months: ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"],
-            pop: false,
+            isVisibleModal: false,
         }
     },
     created() {
@@ -152,8 +149,18 @@ export default {
             const endDate = this.$moment(this.days[this.days.length - 1].full_date).add('7', 'days');
             this.days = this.getDaysBetweenTwoDates(startDate, endDate);
         },
-        popClose() {
-            this.pop = false
+        showModal() {
+            this.isVisibleModal = true;
+        },
+
+        close() {
+            this.isVisibleModal = false;
+        },
+
+        saveClickEvent() {
+            //console.log('Save event')
+            //после удачного сохранения события спрятать форму
+            this.isCreateEventWindowVisible = false;
         },
     }
 }
@@ -242,8 +249,5 @@ td {
 .flex {
     display: flex;
     align-content: space-between;
-}
-.icons{
-    text-align:end;
 }
 </style>

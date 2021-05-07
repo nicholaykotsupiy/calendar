@@ -9,17 +9,18 @@
             v-for="line in timeLine" :key="new Date().time"
             :style="{height: '60px'}">
             <td
-                v-if="line.slice(0, line.indexOf(':')) == event.start.slice(0, event.start.indexOf(':'))"
-                v-for="event of events" :style="{background: event.color}"
-                :key="event.id"
+                v-if="line.slice(0, line.indexOf(':')) == event.timeStart.slice(0, event.timeStart.indexOf(':')) && currentDate == event.dateStart"
+                v-for="(event, index) of events"
+                :style="{background: '#D2EFFE'}"
+                :key="index"
                 :rowspan="event.end"
                 class="event_item border col-auto position-relative">
                 <div class="info d-flex align-items-top position-absolute top-0">
-                    <span class="exect_time">{{ event.start }}</span>
-                    <span class="title">{{ event.title }}</span>
+                    <span class="exect_time">{{ event.timeStart }}</span>
+                    <span class="title">{{ event.name }}</span>
                 </div>
                 <div class="buttons">
-                    <img v-if="event.peoples !== []" :src="peoples" alt="peoples">
+                    <img v-if="event.guests" :src="peoples" alt="peoples">
                     <img :src="del" alt="delete">
                     <img :src="edit" alt="edit">
                 </div>
@@ -33,11 +34,9 @@ import del from '../../../assets/img/DayCalendar/delete.svg'
 import  edit from '../../../assets/img/DayCalendar/edit.svg'
 import  peoples from '../../../assets/img/DayCalendar/peoples.png'
 
-// console.log(155)
-
 export default {
     name: "DayCalendarEnents",
-    props: ['events', 'timeLine'],
+    props: ['events', 'timeLine', 'currentDate'],
     data: () => ({
         del,
         edit,

@@ -30,12 +30,12 @@ export default {
         TheYear,
     },
     data: () => ({
-        open: true
+        open: true,
     }),
     methods: {
         openLeftBar() {
             this.open = !this.open
-        }
+        },
     }
 }
 </script>
