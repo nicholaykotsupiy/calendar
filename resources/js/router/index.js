@@ -12,6 +12,12 @@ const routes = [
         props: true
     },
     {
+        path: '/week',
+        name: 'Week',
+        component: () => import('../components/Week/WeekComponent'),
+        props: true
+    },
+    {
         path: '/month',
         name: 'Month',
         component: () => import('../components/Month/TheMonth'),
