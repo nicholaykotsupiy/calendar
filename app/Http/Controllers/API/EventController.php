@@ -30,10 +30,9 @@ class EventController extends Controller
 
         if ($request->guests) {
             $guests = Guest::saveForEvent($request, $event);
-            //return response()->json($guests, 201);
         }
 
-        return response()->json($event, 201);
+        return response()->json(new StoreResource($event));
     }
 
     public function update()
