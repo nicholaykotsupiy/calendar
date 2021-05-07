@@ -31,10 +31,22 @@
                         <input v-model.trim="event.name" type="text" class="form-control error" id="nameEvent" name="nameEvent">
                     </div>
                 </template>
-                <div class="col-12 py-2">
-                    <label for="guestsEvent" class="form-label">Гости <span class="warning">(емейлы гостей через запятую)</span></label>
-                    <input v-model.trim="event.guests" type="text" class="form-control" id="guestsEvent" name="guestsEvent">
-                </div>
+                <template v-if="!errorGuestsEvent">
+                    <div class="col-12 py-2">
+                        <label for="guestsEvent" class="form-label">
+                            Гости <span class="warning">(емейлы гостей должны быть разделены запятой)</span>
+                        </label>
+                        <input v-model.trim="event.guests" type="text" class="form-control" id="guestsEvent" name="guestsEvent">
+                    </div>
+                </template>
+                <template v-else>
+                    <div class="col-12 py-2">
+                        <label for="guestsEvent" class="form-label error">
+                            Гости <span class="warning">(емейлы гостей должны быть разделены запятой)</span>
+                        </label>
+                        <input v-model.trim="event.guests" type="text" class="form-control error" id="guestsEvent" name="guestsEvent">
+                    </div>
+                </template>
                 <div class="col-12 py-2">
                     <label for="locationEvent" class="form-label">Место расположения</label>
                     <input v-model.trim="event.location" type="text" class="form-control" id="locationEvent" name="locationEvent">
@@ -141,6 +153,7 @@ export default {
             errorTimeStartEvent: false,
             errorDateEndEvent: false,
             errorTimeEndEvent: false,
+            errorGuestsEvent: false,
 
             event: {
                 name: this.name,
@@ -200,6 +213,7 @@ export default {
             this.errorTimeStartEvent = false
             this.errorTimeStartEvent = false
             this.errorTimeEndEvent = false
+            this.errorGuestsEvent = false
 
             //сбрасываем event
             //если пропсы есть (для редактировния), то поля заполнятся их значениями
@@ -229,6 +243,7 @@ export default {
             this.errorTimeStartEvent = false
             this.errorTimeStartEvent = false
             this.errorTimeEndEvent = false
+            this.errorGuestsEvent = false
 
             if (!this.event.name) {
                 this.errorNameEvent = true
@@ -249,8 +264,35 @@ export default {
                 this.errorTimeEndEvent = true
             }
 
+            //валидация на мейлы с помощью регулярные выражений в поле Гости
+            //шаблон для  одного мейла
+            let reqexp = /.+@.+\..+/i //один адрес в поле
+            //если поле Гости не пустое
+            if (this.event.guests) {
+                // разбиваем строку с вводимыми мейлами, шаблон для разделения: сколько угодно пробелов-запятая-сколько угодно пробелов
+                let arrGuests = this.event.guests.split(/\s*,\s*/)
+                console.log(arrGuests)
+                let k = 0
+                for (let i=0; i<arrGuests.length; i++) {
+                    console.log(arrGuests[i])
+                    if ((arrGuests[i]).match(reqexp) !== null) {
+                        console.log((arrGuests[i]).match(reqexp))
+                        k++
+                    }
+                }
+                if (k === arrGuests.length) {
+                    this.errorGuestsEvent = false
+                    console.log('мейлы гостей введены верно')
+                } else {
+                    this.errorGuestsEvent = true
+                    console.log('неверно введены мейлы гостей')
+                }
+            } else {
+                this.errorGuestsEvent = false
+            }
+
             if (!this.errorNameEvent && !this.errorDescriptionEvent && !this.errorDateStartEvent && !this.errorDateEndEvent
-                && !this.errorTimeStartEvent && !this.errorTimeEndEvent) {
+                && !this.errorTimeStartEvent && !this.errorTimeEndEvent && !this.errorGuestsEvent) {
                 this.isValid = true
             } else {
                 this.isValid = false
