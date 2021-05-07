@@ -2,12 +2,12 @@
     <div>
 
         <!-- Модальное окно для сообщений-->
-        <b-modal id="modal-message" hide-footer :title="titleModalMessage">
+        <b-modal id="modal-message-reminder" hide-footer :title="titleModalMessage">
             <p class="my-4 body-message">{{ bodyModalMessage }}</p>
             <div class="row modal-footer text-center">
                 <div class="col-12">
                     <button type="button" class="btn btn-primary btn-lg" data-dismiss="modal"
-                            @click="$bvModal.hide('modal-message')"
+                            @click="$bvModal.hide('modal-message-reminder')"
                     >
                         ОК
                     </button>
@@ -279,7 +279,7 @@ export default {
                 //прослушиваем событие saveEvent в родительском компоненте
                 this.$emit('saveEvent', this.reminder)
 
-                this.$bvModal.show('modal-message')
+                this.$bvModal.show('modal-message-reminder')
 
                 //устанавливаем значения по умолчанию с учетом возможных пропсов
                 //сбрасываем reminder
