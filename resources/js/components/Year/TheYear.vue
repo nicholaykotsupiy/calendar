@@ -30,15 +30,19 @@
                                         <div class="daygrid-day-top flex">
                                             <div class="daygrid-day-number-without-ukr">
                                                 <!--обозначить текущий день-->
-                                                <a href="#"
+                                                <a
+                                                    data-toggle="tooltip"
+                                                    data-placement="top" 
+                                                    :title="day.summary"
+                                                    @click="dayClickHandler(day)"
                                                     :style="{
-                                                        'background': day.currentbg,
-                                                        'color': day.current,
+                                                        'background': getDayBgColor(day),
+                                                        'color': getDayColor(day),
                                                         'border-radius': '50%',
                                                         'width': '30px',
                                                         'height': '30px',
-                                                        'padding': '5px'
-                                                    }">
+                                                        'padding': day.index < 10 ? '5px 8px' : '5px'
+                                                    }"> 
                                                     {{ day.index }}
                                                 </a>
                                             </div>
@@ -65,7 +69,23 @@ export default {
             day:["Пн", "Вт","Ср","Чт","Пт","Сб", "Вс"],
             months: ["Январь","Февраль","Март","Апрель","Май","Июнь","Июль","Август","Сентябрь","Октябрь","Ноябрь","Декабрь"],
             date: new Date(),
+            holidays: {},
         }
+    },
+    mounted() {
+        axios
+            .get('https://www.googleapis.com/calendar/v3/calendars/ru.ukrainian%23holiday%40group.v.calendar.google.com/events?key=AIzaSyCXtY_r4WvIlu_2N_iVZC8WTc_iXDkZMGM')
+            .then(response => {
+                let holidays = {};
+                for (let i = 0; i < response.data.items.length; i++) {
+                    let day = response.data.items[i].start.date
+                    if (!(day in holidays)) {
+                        holidays[day] = []
+                    }
+                    holidays[day].push(response.data.items[i])
+                }
+                this.holidays = holidays
+            });
     },
     computed: {
         calendar() {
@@ -83,18 +103,47 @@ export default {
             days[week] = []
             let lastDayOfMonth = new Date(year, month + 1, 0).getDate();
             for (let i = 1; i <= lastDayOfMonth; i++) {
-                if (new Date(year, month, i).getDay() === this.firstDayOfWeek && i !== 1) {
+                let dayOfMonthDateObj = new Date(year, month, i)
+                //формирование недель месяца
+                if (dayOfMonthDateObj.getDay() === this.firstDayOfWeek && i !== 1) {
                     week++
                     days[week] = []
                 }
-                let a = {index:i}
-                days[week].push(a)
+                let a = {
+                    index:i,
+                    isHoliday: false,
+                    summary: '',
+                    isCurrent: false,
+                }
+                let yyyymmdd = function(dateObj) {
+                    var mm = dateObj.getMonth() + 1; // getMonth() is zero-based
+                    var dd = dateObj.getDate();
+
+                    return [dateObj.getFullYear(),
+                            (mm>9 ? '' : '0') + mm,
+                            (dd>9 ? '' : '0') + dd
+                            ].join('-');
+                };
+                function capitalizeFirstLetter(string) {
+                    return string.charAt(0).toUpperCase() + string.slice(1);
+                }
+                let dayOfMonthIsoDate = yyyymmdd(dayOfMonthDateObj)
+                //проверка что день праздничный
+                if (dayOfMonthIsoDate in this.holidays) {
+                    a.isHoliday = true
+                    for (let j = 0; j < this.holidays[dayOfMonthIsoDate].length; j++) {
+                        a.summary += capitalizeFirstLetter(this.holidays[dayOfMonthIsoDate][j].summary + '. ')
+                    }
+                     
+                }
+
                 // проверка на текущий день
                 if (i === new Date().getDate() && year === new Date().getFullYear() && month === new Date().getMonth())
                 {
-                    a.current = '#ffffff'
-                    a.currentbg = '#1875F0'
+                    a.isCurrent = true
                 }
+
+                days[week].push(a)
             }
 
             for (let i = days[0].length; i < 7; i++) {
@@ -111,6 +160,27 @@ export default {
         },
         increase() {
             this.currentYear++
+        },
+        dayClickHandler(e) {
+            console.log(e)
+        },
+        getDayBgColor(day) {
+            if (day.isCurrent) {
+                return '#1875f0'
+            }
+            if (day.isHoliday) {
+                return '#fbdddd'
+            } 
+            return '#ffffff'
+        },
+        getDayColor(day) {
+            if (day.isCurrent) {
+                return '#ffffff'
+            }
+            if (day.isHoliday) {
+                return '#f44336'
+            } 
+            return '#666666'
         },
     },
 }
@@ -146,7 +216,7 @@ export default {
         border-bottom: 3px solid rgb(245, 245, 245);
     }
     .table-month {
-        padding-left: 5px;
+        padding-left: 10px;
         padding-top: 10px;
         padding-right: 20px;
         padding-bottom: 15px;
@@ -156,5 +226,8 @@ export default {
         color: inherit;
         text-decoration: none;
         padding-left: 10px;
+    }
+    .daygrid-day-frame {
+        padding: 3px;
     }
 </style>

@@ -9,11 +9,11 @@
         </create-events-window>
 
         <!--        пример вызова окна редактирования Мероприятия-->
-        <!--                <edit-event-window-->
-        <!--                    v-show="isVisibleModal"-->
-        <!--                    @closeEditEventWindow="close"-->
-        <!--                >-->
-        <!--                </edit-event-window>-->
+<!--                        <edit-event-window-->
+<!--                            v-show="isVisibleModal"-->
+<!--                            @closeEditEventWindow="close"-->
+<!--                        >-->
+<!--                        </edit-event-window>-->
 
         <!--        пример вызова окна редактирования Дня рождения-->
         <!--        <edit-birthday-window-->
