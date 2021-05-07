@@ -17,13 +17,13 @@ class StoreResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-//            'guests' => $this->guests,
             'location' => $this->location,
             'description' => $this->description,
             'date_start' => $this->date_start,
             'date_end' => $this->date_end,
             'time_start' => $this->time_start,
             'time_end' => $this->time_end,
+            'guests' => $this->guests()->get(),
         ];
     }
 }

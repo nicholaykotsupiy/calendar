@@ -2,8 +2,8 @@
     <div>
         <!-- Модальное окно для сообщений-->
         <b-modal id="modal-message-event" hide-footer :title="titleModalMessage">
-            <p class="my-4 body-message">{{ bodyModalMessage }}</p>
-            <div class="row modal-footer text-center">
+            <p class="mb-4 body-message">{{ bodyModalMessage }}</p>
+            <div class="row text-center">
                 <div class="col-12">
                     <button type="button" class="btn btn-primary btn-lg" data-dismiss="modal"
                             @click="$bvModal.hide('modal-message-event')"
@@ -341,7 +341,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
 
 .body-create-event {
     padding: 15px 70px;
@@ -358,10 +358,6 @@ export default {
     border-color: #F44336
 }
 
-.modal-header {
-    border-bottom: none;
-}
-
 .modal-body .modal-footer {
     border-top: none;
 }
@@ -369,6 +365,11 @@ export default {
 .body-message {
     text-align: center;
     font-size: 18px;
+    margin-top: 0;
+}
+
+.modal-header {
+    border-bottom: none;
 }
 
 .warning {
