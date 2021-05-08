@@ -4,7 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Event\StoreRequest;
-use App\Http\Resources\Event\StoreResource;
+use App\Http\Resources\Event\EventResource;
 use App\Models\Event;
 use App\Models\Guest;
 use Illuminate\Http\JsonResponse;
@@ -30,10 +30,9 @@ class EventController extends Controller
 
         if ($request->guests) {
             $guests = Guest::saveForEvent($request, $event);
-            //return response()->json($guests, 201);
         }
 
-        return response()->json($event, 201);
+        return response()->json(new EventResource($event));
     }
 
     public function update()

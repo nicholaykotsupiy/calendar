@@ -4,7 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Reminder\StoreRequest;
-use App\Http\Resources\Reminder\StoreResource;
+use App\Http\Resources\Reminder\ReminderResource;
 use App\Models\Reminder;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -24,7 +24,7 @@ class ReminderController extends Controller
 
         $reminder->save();
 
-        return response()->json(new StoreResource($reminder));
+        return response()->json(new ReminderResource($reminder));
     }
 
     public function update()

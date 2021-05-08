@@ -18,7 +18,7 @@
 import DayCalendarHead from "./DayCalendarComponents/DayCalendarHead";
 import DayCalendarTimeLine from "./DayCalendarComponents/DayCalendarTimeLine";
 import DayCalendarEnents from "./DayCalendarComponents/DayCalendarEnents";
-import { mapGetters, mapActions, mapMutations } from 'vuex'
+import { mapGetters } from 'vuex'
 import axios from "axios";
 
 export default {
@@ -36,31 +36,12 @@ export default {
             '19:00','20:00','21:00','22:00','23:00',
         ],
     }),
-    methods: {
-        ...mapActions([
-            'getDataFromServer'
-        ]),
-        ...mapMutations([
-            'addTasksToState',
-            'addBirthdaysToState',
-            'addEventsToState',
-            'addRemindersToState',
-        ]),
-        load() {
-            axios.get('/api/events').then(response => {
-                this.getDataFromServer(response.data)
-            })
-        }
-    },
     computed: {
         ...mapGetters([
             'currentDate',
             'allEventsForDay'
         ])
     },
-    mounted() {
-        this.load()
-    }
 }
 </script>
 
