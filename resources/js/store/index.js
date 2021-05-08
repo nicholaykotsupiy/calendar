@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import month from "./month";
 import allEvents from "./allEvents";
+import saveEvents from "./saveEvents";
 import axios from "axios";
 
 Vue.use(Vuex)
@@ -9,7 +10,8 @@ Vue.use(Vuex)
 export default new Vuex.Store({
     modules: {
         month,
-        allEvents
+        allEvents,
+        saveEvents,
     },
     state: {
         tasks: [],
@@ -55,19 +57,6 @@ export default new Vuex.Store({
                     state.reminders.push(item)
                 }
             })
-        },
-
-        pushEventToState(state, newEvent) {
-            state.events.push(newEvent)
-        },
-        pushReminderToState(state, newReminder) {
-            state.reminders.push(newReminder)
-        },
-        pushTaskToState(state, newTask) {
-            state.tasks.push(newTask)
-        },
-        pushBirthdayToState(state, newBirthday) {
-            state.birthdays.push(newBirthday)
         },
 
     },
