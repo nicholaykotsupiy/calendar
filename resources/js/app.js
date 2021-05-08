@@ -23,6 +23,8 @@ Vue.component('edit-birthday-window', require('./components/Events/Edit/EditBirt
 Vue.component('edit-reminder-window', require('./components/Events/Edit/EditReminderWindow').default);
 Vue.component('edit-task-window', require('./components/Events/Edit/EditTaskWindow').default);
 Vue.component('modal-edit', require('./components/Events/Edit/EditModal').default);
+Vue.component('modal-ok', require('./components/ModalMessages/ModalOK').default);
+
 
 Vue.use(BootstrapVue)
 Vue.use(IconsPlugin)

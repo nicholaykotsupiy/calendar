@@ -102,6 +102,9 @@
                                 </button>
                             </div>
 
+                            <!-- Модальное окно для сообщений-->
+                            <modal-ok></modal-ok>
+
                             <!--        Компонент - модальное окно для создания Мероприятия-->
                             <the-event
                                 v-show="isCreateEventWindowVisible"
@@ -236,23 +239,12 @@ export default {
 
         saveEvent(event) {
 
-            //здесь будет метод сохранения данных в БД, пока - в консоль
-            console.log('Save event in parent component')
-            console.log(event.name)
-            console.log(event.description)
-            console.log(event.guests)
-            console.log(event.location)
-            console.log(event.dateStart)
-            console.log(event.dateEnd)
-            console.log(event.timeStart)
-            console.log(event.timeEnd)
-
             axios.post(`/api/event-store`, event)
                 .then(response => {
                     //параметры для модалки с сообщением
                     this.setTitleModalMessage('')
                     this.setBodyModalMessage('Событие добавлено!')
-                    //вызвать действие для загрузки БД в состояние (обновить)
+                    //вызвать мутацию для загрузки нового мероприятия в состояние
 
                     // закрыть окно
                     this.close();
@@ -335,7 +327,7 @@ export default {
                     this.setTitleModalMessage('')
                     this.setBodyModalMessage('Событие добавлено!')
                     console.log('Событие добавлено!')
-                    //вызвать действие для загрузки БД в состояние (обновить)
+                    //вызвать мутацию для загрузки нового напоминания в состояние
 
                     // закрыть окно
                     this.close();
@@ -397,7 +389,7 @@ export default {
                     //параметры для модалки с сообщением
                     this.setTitleModalMessage('')
                     this.setBodyModalMessage('Событие добавлено!')
-                    //вызвать действие для загрузки БД в состояние (обновить)
+                    //вызвать мутацию для загрузки новой задачи в состояние
 
                     // закрыть окно
                     this.close();
@@ -475,18 +467,13 @@ export default {
             console.log(birthday.allDay)
             console.log(birthday.everyYear)
 
-            // axios.post(`/api/posts`, birthday, {
-            //     headers: {
-            //         Authorization: `Bearer ${this.$store.state.token}`,
-            //     }
-            // })
             axios.post(`/api/birthday-store`, birthday)
                 .then(response => {
                     //параметры для модалки с сообщением
                     this.setTitleModalMessage('')
                     this.setBodyModalMessage('Событие добавлено!')
                     console.log('Событие добавлено!')
-                    //вызвать действие для загрузки БД в состояние (обновить)
+                    //вызвать мутацию для загрузки нового дня рождения в состояние
 
                     // закрыть окно
                     this.close();
