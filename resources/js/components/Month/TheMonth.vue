@@ -1,20 +1,5 @@
 <template>
-
     <div class="container calendar-center">
-
-<!--        убрала -->
-<!--        &lt;!&ndash;        временные кнопки&ndash;&gt;-->
-<!--        <div class="flex">-->
-<!--            <div>-->
-<!--                <button v-on:click="prevMonth"><</button>-->
-<!--            </div>-->
-<!--            <div>-->
-<!--                <button v-on:click="nextMonth">></button>-->
-<!--            </div>-->
-<!--&lt;!&ndash;            <div> {{ titleNavigationCalendarMonth }} </div>&ndash;&gt;-->
-<!--            <div> {{months[month]}} {{year}} </div>-->
-<!--        </div>-->
-
         <table class="table-month">
             <thead>
             <tr class="flex">
@@ -24,6 +9,12 @@
             <tbody>
             <tr v-for="week in calendar()" class="flex">
                 <td v-for="(day, index) in week">
+
+                    <modal-edit
+                        :id="`day.index`"
+                        :eventId="1">
+                    </modal-edit>
+
                     <div class="daygrid-day-frame">
                         <div class="daygrid-day-top flex">
 

@@ -102,9 +102,6 @@
                                 </button>
                             </div>
 
-                            <!-- Модальное окно для сообщений-->
-                            <modal-ok></modal-ok>
-
                             <!--        Компонент - модальное окно для создания Мероприятия-->
                             <the-event
                                 v-show="isCreateEventWindowVisible"

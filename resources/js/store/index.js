@@ -3,6 +3,8 @@ import Vuex from 'vuex'
 import month from "./month";
 import allEvents from "./allEvents";
 import saveEvents from "./saveEvents";
+import editEvents from "./editEvents";
+import deleteEnents from "./deleteEnents";
 import axios from "axios";
 
 Vue.use(Vuex)
@@ -12,6 +14,8 @@ export default new Vuex.Store({
         month,
         allEvents,
         saveEvents,
+        editEvents,
+        deleteEnents
     },
     state: {
         tasks: [],

@@ -24,6 +24,7 @@ Vue.component('edit-reminder-window', require('./components/Events/Edit/EditRemi
 Vue.component('edit-task-window', require('./components/Events/Edit/EditTaskWindow').default);
 Vue.component('modal-edit', require('./components/Events/Edit/EditModal').default);
 Vue.component('modal-ok', require('./components/ModalMessages/ModalOK').default);
+Vue.component('modal-yes-no', require('./components/ModalMessages/ModalYesNo').default);
 
 
 Vue.use(BootstrapVue)
