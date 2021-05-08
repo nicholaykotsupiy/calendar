@@ -5,13 +5,13 @@
                 <div class="form-label">Заполните все обязательные поля</div>
             </div>
             <template v-if="!errorNameEvent">
-                <div class="col-12">
+                <div class="col-12 py-2">
                     <label for="nameEvent" class="form-label">Название<span>*</span></label>
                     <input v-model.trim="event.name" type="text" class="form-control" id="nameEvent" name="nameEvent">
                 </div>
             </template>
             <template v-else>
-                <div class="col-12">
+                <div class="col-12 py-2">
                     <label for="nameEvent" class="form-label">Название<span class="error">*</span></label>
                     <input v-model.trim="event.name" type="text" class="form-control error" id="nameEvent" name="nameEvent">
                 </div>

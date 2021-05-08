@@ -195,6 +195,10 @@ export default {
             'setIsCreateTaskWindowVisible',
             'setIsCreateBirthdayWindowVisible',
             'showCreateEventWindow',
+            'pushEventToState',
+            'pushReminderToState',
+            'pushTaskToState',
+            'pushBirthdayToState',
         ]),
 
         close() {
@@ -245,10 +249,8 @@ export default {
                     this.setTitleModalMessage('')
                     this.setBodyModalMessage('Событие добавлено!')
                     //вызвать мутацию для загрузки нового мероприятия в состояние
-
-                    // закрыть окно
-                    this.close();
-                    this.showCreateEventWindow()
+                    let newEvent = (response.data)
+                    this.pushEventToState(newEvent)
                 })
                 .catch(error => {
                     //массив, для ошибок валидации на бэке
@@ -257,54 +259,46 @@ export default {
                     //вывод ошибки
                     //если есть ошибка валидации name
                     if (error.response.data.errors.name) {
-                        console.log('errors date', error.response.data.errors.name)
                         for (let i=0; i<error.response.data.errors.name.length; i++) {
                             errorsArray.push(error.response.data.errors.name[i])
                         }
                     }
                     //если есть ошибка валидации description
                     if (error.response.data.errors.description) {
-                        console.log('errors date', error.response.data.errors.description)
                         for (let i=0; i<error.response.data.errors.description.length; i++) {
                             errorsArray.push(error.response.data.errors.description[i])
                         }
                     }
                     //если есть ошибка валидации guests
                     if (error.response.data.errors.guests) {
-                        console.log('errors date', error.response.data.errors.guests)
                         for (let i=0; i<error.response.data.errors.guests.length; i++) {
                             errorsArray.push(error.response.data.errors.guests[i])
                         }
                     }
                     //если есть ошибка валидации location
                     if (error.response.data.errors.location) {
-                        console.log('errors date', error.response.data.errors.location)
                         for (let i=0; i<error.response.data.errors.location.length; i++) {
                             errorsArray.push(error.response.data.errors.location[i])
                         }
                     }
                     //если есть ошибка валидации даты
                     if (error.response.data.errors.dateStart) {
-                        console.log('errors date', error.response.data.errors.dateStart)
                         for (let i=0; i<error.response.data.errors.dateStart.length; i++) {
                             errorsArray.push(error.response.data.errors.dateStart[i])
                         }
                     }
                     if (error.response.data.errors.dateEnd) {
-                        console.log('errors date', error.response.data.errors.dateEnd)
                         for (let i=0; i<error.response.data.errors.dateEnd.length; i++) {
                             errorsArray.push(error.response.data.errors.dateEnd[i])
                         }
                     }
                     //если есть ошибка валидации времени
                     if (error.response.data.errors.timeStart) {
-                        console.log('errors date', error.response.data.errors.timeStart)
                         for (let i=0; i<error.response.data.errors.timeStart.length; i++) {
                             errorsArray.push(error.response.data.errors.timeStart[i])
                         }
                     }
                     if (error.response.data.errors.timeEnd) {
-                        console.log('errors date', error.response.data.errors.timeEnd)
                         for (let i=0; i<error.response.data.errors.timeEnd.length; i++) {
                             errorsArray.push(error.response.data.errors.timeEnd[i])
                         }
@@ -316,7 +310,11 @@ export default {
                         message += errorsArray[i]+"\n"
                     }
                     this.setBodyModalMessage(message)
-                });
+                })
+
+            // закрыть окно
+            this.close()
+            this.showCreateEventWindow()
         },
 
         saveReminder(reminder) {
@@ -326,45 +324,35 @@ export default {
                     //параметры для модалки с сообщением
                     this.setTitleModalMessage('')
                     this.setBodyModalMessage('Событие добавлено!')
-                    console.log('Событие добавлено!')
                     //вызвать мутацию для загрузки нового напоминания в состояние
-
-                    // закрыть окно
-                    this.close();
-                    this.showCreateEventWindow()
+                    let newReminder = (response.data)
+                    this.pushReminderToState(newReminder)
                 })
                 .catch(error => {
-                    console.log('error', error.response.data)
-                    console.log('errors', error.response.data.errors)
-
                     //массив, для ошибок валидации на бэке
                     let errorsArray = []
 
                     //вывод ошибки
                     //если есть ошибка валидации name
                     if (error.response.data.errors.name) {
-                        console.log('errors date', error.response.data.errors.name)
                         for (let i=0; i<error.response.data.errors.name.length; i++) {
                             errorsArray.push(error.response.data.errors.name[i])
                         }
                     }
                     //если есть ошибка валидации даты
                     if (error.response.data.errors.date) {
-                        console.log('errors date', error.response.data.errors.date)
                         for (let i=0; i<error.response.data.errors.date.length; i++) {
                             errorsArray.push(error.response.data.errors.date[i])
                         }
                     }
                     //если есть ошибка валидации времени
                     if (error.response.data.errors.time) {
-                        console.log('errors date', error.response.data.errors.time)
                         for (let i=0; i<error.response.data.errors.time.length; i++) {
                             errorsArray.push(error.response.data.errors.time[i])
                         }
                     }
                     //если есть ошибка валидации toRepeat
                     if (error.response.data.errors.toRepeat) {
-                        console.log('errors date', error.response.data.errors.toRepeat)
                         for (let i=0; i<error.response.data.errors.toRepeat.length; i++) {
                             errorsArray.push(error.response.data.errors.toRepeat[i])
                         }
@@ -376,9 +364,11 @@ export default {
                         message += errorsArray[i]+"\n"
                     }
                     this.setBodyModalMessage(message)
-                    console.log(message)
-                    console.log('Ошибка! Событие не добавлено!')
                 });
+
+            // закрыть окно
+            this.close();
+            this.showCreateEventWindow()
 
         },
 
@@ -390,10 +380,8 @@ export default {
                     this.setTitleModalMessage('')
                     this.setBodyModalMessage('Событие добавлено!')
                     //вызвать мутацию для загрузки новой задачи в состояние
-
-                    // закрыть окно
-                    this.close();
-                    this.showCreateEventWindow()
+                    let newTask = (response.data)
+                    this.pushReminderToState(newTask)
                 })
                 .catch(error => {
                     //массив, для ошибок валидации на бэке
@@ -402,47 +390,40 @@ export default {
                     //вывод ошибки
                     //если есть ошибка валидации name
                     if (error.response.data.errors.name) {
-                        //console.log('errors date', error.response.data.errors.name)
                         for (let i=0; i<error.response.data.errors.name.length; i++) {
                             errorsArray.push(error.response.data.errors.name[i])
                         }
                     }
                     //если есть ошибка валидации description
                     if (error.response.data.errors.description) {
-                        //console.log('errors date', error.response.data.errors.description)
                         for (let i=0; i<error.response.data.errors.description.length; i++) {
                             errorsArray.push(error.response.data.errors.description[i])
                         }
                     }
                     //если есть ошибка валидации даты
                     if (error.response.data.errors.dateStart) {
-                        //console.log('errors date', error.response.data.errors.dateStart)
                         for (let i=0; i<error.response.data.errors.dateStart.length; i++) {
                             errorsArray.push(error.response.data.errors.dateStart[i])
                         }
                     }
                     if (error.response.data.errors.dateEnd) {
-                        //console.log('errors date', error.response.data.errors.dateEnd)
                         for (let i=0; i<error.response.data.errors.dateEnd.length; i++) {
                             errorsArray.push(error.response.data.errors.dateEnd[i])
                         }
                     }
                     //если есть ошибка валидации времени
                     if (error.response.data.errors.timeStart) {
-                        //console.log('errors date', error.response.data.errors.timeStart)
                         for (let i=0; i<error.response.data.errors.timeStart.length; i++) {
                             errorsArray.push(error.response.data.errors.timeStart[i])
                         }
                     }
                     if (error.response.data.errors.timeEnd) {
-                        //console.log('errors date', error.response.data.errors.timeEnd)
                         for (let i=0; i<error.response.data.errors.timeEnd.length; i++) {
                             errorsArray.push(error.response.data.errors.timeEnd[i])
                         }
                     }
                     //если есть ошибка зачени "Весь день"
                     if (error.response.data.errors.allDay) {
-                        //console.log('errors date', error.response.data.errors.allDay)
                         for (let i=0; i<error.response.data.errors.allDay.length; i++) {
                             errorsArray.push(error.response.data.errors.allDay[i])
                         }
@@ -455,76 +436,60 @@ export default {
                     }
                     this.setBodyModalMessage(message)
                 });
+
+            // закрыть окно
+            this.close();
+            this.showCreateEventWindow()
         },
 
         saveBirthday(birthday) {
-
-            console.log('Save reminder in parent component')
-            console.log(birthday.name)
-            console.log(birthday.description)
-            console.log(birthday.date)
-            console.log(birthday.time)
-            console.log(birthday.allDay)
-            console.log(birthday.everyYear)
 
             axios.post(`/api/birthday-store`, birthday)
                 .then(response => {
                     //параметры для модалки с сообщением
                     this.setTitleModalMessage('')
                     this.setBodyModalMessage('Событие добавлено!')
-                    console.log('Событие добавлено!')
                     //вызвать мутацию для загрузки нового дня рождения в состояние
-
-                    // закрыть окно
-                    this.close();
-                    this.showCreateEventWindow()
+                    let newBirthday = (response.data)
+                    this.pushBirthdayToState(newBirthday)
                 })
                 .catch(error => {
-                    console.log('error', error.response.data)
-                    console.log('errors', error.response.data.errors)
-
                     //массив, для ошибок валидации на бэке
                     let errorsArray = []
 
                     //вывод ошибки
                     //если есть ошибка валидации name
                     if (error.response.data.errors.name) {
-                        console.log('errors date', error.response.data.errors.name)
                         for (let i=0; i<error.response.data.errors.name.length; i++) {
                             errorsArray.push(error.response.data.errors.name[i])
                         }
                     }
                     //если есть ошибка валидации description
                     if (error.response.data.errors.description) {
-                        console.log('errors date', error.response.data.errors.description)
                         for (let i=0; i<error.response.data.errors.description.length; i++) {
                             errorsArray.push(error.response.data.errors.description[i])
                         }
                     }
                     //если есть ошибка валидации даты
                     if (error.response.data.errors.date) {
-                        console.log('errors date', error.response.data.errors.date)
                         for (let i=0; i<error.response.data.errors.date.length; i++) {
                             errorsArray.push(error.response.data.errors.date[i])
                         }
                     }
                     //если есть ошибка валидации времени
                     if (error.response.data.errors.time) {
-                        console.log('errors date', error.response.data.errors.time)
                         for (let i=0; i<error.response.data.errors.time.length; i++) {
                             errorsArray.push(error.response.data.errors.time[i])
                         }
                     }
                     //если есть ошибка зачени "Весь день"
                     if (error.response.data.errors.allDay) {
-                        console.log('errors date', error.response.data.errors.allDay)
                         for (let i=0; i<error.response.data.errors.allDay.length; i++) {
                             errorsArray.push(error.response.data.errors.allDay[i])
                         }
                     }
                     //если есть ошибка зачени "Каждый год"
                     if (error.response.data.errors.everyYear) {
-                        console.log('errors date', error.response.data.errors.everyYear)
                         for (let i=0; i<error.response.data.errors.everyYear.length; i++) {
                             errorsArray.push(error.response.data.errors.everyYear[i])
                         }
@@ -536,9 +501,11 @@ export default {
                         message += errorsArray[i]+"\n"
                     }
                     this.setBodyModalMessage(message)
-                    console.log(message)
-                    console.log('Ошибка! Событие не добавлено!')
-                });
+                })
+
+            // закрыть окно
+            this.close();
+            this.showCreateEventWindow()
 
         },
 
