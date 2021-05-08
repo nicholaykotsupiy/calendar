@@ -108,41 +108,42 @@ export default {
         },
 
         del() {
-            //вот это забрать в метод удаления в родительский компонент:
             //здесь будет происходить определение - какое из видов и id событий удаляем из БД и стейта и само удаление
-            console.log(this.valueDeleteIdEvent)
-            console.log(this.valueDeleteTypeEvent)
+            console.log(this.valueDeleteIdEvent)//id события
+            console.log(this.valueDeleteTypeEvent)//type события
 
-            //сообщение об успешном удалении
-            this.setTitleModalMessage('')
-            this.setBodyModalMessage('Событие удалено!')
-            this.$bvModal.show('modal-message-ok')
-
-            //удаляем из БД и состояния событие по id и type
-            console.log('Событие удалено!')
-
-            // //сообщение о неуспешном удалении
-            // this.setTitleModalMessage('')
-            // this.setBodyModalMessage('Событие не удалось удалить!')
-            // this.$bvModal.show('modal-message-ok')
-            // console.log('Событие не удалось удалить!')
+            // axios.delete('/api/...-destroy/{id}')
+            //     .then(response => {
+            //     //метод
             //
+                //сообщение об успешном удалении
+                this.setTitleModalMessage('')
+                this.setBodyModalMessage('Событие удалено!')
+                this.$bvModal.show('modal-message-ok')
+
+                //удаляем из БД и состояния событие по id и type
+                console.log('Событие удалено!')
+            // })
+            // .catch(error => {
+            //     //сообщение о неуспешном удалении
+            //     this.setTitleModalMessage(error.response.data)
+            //     this.setBodyModalMessage('Событие не удалось удалить!')
+            //     this.$bvModal.show('modal-message-ok')
+            //     console.log('Событие не удалось удалить!')
+            // })
+
         },
 
         closeEditEventWindow() {
-            // this.$emit('closeEditEventWindow');
             this.setIsVisibleEditEventWindow(false)
         },
         closeEditReminderWindow() {
-            // this.$emit('closeEditReminderWindow');
             this.setIsVisibleEditReminderWindow(false)
         },
         closeEditTaskWindow() {
-            // this.$emit('closeEditTaskWindow');
             this.setIsVisibleEditTaskWindow(false)
         },
         closeEditBirthdayWindow() {
-            // this.$emit('closeEditBirthdayWindow');
             this.setIsVisibleEditBirthdayWindow(false)
         },
 
