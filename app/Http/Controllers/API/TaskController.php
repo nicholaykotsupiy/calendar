@@ -4,7 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Task\StoreRequest;
-use App\Http\Resources\Task\StoreResource;
+use App\Http\Resources\Task\TaskResource;
 use App\Models\Task;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -27,7 +27,7 @@ class TaskController extends Controller
 
         $task->save();
 
-        return response()->json(new StoreResource($task));
+        return response()->json(new TaskResource($task));
     }
 
     public function update()
