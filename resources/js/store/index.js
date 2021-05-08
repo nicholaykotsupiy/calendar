@@ -1,15 +1,16 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import month from "./month";
-import allEvents from "./allEvents";
-import axios from "axios";
+import month from "./month"
+import allEvents from "./allEvents"
+import day from './day'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
     modules: {
         month,
-        allEvents
+        allEvents,
+        day,
     },
     state: {
         tasks: [],
@@ -19,15 +20,6 @@ export default new Vuex.Store({
         currentDate: new Date(),
     },
     mutations: {
-        prevDateToDayCalendar(state) {
-            state.currentDate = new Date(state.currentDate.getTime() - 24*60*60*1000)
-        },
-        nextDateToDayCalendar(state) {
-            state.currentDate = new Date(state.currentDate.getTime() + 24*60*60*1000)
-        },
-        currentDateToDayCalendar(state) {
-            state.currentDate = new Date()
-        },
         addTasksToState(state, tasks) {
             tasks.forEach(item => {
                 if(!state.tasks.find(elem => elem.id === item.id)) {
@@ -59,7 +51,6 @@ export default new Vuex.Store({
     },
     actions: {
         getDataFromServer({ commit, state }, payload) {
-
             commit('addTasksToState', payload.tasks)
             commit('addBirthdaysToState', payload.birthdays)
             commit('addEventsToState', payload.events)
@@ -70,19 +61,5 @@ export default new Vuex.Store({
         currentDate(state) {
             return state.currentDate
         },
-        dateInterface(state) {
-            let manthArr = [
-                'Январь','Февраль','Март','Апрель','Май','Июнь','Июль',
-                'Август','Сентябрь','Октябрь','Ноябрь','Декабрь',
-            ]
-            const month = state.currentDate.getMonth()
-            const year = state.currentDate.getFullYear()
-
-            return `${manthArr[month]} ${year}`
-        },
-        allEventsForDay(state) {
-            // console.log(state.tasks)
-             return [].concat(state.events, state.birthdays, state.reminders, state.tasks)
-        }
     }
 })
