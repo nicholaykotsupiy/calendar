@@ -35,6 +35,14 @@ class EventResource extends JsonResource
             $end++;
         }
 
+
+        $arrayMail = [];
+        $guests = $this->guests()->get();
+        foreach ($guests as $guest) {
+            $arrayMail[] = $guest->mail;
+        }
+        $guestsMail = implode(', ', $arrayMail);
+
         return [
             'id' => $this->id,
             'type' => 'event',
@@ -48,7 +56,7 @@ class EventResource extends JsonResource
             'dateEnd' => $this->date_end,
             'user_id' => $this->user_id,
             'end' => $end,
-            'guests' => $this->guests()->get()
+            'guests' => $guestsMail
         ];
     }
 }
