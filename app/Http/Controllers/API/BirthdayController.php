@@ -41,9 +41,9 @@ class BirthdayController extends Controller
         $birthday->description = $request->description;
         $birthday->date = $request->date;
         $birthday->time = $request->time;
-        $birthday->all_day = $request->all_day;
-        $birthday->every_year = $request->every_year;
-//
+        $birthday->all_day = $request->allDay;
+        $birthday->every_year = $request->everyYear;
+
         $birthday->save();
 
         return response()->json(new StoreResource($birthday), 200);

@@ -54,7 +54,7 @@ class EventController extends Controller
         }
 
         $guestsArr = explode(', ', $request->guests);
-//
+
         foreach($guestsArr as $guestItem) {
             $guest = new Guest();
 

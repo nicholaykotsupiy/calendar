@@ -41,8 +41,8 @@ class TaskController extends Controller
         $task->time_start = $request->timeStart;
         $task->time_end = $request->timeEnd;
         $task->all_day = $request->allDay;
-//
-//        $task->save();
+
+        $task->save();
 
         return response()->json(new TaskResource($task), 200);
     }
