@@ -50,7 +50,7 @@ class TaskResource extends JsonResource
             'longsDate' => $longsDate,
             'timeEnd' => $this->time_end,
             'dateEnd' => $this->date_end,
-            'allDay' => $this->all_day,
+            'allDay' => boolval($this->all_day),
             'user_id' => $this->user_id,
             'end' => $end,
         ];

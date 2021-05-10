@@ -134,6 +134,8 @@ export default {
             allDay: false,
 
             reminder: {
+                id: this.id,
+                type: 'reminder',
                 name: this.name,
                 date: this.date,
                 time: this.time,

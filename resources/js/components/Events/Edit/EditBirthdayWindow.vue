@@ -20,17 +20,20 @@
                         </div>
 
                         <!--        Компонент - модальное окно для создания Мероприятия-->
-                        <the-birthday
-                            name="name birthday"
-                            description="description"
-                            date="2021-04-12"
-                            time="10:00"
-                            allDay="false"
-                            everyYear="false"
-                            @close="close"
-                            @saveEvent="saveChangeBirthday"
-                        >
-                        </the-birthday>
+                        <template v-if="event">
+                            <the-birthday
+                                :id="event.id"
+                                :name="event.name"
+                                :description="event.description"
+                                :date="event.dateStart"
+                                :time="event.timeStart"
+                                :allDay="event.allDay"
+                                :everyYear="event.everyYear"
+                                @close="close"
+                                @saveEvent="saveChangeBirthday"
+                            >
+                            </the-birthday>
+                        </template>
 
                     </div>
                 </div>
@@ -41,6 +44,7 @@
 
 <script>
 import TheBirthday from "../TheBirthday";
+import {mapActions} from "vuex";
 
 export default {
 
@@ -48,8 +52,12 @@ export default {
 
     components: {TheBirthday},
 
-    methods: {
+    props: ['event'],
 
+    methods: {
+        ...mapActions([
+            'editItem'
+        ]),
         close() {
             //прослушиваем событие closeEditEventWindow в родительском компоненте
             this.$emit('closeEditBirthdayWindow');
@@ -57,18 +65,23 @@ export default {
 
         saveChangeBirthday(birthday) {
             //валидация данных, которая расписана в компоненте, после успешной валидации -
-            //здесь будет метод сохранения измененных данных в БД, пока - в консоль
-            console.log('Save birthday in parent component')
-            console.log(birthday.name)
-            console.log(birthday.description)
-            console.log(birthday.date)
-            console.log(birthday.time)
-            console.log(birthday.allDay)
-            console.log(birthday.everyYear)
+            // //здесь будет метод сохранения измененных данных в БД, пока - в консоль
+            // console.log('Save birthday in parent component')
+            // console.log(birthday.name)
+            // console.log(birthday.description)
+            // console.log(birthday.date)
+            // console.log(birthday.time)
+            // console.log(birthday.allDay)
+            // console.log(birthday.everyYear)
             //после удачного сохранения события спрятать форму
+
+            this.editItem(birthday)
             this.close();
         }
-
+    },
+    mounted() {
+        // console.log(this.event.allDay)
+        // console.log(this.event.everyYear)
     }
 
 }

@@ -35,13 +35,50 @@ class EventController extends Controller
         return response()->json(new EventResource($event));
     }
 
-    public function update()
+    public function update(Request $request)
     {
+        $event = Event::find($request->id);
 
+        $event->name = $request->name;
+        $event->location = $request->location;
+        $event->description = $request->description;
+        $event->date_start = $request->dateStart;
+        $event->date_end = $request->dateEnd;
+        $event->time_start = $request->timeStart;
+        $event->time_end = $request->timeEnd;
+
+        $guests = Guest::where('event_id', $event->id)->get();
+
+        foreach ($guests as $guest) {
+            $guest->delete();
+        }
+
+        $guestsArr = explode(', ', $request->guests);
+//
+        foreach($guestsArr as $guestItem) {
+            $guest = new Guest();
+
+            $guest->mail = $guestItem;
+            $guest->event_id = $event->id;
+
+            $guest->save();
+        }
+
+        $event->save();
+
+        return response()->json(new EventResource($event), 200);
     }
 
-    public function destroy()
+    public function destroy($id)
     {
+        $event = Event::find($id);
 
+        if($event)
+        {
+            $event->delete();
+            return response()->json('Good', 200);
+        }
+
+        return response()->json('Nosing search');
     }
 }

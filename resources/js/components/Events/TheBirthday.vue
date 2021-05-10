@@ -141,31 +141,33 @@ export default {
             errorTimeBirthday: false,
 
             birthday: {
+                id: this.id,
                 name: this.name,
+                type: 'birthday',
                 description: this.description,
                 date: this.date,
                 time: this.time,
-                allDay: Boolean,
-                everyYear: Boolean,
+                allDay: this.allDay,
+                everyYear: this.everyYear,
             },
         }
     },
 
     mounted() {
-
-        if (this.allDay === 'true') {
-            this.birthday.allDay = true
-        } else {
-            this.birthday.allDay = false
-        }
-        document.getElementById("checkAllDay").checked = this.birthday.allDay
-
-        if (this.everyYear === 'true') {
-            this.birthday.everyYear = true
-        } else {
-            this.birthday.everyYear = false
-        }
-        document.getElementById("checkEveryYear").checked = this.birthday.everyYear
+        // console.log(this.birthday)
+        // if (this.allDay === 'true') {
+        //     this.birthday.allDay = true
+        // } else {
+        //     this.birthday.allDay = false
+        // }
+        // document.getElementById("checkAllDay").checked = this.birthday.allDay
+        //
+        // if (this.everyYear === 'true') {
+        //     this.birthday.everyYear = true
+        // } else {
+        //     this.birthday.everyYear = false
+        // }
+        // document.getElementById("checkEveryYear").checked = this.birthday.everyYear
     },
 
     props: [

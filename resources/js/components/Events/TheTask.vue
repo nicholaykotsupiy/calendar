@@ -165,6 +165,8 @@ export default {
             errorEndTimeTask: false,
 
             task: {
+                id: this.id,
+                type: 'task',
                 name: this.name,
                 description: this.description,
                 dateStart: this.dateStart,
@@ -189,14 +191,12 @@ export default {
     ],
 
     mounted() {
-
         if (this.allDay === 'true') {
             this.task.allDay = true
         } else {
             this.task.allDay = false
         }
         document.getElementById("checkAllDay").checked = this.task.allDay
-
     },
 
     methods: {
@@ -294,6 +294,7 @@ export default {
                 this.isValid = true
 
                 //сбрасываем task
+                this.task.id = this.id
                 this.task.name = this.name
                 this.task.description = this.description
                 this.task.dateStart = this.dateStart
@@ -301,7 +302,7 @@ export default {
                 this.task.timeStart = this.timeStart
                 this.task.timeEnd = this.timeEnd
 
-                if (this.allDay === 'true') {
+                if (this.allDay) {
                     this.task.allDay = true
                 } else {
                     this.task.allDay = false

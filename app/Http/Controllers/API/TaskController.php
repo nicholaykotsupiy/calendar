@@ -30,13 +30,33 @@ class TaskController extends Controller
         return response()->json(new TaskResource($task));
     }
 
-    public function update()
+    public function update(Request $request)
     {
+        $task = Task::find($request->id);
 
+        $task->name = $request->name;
+        $task->description = $request->description;
+        $task->date_start = $request->dateStart;
+        $task->date_end = $request->dateEnd;
+        $task->time_start = $request->timeStart;
+        $task->time_end = $request->timeEnd;
+        $task->all_day = $request->allDay;
+//
+//        $task->save();
+
+        return response()->json(new TaskResource($task), 200);
     }
 
-    public function destroy()
+    public function destroy($id)
     {
+        $task = Task::find($id);
 
+        if($task)
+        {
+            $task->delete();
+            return response()->json('Good', 200);
+        }
+
+        return response()->json('Nosing search');
     }
 }

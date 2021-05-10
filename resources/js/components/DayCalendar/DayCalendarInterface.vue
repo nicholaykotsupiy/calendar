@@ -1,10 +1,10 @@
 <template>
- <div class="wrapper row">
+ <div class="wrapper row mr-2">
     <div class="w-100">
         <DayCalendarHead />
     </div>
-     <div class="calendar_body d-flex col-12 overflow-auto mb-4">
-        <DayCalendarTimeLine :timeLine="timeLine"/>
+     <div class="calendar_body d-flex col-12 mb-4">
+        <DayCalendarTimeLine class="time_line" :timeLine="timeLine"/>
          <DayCalendarEnents
              :currentDate="currentDate"
              :timeLine="timeLine"
@@ -46,8 +46,20 @@ export default {
 </script>
 
 <style scoped>
+.wrapper {
+    background: #fff;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.05);
+    border-radius: 6px;
+}
 .calendar_body {
     height: 660px;
+    overflow-y: scroll;
+    /*overflow-x: hidden;*/
+    padding: 0;
+}
+.time_line {
+    /*overflow-y: scroll;*/
+    /*overflow-x: hidden;*/
 }
 .calendar_body::-webkit-scrollbar { width: 0; }
 </style>

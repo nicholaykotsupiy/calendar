@@ -27,13 +27,30 @@ class ReminderController extends Controller
         return response()->json(new ReminderResource($reminder));
     }
 
-    public function update()
+    public function update(Request $request)
     {
+        $reminder = Reminder::find($request->id);
 
+        $reminder->name = $request->name;
+        $reminder->date = $request->date;
+        $reminder->time = $request->time;
+        $reminder->repeat = $request->toRepeat;
+
+        $reminder->save();
+
+        return response()->json(new ReminderResource($reminder), 200);
     }
 
-    public function destroy()
+    public function destroy($id)
     {
+        $reminder = Reminder::find($id);
 
+        if($reminder)
+        {
+            $reminder->delete();
+            return response()->json('Good', 200);
+        }
+
+        return response()->json('Nosing search');
     }
 }
