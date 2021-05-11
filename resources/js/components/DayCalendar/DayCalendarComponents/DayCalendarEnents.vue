@@ -148,7 +148,6 @@ export default {
         scrollTable(event) {
             let table = document.querySelector('table')
 
-
             if(event.offsetX > this.clickPosition ) {
                 if(parseInt(table.style.left)) {
                     table.style.left = parseInt(table.style.left)+10+'px'
@@ -167,7 +166,7 @@ export default {
     mounted() {
         this.formatedDate = dateformat(this.currentDate, 'yyyy-mm-dd')
 
-        console.log(this.virification)
+        // console.log(this.virification)
         for(let tr of this.$refs.tr){
             if(tr.querySelectorAll('td').length == 1 && tr.querySelector('td').getAttribute('rowspan') == 1) {
                 tr.querySelector('td').setAttribute('colspan', 2)

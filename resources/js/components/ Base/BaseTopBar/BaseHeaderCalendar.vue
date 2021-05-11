@@ -76,7 +76,7 @@ export default {
         ...mapGetters([
             'isMonth',
             'titleNavigationCalendarMonth',
-            'dateInterface'
+            'dateInterface',
         ])
     },
 

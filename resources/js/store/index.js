@@ -4,7 +4,7 @@ import month from "./month";
 import saveEvents from "./saveEvents";
 import editEvents from "./editEvents";
 import day from "./day";
-
+import createPersistedState from "vuex-persistedstate";
 import axios from "axios";
 
 Vue.use(Vuex)
@@ -22,8 +22,21 @@ export default new Vuex.Store({
         events: [],
         reminders: [],
         currentDate: new Date(),
+        user: null,
+        access_token: '',
+        resetPasswordEmail: ''
     },
     mutations: {
+        setUser(state, user) {
+            state.user = user;
+        },
+        setAccessToken(state, access_token) {
+            state.access_token = access_token;
+        },
+        setResetPasswordEmail(state, resetPasswordEmail) {
+            state.resetPasswordEmail = resetPasswordEmail;
+        },
+
         prevDateToDayCalendar(state) {
             state.currentDate = new Date(state.currentDate.getTime() - 24*60*60*1000)
         },
@@ -128,6 +141,17 @@ export default new Vuex.Store({
         },
     },
     actions: {
+        saveUserFromServer({commit}, user) {
+            console.log(user);
+            commit('setUser', user);
+        },
+        saveAccessFromServer({commit}, access_token) {
+            commit('setAccessToken', access_token);
+        },
+        saveResetPasswordEmail({commit}, resetPasswordEmail) {
+            commit('setResetPasswordEmail', resetPasswordEmail);
+        },
+
         getDataFromServer({ commit, state }, payload) {
             commit('addTasksToState', payload.tasks)
             commit('addBirthdaysToState', payload.birthdays)
@@ -173,18 +197,30 @@ export default new Vuex.Store({
         currentDate(state) {
             return state.currentDate
         },
-        dateInterface(state, getters, rootState) {
+        dateInterface(state, getters) {
             let manthArr = [
                 'Январь','Февраль','Март','Апрель','Май','Июнь','Июль',
                 'Август','Сентябрь','Октябрь','Ноябрь','Декабрь',
             ]
-            const month = rootState.currentDate.getMonth()
-            const year = rootState.currentDate.getFullYear()
+
+            const month = state.currentDate.getMonth()
+            const year = state.currentDate.getFullYear()
 
             return `${manthArr[month]} ${year}`
         },
-        allEventsForDay(state, getters, rootState) {
-            return [].concat(rootState.events, rootState.birthdays, rootState.reminders, rootState.tasks)
-        }
-    }
+        allEventsForDay(state, getters) {
+            return [].concat(state.events, state.birthdays, state.reminders, state.tasks)
+        },
+
+        user(state) {
+            return state.user;
+        },
+        access_token(state) {
+            return state.access_token;
+        },
+        resetPasswordEmail(state) {
+            return state.resetPasswordEmail;
+        },
+    },
+    plugins: [createPersistedState({paths: ['user', 'access_token', 'resetPasswordEmail']})],
 })
