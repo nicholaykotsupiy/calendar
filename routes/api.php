@@ -6,6 +6,7 @@ use App\Http\Controllers\API\BirthdayController;
 use App\Http\Controllers\API\EventController;
 use App\Http\Controllers\API\ReminderController;
 use App\Http\Controllers\API\TaskController;
+use App\Http\Controllers\API\CalendarController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,6 +23,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::get('/events', [CalendarController::class, 'index']);
+
 Route::post('/birthday-store', [BirthdayController::class, 'store']);
 Route::put('/birthday-update', [BirthdayController::class, 'update']);
 Route::delete('/birthday-destroy/{id}', [BirthdayController::class, 'destroy']);
@@ -37,3 +40,5 @@ Route::delete('/reminder-destroy/{id}', [ReminderController::class, 'destroy']);
 Route::post('/task-store', [TaskController::class, 'store']);
 Route::put('/task-update', [TaskController::class, 'update']);
 Route::delete('/task-destroy/{id}', [TaskController::class, 'destroy']);
+
+Route::post('/update-colors', [CalendarController::class, 'updateColors']);

@@ -25,7 +25,7 @@ class StoreRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:255',
-//            'guests' => 'string|max:255',
+//            'guests' => 'string|max:255|regex:/(.+@.+\..+\s*,?\s*)*/i',//доработаю
             'location' => 'string|max:255',
             'description' => 'required|string|max:255',
             'dateStart' => 'required|date',

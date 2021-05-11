@@ -20,15 +20,18 @@
                         </div>
 
 <!--        Компонент - модальное окно для создания Напоминания-->
-                        <the-reminder
-                            name="name reminder"
-                            date="2021-04-16"
-                            time="00:01"
-                            to-repeat="Весь день"
-                            @close="close"
-                            @saveEvent="saveChangeReminder"
-                        >
-                        </the-reminder>
+                        <template v-if="event">
+                            <the-reminder
+                                :id="event.id"
+                                :name="event.name"
+                                :date="event.dateStart"
+                                :time="event.timeStart"
+                                :toRepeat="event.repeat"
+                                @close="close"
+                                @saveEvent="saveChangeReminder"
+                            >
+                            </the-reminder>
+                        </template>
 
                     </div>
                 </div>
@@ -39,6 +42,7 @@
 
 <script>
 import TheReminder from "../TheReminder";
+import {mapActions} from "vuex";
 
 export default {
 
@@ -46,8 +50,12 @@ export default {
 
     components: {TheReminder},
 
-    methods: {
+    props: ['event'],
 
+    methods: {
+        ...mapActions([
+            'editItem'
+        ]),
         close() {
             //прослушиваем событие closeEditEventWindow в родительском компоненте
             this.$emit('closeEditReminderWindow');
@@ -57,12 +65,15 @@ export default {
 
             //валидация данных, которая расписана в компоненте, после успешной валидации -
             //здесь будет метод сохранения измененных данных в БД, пока - в консоль
-            console.log('Save reminder in parent component')
+            // console.log('Save reminder in parent component')
+            //
+            // console.log(reminder.id)
+            // console.log(reminder.name)
+            // console.log(reminder.date)
+            // console.log(reminder.time)
+            // console.log(reminder.toRepeat)
 
-            console.log(reminder.name)
-            console.log(reminder.date)
-            console.log(reminder.time)
-            console.log(reminder.toRepeat)
+            this.editItem(reminder)
 
             //после удачного сохранения события спрятать форму
             this.close();

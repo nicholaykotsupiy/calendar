@@ -19,13 +19,17 @@ export default {
 </script>
 
 <style scoped>
+.list {
+  background: #fff;
+  z-index: 2;
+}
 ul, li {
     padding: 0;
     list-style: none;
 }
 .time {
     height: 60px;
-    width: 60px;
+    width: 75px;
     padding-right: 10px;
 }
 .time span {

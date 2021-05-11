@@ -1,20 +1,5 @@
 <template>
-
     <div class="container calendar-center">
-
-<!--        убрала -->
-<!--        &lt;!&ndash;        временные кнопки&ndash;&gt;-->
-<!--        <div class="flex">-->
-<!--            <div>-->
-<!--                <button v-on:click="prevMonth"><</button>-->
-<!--            </div>-->
-<!--            <div>-->
-<!--                <button v-on:click="nextMonth">></button>-->
-<!--            </div>-->
-<!--&lt;!&ndash;            <div> {{ titleNavigationCalendarMonth }} </div>&ndash;&gt;-->
-<!--            <div> {{months[month]}} {{year}} </div>-->
-<!--        </div>-->
-
         <table class="table-month">
             <thead>
             <tr class="flex">
@@ -23,42 +8,46 @@
             </thead>
             <tbody>
             <tr v-for="week in calendar()" class="flex">
-                <td v-for="(day, index) in week">
+                <td :id="`td-`+day.index" v-for="(day, index) in week">
+<!--                    это окно надо прицепить на событие, вытягивать из него и передавать тип и id -->
+                    <modal-edit
+                        :id="`td-`+day.index"
+                        type-event="reminder"
+                        :id-event="day.index">
+                    </modal-edit>
+
                     <div class="daygrid-day-frame">
                         <div class="daygrid-day-top flex">
 
 <!--                                пример как будут отображаться праздники Украины-->
-                            <template v-if="day.index === 15">
+                            <template v-if="day.index === 8">
                                 <div class="daygrid-day-ukr">Праздник Укр </div>
-                                <div class="daygrid-day-number">
+
+                                <div class="daygrid-day-number holiday">
+                                    {{ day.index }}
 <!--                                        обозначить текущий день-->
-                                    <a href="#" :style="{
-                                        'background': day.currentbg,
-                                        'color': day.current,
-                                        'border-radius': '50%',
-                                        'width': '30px',
-                                        'height': '30px',
-                                        'padding': '5px'
-                                        }">
-                                        {{ day.index }}
-                                    </a>
+<!--                                    <span :style="{-->
+<!--                                        'color': day.current,-->
+<!--                                        'width': '30px',-->
+<!--                                        'height': '30px',-->
+<!--                                        'background': 'red',-->
+<!--                                        'border-radius': '10px'-->
+<!--                                        }">-->
+<!--                                        {{ day.index }}-->
+<!--                                    </span>-->
                                 </div>
                             </template>
 
                             <template v-else>
                                 <div class="daygrid-day-number-without-ukr">
 <!--                                        обозначить текущий день-->
-                                    <a href="#"
+                                    <span
                                        :style="{
-                                            'background': day.currentbg,
                                             'color': day.current,
-                                            'border-radius': '50%',
-                                            'width': '30px',
-                                            'height': '30px',
-                                            'padding': '5px'
-                                        }">
+                                        }"
+                                    >
                                         {{ day.index }}
-                                    </a>
+                                    </span>
                                 </div>
                             </template>
                         </div>
@@ -99,14 +88,11 @@ export default {
     data() {
 
         return {
-            //перенесла в стейт
-            // month: new Date().getMonth(),
-            // year: new Date().getFullYear(),
             dFirstMonth: 1,
-            day:["Понедельник", "Вторник","Среда","Четверг","Пятница","Суббота", "Воскресенье"],
-            // months: ["Январь","Февраль","Март","Апрель","Май","Июнь","Июль","Август","Сентябрь","Октябрь","Ноябрь","Декабрь"],
+            day: ["Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота", "Воскресенье"],
             date: new Date(),
         }
+
     },
 
     computed: {
@@ -172,8 +158,8 @@ export default {
                     days[week].push(a)
                     if (i === new Date().getDate() && this.year === new Date().getFullYear() && this.month === new Date().getMonth())
                     {
-                        a.current = '#ffffff'
-                        a.currentbg = '#1875F0'
+                        a.current = '#3490dc'
+                        // a.currentbg = '#ffffff'
                     }
                 }
                 else {
@@ -182,8 +168,8 @@ export default {
                     let a = {index:i}
                     days[week].push(a)
                     if ((i === new Date().getDate()) && (this.year === new Date().getFullYear()) && (this.month === new Date().getMonth()))                     {
-                        a.current = '#ffffff'
-                        a.currentbg = '#1875F0'
+                        a.current = '#3490dc'
+                        // a.currentbg = '#ffffff'
                     }
                 }
 
@@ -208,33 +194,31 @@ export default {
 
         },
 
-        //тоже вынесла в стейт
-        // prevMonth() {
-        //
-        //     this.month--
-        //     if (this.month < 0) {
-        //         this.month = 12
-        //         this.month--
-        //         this.year--
-        //     }
-        //
-        // },
-        //
-        // nextMonth() {
-        //
-        //     this.month++
-        //     if (this.month > 11) {
-        //         this.month = -1
-        //         this.month++
-        //         this.year++
-        //     }
-        //
-        // },
     },
 }
 </script>
 
 <style scoped>
+
+.holiday {
+    display: block;
+    width: 25px;
+    height: 25px;
+    background: red;
+    border-radius: 3px;
+    padding: 0;
+    color: #ffff;
+    text-align: center;
+}
+
+.currentDay{
+    background: #ffffff;
+    color: #1875F0;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    padding: 5px;
+}
 
 .flex {
     display: flex;
@@ -286,6 +270,11 @@ export default {
     text-decoration: none;
     padding-left: 10px;
 }
+
+.daygrid-day-number {
+    width: 30px;
+}
+
 .daygrid-day-reminder {
     margin: 1px;
     cursor: pointer;
@@ -305,9 +294,6 @@ export default {
     color: #222222;
     text-align: left;
     padding-left: 5px;
-}
-.daygrid-day-number {
-    width: 20px;
 }
 .daygrid-day-number-without-ukr {
     width: 100%;

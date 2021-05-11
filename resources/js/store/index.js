@@ -1,117 +1,241 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import month from "./month";
-import allEvents from "./allEvents";
+import saveEvents from "./saveEvents";
+import editEvents from "./editEvents";
+import day from "./day";
+
+import axios from "axios";
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
     modules: {
         month,
-        allEvents
+        saveEvents,
+        editEvents,
+        day
     },
     state: {
-    //    Базовая структура стейта'
-        tasks: [
-            {
-                id: 1,
-                type: 'task',
-                name: 'Новая задачка',
-                description: 'Описание задачи',
-                dateStart: '5/7/2021', // currentDate
-                timeStart: '2:30',
-                dateEnd: '5/7/2021',
-                timeEnd: '12:00',
-                allDay: false,
-                user_id: 1,
-                end: 2,
-            },
-        ],
-        birthdays: [
-            {
-                id: 1,
-                type: 'birthday',
-                name: 'День рожденья',
-                description: '',
-                dateStart: '5/7/2021', // currentDate
-                timeStart: '1:00',
-                allDay: false,
-                everyYear: false,
-                user_id: 1,
-                end: 1
-            },
-        ],
-        events: [
-            {
-                id: 1,
-                name: 'Крутое мероприятие',
-                type: 'event',
-                guests: ['qwe'],
-                location: 'Kramatorsk Park',
-                description: '',
-                dateStart: '5/6/2021', // currentDate
-                dateEnd: '5/7/2021',
-                timeStart: '4:30',
-                timeEnd: '5:00',
-                user_id: 1,
-                end: 1
-            },
-        ],
-        reminders: [
-            {
-                id: 1,
-                type: 'reminder',
-                name: 'Напоминание на экзамен',
-                dateStart: '5/6/2021', // currentDate
-                timeStart: '00:00',
-                toRepeat: false,
-                user_id: 1,
-                end: 1
-            },
-            {
-                id: 2,
-                type: 'reminder',
-                name: 'Напоминание на экзамен',
-                dateStart: '5/6/2021', // currentDate
-                timeStart: '00:00',
-                toRepeat: false,
-                user_id: 1,
-                end: 1
-            },
-        ],
+        tasks: [],
+        birthdays: [],
+        events: [],
+        reminders: [],
         currentDate: new Date(),
     },
     mutations: {
+
+        swichToDate(state, payload) {
+            state.currentDate = new Date(payload)
+        },
+
         prevDateToDayCalendar(state) {
-            const dayMilliseconds = 24*60*60*1000;
-            state.currentDate = new Date(state.currentDate.getTime() - dayMilliseconds)
+            state.currentDate = new Date(state.currentDate.getTime() - 24*60*60*1000)
         },
+
         nextDateToDayCalendar(state) {
-            const dayMilliseconds = 24*60*60*1000;
-            state.currentDate = new Date(state.currentDate.getTime() + dayMilliseconds)
+            state.currentDate = new Date(state.currentDate.getTime() + 24*60*60*1000)
         },
+
         currentDateToDayCalendar(state) {
             state.currentDate = new Date()
-        }
+        },
+
+        addTasksToState(state, tasks) {
+            tasks.forEach(item => {
+                if(!state.tasks.find(elem => elem.id === item.id)) {
+                    state.tasks.push(item)
+                }
+            })
+        },
+
+        addBirthdaysToState(state, birthdays) {
+            birthdays.forEach(item => {
+                if(!state.birthdays.find(elem => elem.id === item.id)) {
+                    state.birthdays.push(item)
+                }
+            })
+        },
+
+        addEventsToState(state, events) {
+            events.forEach(item => {
+                if(!state.events.find(elem => elem.id === item.id)) {
+                    state.events.push(item)
+                }
+            })
+        },
+
+        addRemindersToState(state, reminders) {
+            reminders.forEach(item => {
+                if(!state.reminders.find(elem => elem.id === item.id)) {
+                    state.reminders.push(item)
+                }
+            })
+        },
+
+        deleteEvent(state, itemID) {
+            let findItem = state.events.findIndex(item => item.id === itemID)
+            state.events.splice(findItem,1)
+
+            axios.delete('api/event-destroy/' + itemID)
+                .then(response => console.log(response.data))
+        },
+        deleteReminder(state, itemID) {
+            let findItem = state.reminders.findIndex(item => item.id === itemID)
+            state.reminders.splice(findItem,1)
+
+            axios.delete('api/reminder-destroy/' + itemID)
+                .then(response => console.log(response.data))
+        },
+        deleteBirthday(state, itemID) {
+            let findItem = state.birthdays.findIndex(item => item.id === itemID)
+            state.birthdays.splice(findItem,1)
+
+            axios.delete('api/birthday-destroy/' + itemID)
+                .then(response => console.log(response.data))
+        },
+        deleteTask(state, itemID) {
+            let findItem = state.tasks.findIndex(item => item.id === itemID)
+            state.tasks.splice(findItem,1)
+
+            axios.delete('api/task-destroy/' + itemID)
+                .then(response => console.log(response.data))
+        },
+
+        editEvent(state, payload) {
+            let findItem = state.events.findIndex(item => item.id === payload.id)
+            axios.put('/api/event-update', payload)
+                .then(response => {
+                    state.events.splice(findItem,1, response.data)
+                })
+        },
+        editTask(state, payload) {
+            let findItem = state.tasks.findIndex(item => item.id === payload.id)
+            axios.put('/api/task-update', payload)
+                .then(response => {
+                    state.tasks.splice(findItem,1, response.data)
+                })
+        },
+        editReminder(state, payload) {
+            let findItem = state.reminders.findIndex(item => item.id === payload.id)
+            axios.put('/api/reminder-update', payload)
+                .then(response => {
+
+                    state.reminders.splice(findItem,1, response.data)
+                })
+        },
+        editBirthday(state, payload) {
+            let findItem = state.birthdays.findIndex(item => item.id === payload.id)
+            axios.put('/api/birthday-update', payload)
+                .then(response => {
+                    state.birthdays.splice(findItem,1, response.data)
+                })
+        },
+
+        updateEventColor(state, payload) {
+            state.events.map(item => {
+                item.main_color = payload.main_color
+                item.bg_color = payload.bg_color
+            })
+        },
+        updateTaskColor(state, payload) {
+            state.tasks.map(item => {
+                item.main_color = payload.main_color
+                item.bg_color = payload.bg_color
+            })
+        },
+        updateReminderColor(state, payload) {
+            state.reminders.map(item => {
+                item.main_color = payload.main_color
+                item.bg_color = payload.bg_color
+            })
+        },
+        updateBirthdayColor(state, payload) {
+            state.birthdays.map(item => {
+                item.main_color = payload.main_color
+                item.bg_color = payload.bg_color
+            })
+        },
     },
     actions: {
+        getDataFromServer({ commit, state }, payload) {
+            commit('addTasksToState', payload.tasks)
+            commit('addBirthdaysToState', payload.birthdays)
+            commit('addEventsToState', payload.events)
+            commit('addRemindersToState', payload.reminders)
+        },
+
+        deleteItem({commit}, payload) {
+            switch(payload.type) {
+                case 'event':
+                    commit('deleteEvent', payload.id)
+                    break
+                case 'reminder':
+                    commit('deleteReminder', payload.id)
+                    break
+                case 'birthday':
+                    commit('deleteBirthday', payload.id)
+                    break
+                case 'task':
+                    commit('deleteTask', payload.id)
+                    break
+            }
+        },
+
+        editItem({commit}, payload) {
+            switch(payload.type) {
+                case 'task':
+                    commit('editTask', payload)
+                    break
+                case 'reminder':
+                    commit('editReminder', payload)
+                    break
+                case 'birthday':
+                    commit('editBirthday', payload)
+                    break
+                case 'event':
+                    commit('editEvent', payload)
+                    break
+            }
+        },
+
+        updateColors({commit}, payload) {
+            switch(payload.type) {
+                case 'task':
+                    axios.post('/api/update-colors', payload)
+                        .then(r => commit('updateTaskColor', payload))
+                    break
+                case 'reminder':
+                    axios.post('/api/update-colors', payload)
+                        .then(r => commit('updateReminderColor', payload))
+                    break
+                case 'birthday':
+                    axios.post('/api/update-colors', payload)
+                        .then(r => commit('updateBirthdayColor', payload))
+                    break
+                case 'event':
+                    axios.post('/api/update-colors', payload)
+                        .then(r => commit('updateEventColor', payload))
+                    break
+            }
+        }
     },
     getters: {
         currentDate(state) {
             return state.currentDate
         },
-        dateInterface(state) {
+        dateInterface(state, getters, rootState) {
             let manthArr = [
                 'Январь','Февраль','Март','Апрель','Май','Июнь','Июль',
                 'Август','Сентябрь','Октябрь','Ноябрь','Декабрь',
             ]
-            const month = state.currentDate.getMonth()
-            const year = state.currentDate.getFullYear()
+            const month = rootState.currentDate.getMonth()
+            const year = rootState.currentDate.getFullYear()
 
             return `${manthArr[month]} ${year}`
         },
-        allEventsForDay(state) {
-             return [].concat(state.events, state.birthdays, state.reminders, state.tasks)
+        allEventsForDay(state, getters, rootState) {
+            return [].concat(rootState.events, rootState.birthdays, rootState.reminders, rootState.tasks)
         }
     }
 })

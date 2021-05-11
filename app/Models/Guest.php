@@ -42,7 +42,5 @@ class Guest extends Model
 
         }
 
-        return $guests;
-
     }
 }

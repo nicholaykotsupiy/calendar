@@ -1,19 +1,6 @@
 <template>
     <div>
 
-        <!-- Модальное окно для сообщений-->
-        <b-modal id="modal-message-task" hide-footer :title="titleModalMessage">
-            <p class="my-4 body-message">{{ bodyModalMessage }}</p>
-            <div class="row modal-footer text-center">
-                <div class="col-12">
-                    <button type="button" class="btn btn-primary btn-lg" data-dismiss="modal"
-                            @click="$bvModal.hide('modal-message-task')"
-                    >
-                        ОК
-                    </button>
-                </div>
-            </div>
-        </b-modal>
 
         <form id="myForm" @submit.prevent="saveEvent()">
             <div class="row body-create-event">
@@ -163,8 +150,6 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-
 export default {
 
     name: "TheTask",
@@ -180,6 +165,8 @@ export default {
             errorEndTimeTask: false,
 
             task: {
+                id: this.id,
+                type: 'task',
                 name: this.name,
                 description: this.description,
                 dateStart: this.dateStart,
@@ -190,22 +177,6 @@ export default {
             },
 
         }
-    },
-
-    computed: {
-
-        titleModalMessage() {
-            return this.titleModalMessage
-        },
-
-        bodyModalMessage() {
-            return this.bodyModalMessage
-        },
-
-        ...mapGetters([
-            'titleModalMessage',
-            'bodyModalMessage',
-        ])
     },
 
     props: [
@@ -220,14 +191,12 @@ export default {
     ],
 
     mounted() {
-
         if (this.allDay === 'true') {
             this.task.allDay = true
         } else {
             this.task.allDay = false
         }
         document.getElementById("checkAllDay").checked = this.task.allDay
-
     },
 
     methods: {
@@ -317,22 +286,15 @@ export default {
 
             if (this.isValid) {
 
-                // console.log(this.task.name)
-                // console.log(this.task.description)
-                // console.log(this.task.dateStart)
-                // console.log(this.task.dateEnd)
-                // console.log(this.task.timeStart)
-                // console.log(this.task.timeEnd)
-                // console.log(this.task.allDay)
-
                 //прослушиваем событие saveEvent в родительском компоненте, передаем в параметрах this.task
                 this.$emit('saveEvent', this.task)
 
-                this.$bvModal.show('modal-message-task')
+                this.$bvModal.show('modal-message-ok')
 
                 this.isValid = true
 
                 //сбрасываем task
+                this.task.id = this.id
                 this.task.name = this.name
                 this.task.description = this.description
                 this.task.dateStart = this.dateStart
@@ -340,7 +302,7 @@ export default {
                 this.task.timeStart = this.timeStart
                 this.task.timeEnd = this.timeEnd
 
-                if (this.allDay === 'true') {
+                if (this.allDay) {
                     this.task.allDay = true
                 } else {
                     this.task.allDay = false
@@ -373,23 +335,6 @@ export default {
 .error {
     color: #F44336;
     border-color: #F44336
-}
-
-.descriptionTask {
-    height: 80px;
-}
-
-.modal-header {
-    border-bottom: none;
-}
-
-.modal-body .modal-footer {
-    border-top: none;
-}
-
-.body-message {
-    text-align: center;
-    font-size: 18px;
 }
 
 </style>
