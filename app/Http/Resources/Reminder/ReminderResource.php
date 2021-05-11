@@ -23,7 +23,9 @@ class ReminderResource extends JsonResource
             'repeat' => $this->repeat,
             'user_id' => $this->user_id,
             'end' => 1,
-            'longsDate' => [$this->date]
+            'longsDate' => [$this->date],
+            'main_color' => $this->main_color,
+            'bg_color' => $this->bg_color,
         ];
     }
 }

@@ -23,6 +23,8 @@ class EventController extends Controller
         $event->date_end = $request->dateEnd;
         $event->time_start = $request->timeStart;
         $event->time_end = $request->timeEnd;
+        $event->bg_color = '#FAFAFA';
+        $event->main_color = '#808080';
         $event->user_id = 1;//потом нужно добавлять user_id через аутентификацию
 //        $event->user_id= Auth::user()->id;
 
@@ -46,6 +48,8 @@ class EventController extends Controller
         $event->date_end = $request->dateEnd;
         $event->time_start = $request->timeStart;
         $event->time_end = $request->timeEnd;
+        $event->bg_color = $request->bg_color;
+        $event->main_color = $request->main_color;
 
         $guests = Guest::where('event_id', $event->id)->get();
 

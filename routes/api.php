@@ -40,3 +40,5 @@ Route::delete('/reminder-destroy/{id}', [ReminderController::class, 'destroy']);
 Route::post('/task-store', [TaskController::class, 'store']);
 Route::put('/task-update', [TaskController::class, 'update']);
 Route::delete('/task-destroy/{id}', [TaskController::class, 'destroy']);
+
+Route::post('/update-colors', [CalendarController::class, 'updateColors']);

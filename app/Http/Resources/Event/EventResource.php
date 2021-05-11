@@ -56,7 +56,9 @@ class EventResource extends JsonResource
             'dateEnd' => $this->date_end,
             'user_id' => $this->user_id,
             'end' => $end,
-            'guests' => $guestsMail
+            'guests' => $guestsMail,
+            'main_color' => $this->main_color,
+            'bg_color' => $this->bg_color,
         ];
     }
 }

@@ -25,6 +25,8 @@ class BirthdayController extends Controller
         $birthday->time = $request->time;
         $birthday->all_day = $request->allDay;
         $birthday->every_year = $request->everyYear;
+        $birthday->bg_color = '#FAFAFA';
+        $birthday->main_color = '#808080';
         $birthday->user_id = 1;//потом нужно добавлять user_id через аутентификацию
 //        $birthday->user_id = Auth::user()->id;
 
@@ -43,7 +45,9 @@ class BirthdayController extends Controller
         $birthday->time = $request->time;
         $birthday->all_day = $request->all_day;
         $birthday->every_year = $request->every_year;
-//
+        $birthday->bg_color = $request->bg_color;
+        $birthday->main_color = $request->main_color;
+
         $birthday->save();
 
         return response()->json(new StoreResource($birthday), 200);

@@ -53,6 +53,8 @@ class TaskResource extends JsonResource
             'allDay' => boolval($this->all_day),
             'user_id' => $this->user_id,
             'end' => $end,
+            'main_color' => $this->main_color,
+            'bg_color' => $this->bg_color,
         ];
     }
 }

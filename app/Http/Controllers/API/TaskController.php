@@ -22,6 +22,8 @@ class TaskController extends Controller
         $task->time_start = $request->timeStart;
         $task->time_end = $request->timeEnd;
         $task->all_day = $request->allDay;
+        $task->bg_color = '#FAFAFA';
+        $task->main_color = '#808080';
         $task->user_id = 1;//потом нужно добавлять user_id через аутентификацию
 //        $birthday->user_id= Auth::user()->id;
 
@@ -41,6 +43,8 @@ class TaskController extends Controller
         $task->time_start = $request->timeStart;
         $task->time_end = $request->timeEnd;
         $task->all_day = $request->allDay;
+        $task->bg_color = $request->bg_color;
+        $task->main_color = $request->main_color;
 //
 //        $task->save();
 

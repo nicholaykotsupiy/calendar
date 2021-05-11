@@ -18,12 +18,12 @@
                     (event.longsDate.length < 1 || event.longsDate.indexOf(formatedDate) === 0))
                     ||
                     (line.slice(0, line.indexOf(':')) === '00' && event.longsDate.includes(formatedDate) && event.longsDate.indexOf(formatedDate) > 0)"
-                :style="{background: '#D2EFFE'}"
+                :style="{background: event.bg_color, color: event.main_color}"
                 :key="index"
                 :rowspan="event.longsDate.includes(virification)
                             ? 24 - event.timeStart.slice(0, event.timeStart.indexOf(':')) : event.longsDate.length > 1 ? event.end+1: event.end"
                 class="event_item border position-relative">
-                <div class="info d-flex align-items-top position-absolute top-0">
+                <div :style="{borderLeft: '2px solid '+event.main_color}" class="info d-flex align-items-top position-absolute top-0">
                     <span class="exect_time">{{ event.timeStart }}</span>
                     <span class="title">{{ event.name }}</span>
                 </div>
@@ -198,9 +198,9 @@ export default {
     }
     .event_item {
         min-width: 500px;
-        background: #D2EFFE;
+        /*background: #D2EFFE;*/
         height: 60px;
-        border-left: 2px solid #19ADF8;
+        /*border-left: 2px solid #19ADF8;*/
     }
     .buttons {
         position: absolute;
@@ -215,7 +215,7 @@ export default {
         font-weight: 900;
         font-size: 12px;
         line-height: 60px;
-        color: #2675B5;
+        /*color: #2675B5;*/
     }
     .exect_time {
         padding: 0 20px 0 15px;

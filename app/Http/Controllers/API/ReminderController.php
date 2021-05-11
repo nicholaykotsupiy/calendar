@@ -19,6 +19,8 @@ class ReminderController extends Controller
         $reminder->date = $request->date;
         $reminder->time = $request->time;
         $reminder->repeat = $request->toRepeat;
+        $reminder->bg_color = '#FAFAFA';
+        $reminder->main_color = '#808080';
         $reminder->user_id = 1;//потом нужно добавлять user_id через аутентификацию
 //        $reminder->user_id = Auth::user()->id;
 
@@ -35,6 +37,8 @@ class ReminderController extends Controller
         $reminder->date = $request->date;
         $reminder->time = $request->time;
         $reminder->repeat = $request->toRepeat;
+        $reminder->bg_color = $request->bg_color;
+        $reminder->main_color = $request->main_color;
 
         $reminder->save();
 

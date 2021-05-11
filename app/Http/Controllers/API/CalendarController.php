@@ -24,4 +24,34 @@ class CalendarController extends Controller
 
         return response()->json(['birthdays' => $birthdays, 'events' => $events, 'reminders' => $reminders, 'tasks' => $tasks]);
     }
+
+    public function updateColors(Request  $request)
+    {
+        $events = null;
+
+        if($request->type === 'task')
+        {
+            $events = Task::all();
+        }else if($request->type === 'reminder')
+        {
+            $events = Reminder::all();
+        }else if($request->type === 'event')
+        {
+            $events = Event::all();
+        }else if($request->type === 'birthday')
+        {
+            $events = Birthday::all();
+        }else {
+            return response('bad type');
+        }
+
+        foreach ($events as $event) {
+            $event->bg_color = $request->bg_color;
+            $event->main_color = $request->main_color;
+
+            $event->save();
+        }
+
+        return response('update');
+    }
 }

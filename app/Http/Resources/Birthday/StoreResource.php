@@ -26,6 +26,8 @@ class StoreResource extends JsonResource
             'user_id' => $this->user_id,
             'end' => 1,
             'longsDate' => [$this->date],
+            'main_color' => $this->main_color,
+            'bg_color' => $this->bg_color,
         ];
     }
 }

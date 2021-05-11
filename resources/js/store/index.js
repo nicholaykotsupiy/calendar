@@ -3,7 +3,6 @@ import Vuex from 'vuex'
 import month from "./month";
 import saveEvents from "./saveEvents";
 import editEvents from "./editEvents";
-import deleteEnents from "./deleteEnents";
 import day from "./day";
 
 import axios from "axios";
@@ -15,7 +14,6 @@ export default new Vuex.Store({
         month,
         saveEvents,
         editEvents,
-        deleteEnents,
         day
     },
     state: {
@@ -128,6 +126,31 @@ export default new Vuex.Store({
                     state.birthdays.splice(findItem,1, response.data)
                 })
         },
+
+        updateEventColor(state, payload) {
+            state.events.map(item => {
+                item.main_color = payload.main_color
+                item.bg_color = payload.bg_color
+            })
+        },
+        updateTaskColor(state, payload) {
+            state.tasks.map(item => {
+                item.main_color = payload.main_color
+                item.bg_color = payload.bg_color
+            })
+        },
+        updateReminderColor(state, payload) {
+            state.reminders.map(item => {
+                item.main_color = payload.main_color
+                item.bg_color = payload.bg_color
+            })
+        },
+        updateBirthdayColor(state, payload) {
+            state.birthdays.map(item => {
+                item.main_color = payload.main_color
+                item.bg_color = payload.bg_color
+            })
+        },
     },
     actions: {
         getDataFromServer({ commit, state }, payload) {
@@ -167,6 +190,27 @@ export default new Vuex.Store({
                     break
                 case 'event':
                     commit('editEvent', payload)
+                    break
+            }
+        },
+
+        updateColors({commit}, payload) {
+            switch(payload.type) {
+                case 'task':
+                    axios.post('/api/update-colors', payload)
+                        .then(r => commit('updateTaskColor', payload))
+                    break
+                case 'reminder':
+                    axios.post('/api/update-colors', payload)
+                        .then(r => commit('updateReminderColor', payload))
+                    break
+                case 'birthday':
+                    axios.post('/api/update-colors', payload)
+                        .then(r => commit('updateBirthdayColor', payload))
+                    break
+                case 'event':
+                    axios.post('/api/update-colors', payload)
+                        .then(r => commit('updateEventColor', payload))
                     break
             }
         }

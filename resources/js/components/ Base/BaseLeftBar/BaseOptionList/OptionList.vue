@@ -10,80 +10,28 @@
             </div>
             <div v-if="calendar.option.active">
                 <div class="option_title">Показывать только этот</div>
-                <ul class="option_list d-flex justify-content-center flex-wrap align-items-center">
-                    <li class="mx-2">
-                        <label>
-                            <input type="checkbox" class="checkbox">
-                            <div style="background: red" @click="addColors(calendar.option, 'red')" class="fake_check"></div>
-                        </label>
-                    </li>
-                    <li class="mx-2">
-                        <label>
-                            <input type="checkbox" class="checkbox">
-                            <div style="background: blue" @click="addColors(calendar.option, 'blue')" class="fake_check"></div>
-                        </label>
-                    </li>
-                    <li class="mx-2">
-                        <label>
-                            <input type="checkbox" class="checkbox">
-                            <div style="background: green" @click="addColors(calendar.option, 'green')" class="fake_check"></div>
-                        </label>
-                    </li>
-                    <li class="mx-2">
-                        <label>
-                            <input type="checkbox" class="checkbox">
-                            <div style="background: red" @click="addColors(calendar.option, 'red')" class="fake_check"></div>
-                        </label>
-                    </li>
-                    <li class="mx-2">
-                        <label>
-                            <input type="checkbox" class="checkbox">
-                            <div style="background: blue" @click="addColors(calendar.option, 'blue')" class="fake_check"></div>
-                        </label>
-                    </li>
-                    <li class="mx-2">
-                        <label>
-                            <input type="checkbox" class="checkbox">
-                            <div style="background: green" @click="addColors(calendar.option, 'green')" class="fake_check"></div>
-                        </label>
-                    </li>
-                    <li class="mx-2">
-                        <label>
-                            <input type="checkbox" class="checkbox">
-                            <div style="background: red" @click="addColors(calendar.option, 'red')" class="fake_check"></div>
-                        </label>
-                    </li>
-                    <li class="mx-2">
-                        <label>
-                            <input type="checkbox" class="checkbox">
-                            <div style="background: blue" @click="addColors(calendar.option, 'blue')" class="fake_check"></div>
-                        </label>
-                    </li>
-                    <li class="mx-2">
-                        <label>
-                            <input type="checkbox" class="checkbox">
-                            <div style="background: green" @click="addColors(calendar.option, 'green')" class="fake_check"></div>
-                        </label>
-                    </li>
-                    <li class="mx-2">
-                        <label>
-                            <input type="checkbox" class="checkbox">
-                            <div style="background: red" @click="addColors(calendar.option, 'red')" class="fake_check"></div>
-                        </label>
-                    </li>
-                    <li class="mx-2">
-                        <label>
-                            <input type="checkbox" class="checkbox">
-                            <div style="background: blue" @click="addColors(calendar.option, 'blue')" class="fake_check"></div>
-                        </label>
-                    </li>
-                    <li class="mx-2">
-                        <label>
-                            <input type="checkbox" class="checkbox">
-                            <div style="background: green" @click="addColors(calendar.option, 'green')" class="fake_check"></div>
-                        </label>
-                    </li>
-                </ul>
+                <form>
+                    <ul class="option_list d-flex justify-content-center flex-wrap align-items-center">
+                        <li class="mx-2">
+                            <label>
+                                <input type="radio" name="color" class="checkbox">
+                                <div style="background: #808080" @click="addColors({type: calendar.option.type, main_color: '#808080',bg_color: '#FAFAFA'})" class="fake_check"></div>
+                            </label>
+                        </li>
+                        <li class="mx-2">
+                            <label>
+                                <input type="radio" name="color" class="checkbox">
+                                <div style="background: #86488A" @click="addColors({type: calendar.option.type, main_color: '#86488A',bg_color: '#F5E3F9'})" class="fake_check"></div>
+                            </label>
+                        </li>
+                        <li class="mx-2">
+                            <label>
+                                <input type="radio" name="color" class="checkbox">
+                                <div style="background: #D46D2C" @click="addColors({type: calendar.option.type, main_color: '#D46D2C',bg_color: '#FEEACC'})" class="fake_check"></div>
+                            </label>
+                        </li>
+                    </ul>
+                </form>
             </div>
         </li>
     </ul>
@@ -91,6 +39,7 @@
 
 <script>
 import arrow from "../../../../assets/img/DayCalendar/arrow_callendars.png";
+import {mapActions} from "vuex";
 export default {
     name: "OptionList",
     props: ['openCalendars'],
@@ -101,45 +50,40 @@ export default {
                 id: 1,
                 name: 'Дни рождения',
                 option: {
+                    type: 'birthday',
                     active: false,
-                    colors: [],
                 }
             },
             {
                 id: 2,
                 name: 'Задачи',
                 option: {
+                    type: 'task',
                     active: false,
-                    colors: [],
                 }
             },
             {
                 id: 3,
                 name: 'Мероприятие',
                 option: {
+                    type: 'event',
                     active: false,
-                    colors: [],
                 }
             },
             {
                 id: 4,
                 name: 'Напоминания',
                 option: {
+                    type: 'reminder',
                     active: false,
-                    colors: [],
-                }
-            },
-            {
-                id: 5,
-                name: 'Праздники Украины',
-                option: {
-                    active: false,
-                    colors: [],
                 }
             },
         ]
     }),
     methods: {
+        ...mapActions([
+            'updateColors'
+        ]),
         openBar(calendar, index) {
             if(calendar.option.active) {
                 this.$refs.item[index].style.transform = 'rotate(0deg)'
@@ -148,12 +92,8 @@ export default {
             }
             calendar.option.active = !calendar.option.active
         },
-        addColors(option, color) {
-            if(option.colors.indexOf(color) === -1){
-                option.colors.push(color)
-            } else {
-                option.colors.splice(option.colors.indexOf(color), 1)
-            }
+        addColors(option) {
+            this.updateColors(option)
         }
     }
 }
