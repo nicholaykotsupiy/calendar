@@ -37,7 +37,7 @@
         >
         </edit-task-window>
 
-        <DayCalendarWrapper />
+        <router-view />
     </div>
 </template>
 

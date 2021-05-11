@@ -1,6 +1,7 @@
 <template>
     <div>
-        <TopNavigation />
+<!--        <TopNavigation />-->
+        <Header />
 <!--        если выбран календарь в масштабе месяц -->
         <template v-if="isMonth">
             <DayCalendarNavigation @current="switchToCurrentMonth" @prev="prevMonth" @next="nextMonth" />
@@ -32,12 +33,14 @@ import LeftNavigation from "../Navigation/LeftNavigationBar/LeftNavigation"
 import DayCalendar from  "./DayCalendar"
 import { mapGetters, mapMutations } from 'vuex'
 import DayCalendarNavigation from "./DayCalendarComponents/DayCalendarNavigation";
+import Header from "../Navigation/TopNavigationBar/Header";
 
 export default {
 
     name: "DayCalendarWrapper",
 
     components: {
+        Header,
         DayCalendarNavigation,
         LeftNavigation,
         TopNavigation,
