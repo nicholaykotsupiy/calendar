@@ -32,7 +32,7 @@
                                                 <!--обозначить текущий день-->
                                                 <a
                                                     data-toggle="tooltip"
-                                                    data-placement="top" 
+                                                    data-placement="top"
                                                     :title="day.summary"
                                                     @click="dayClickHandler(day)"
                                                     :style="{
@@ -42,14 +42,14 @@
                                                         'width': '30px',
                                                         'height': '30px',
                                                         'padding': day.index < 10 ? '5px 8px' : '5px'
-                                                    }"> 
+                                                    }">
                                                     {{ day.index }}
                                                 </a>
                                             </div>
                                         </div>
                                     </div>
                                 </td>
-                            </tr>                
+                            </tr>
                         </div>
                     </tbody>
                 </table>
@@ -134,7 +134,7 @@ export default {
                     for (let j = 0; j < this.holidays[dayOfMonthIsoDate].length; j++) {
                         a.summary += capitalizeFirstLetter(this.holidays[dayOfMonthIsoDate][j].summary + '. ')
                     }
-                     
+
                 }
 
                 // проверка на текущий день
@@ -152,7 +152,7 @@ export default {
             for (let i = days[week].length; i < 7; i++) {
                 days[week].push('');
             }
-            
+
             return days;
         },
         decrease() {
@@ -170,7 +170,7 @@ export default {
             }
             if (day.isHoliday) {
                 return '#fbdddd'
-            } 
+            }
             return '#ffffff'
         },
         getDayColor(day) {
@@ -179,7 +179,7 @@ export default {
             }
             if (day.isHoliday) {
                 return '#f44336'
-            } 
+            }
             return '#666666'
         },
     },

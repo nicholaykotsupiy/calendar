@@ -24,6 +24,11 @@ export default new Vuex.Store({
         currentDate: new Date(),
     },
     mutations: {
+
+        swichToDate(state, payload) {
+            state.currentDate = new Date(payload)
+        },
+
         prevDateToDayCalendar(state) {
             state.currentDate = new Date(state.currentDate.getTime() - 24*60*60*1000)
         },
