@@ -43,8 +43,6 @@ class TaskController extends Controller
         $task->time_start = $request->timeStart;
         $task->time_end = $request->timeEnd;
         $task->all_day = $request->allDay;
-        $task->bg_color = $request->bg_color;
-        $task->main_color = $request->main_color;
 //
 //        $task->save();
 

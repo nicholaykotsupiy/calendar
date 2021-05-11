@@ -37,8 +37,6 @@ class ReminderController extends Controller
         $reminder->date = $request->date;
         $reminder->time = $request->time;
         $reminder->repeat = $request->toRepeat;
-        $reminder->bg_color = $request->bg_color;
-        $reminder->main_color = $request->main_color;
 
         $reminder->save();
 
