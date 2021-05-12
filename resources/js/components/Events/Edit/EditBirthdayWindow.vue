@@ -44,7 +44,7 @@
 
 <script>
 import TheBirthday from "../TheBirthday";
-import {mapActions} from "vuex";
+import {mapActions, mapGetters} from "vuex";
 
 export default {
 
@@ -53,6 +53,17 @@ export default {
     components: {TheBirthday},
 
     props: ['event'],
+
+    computed: {
+
+        eventEdit() {
+            return this.eventEdit
+        },
+
+        ...mapGetters([
+            'eventEdit',
+        ])
+    },
 
     methods: {
         ...mapActions([

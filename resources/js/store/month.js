@@ -48,7 +48,6 @@ export default {
                 state.monthCalendarMonth--
                 state.yearCalendarMonth--
             }
-
             state.titleNavigationCalendarMonth = state.monthsCalendarMonth[state.monthCalendarMonth]+' '+state.yearCalendarMonth
 
         },
@@ -61,7 +60,6 @@ export default {
                 state.monthCalendarMonth++
                 state.yearCalendarMonth++
             }
-
             state.titleNavigationCalendarMonth = state.monthsCalendarMonth[state.monthCalendarMonth]+' '+state.yearCalendarMonth
 
         },
@@ -78,9 +76,4 @@ export default {
 
     },
 
-    actions: {
-
-
-
-    }
 }
