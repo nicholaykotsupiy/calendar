@@ -5,10 +5,14 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Event\StoreRequest;
 use App\Http\Resources\Event\EventResource;
+use App\Mail\ConfirmMail;
 use App\Models\Event;
 use App\Models\Guest;
+use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 
 class EventController extends Controller
 {
@@ -35,6 +39,23 @@ class EventController extends Controller
         }
 
         return response()->json(new EventResource($event));
+    }
+
+    public function confirm(Request $request)
+    {
+        $guest = Guest::where('uuid', $request->uuid)->first();
+
+        if($guest)
+        {
+            $guest->status = true;
+            $guest->uuid = null;
+
+            $guest->save();
+
+            return response('Confirm', 200);
+        }
+
+        return response('Bad request', 404);
     }
 
     public function update(Request $request)

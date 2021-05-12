@@ -65,6 +65,16 @@ const routes = [
                     ]
                 },
             },
+            {
+                path: 'confirm-event/:uuid',
+                component: () => import('../components/Notification/ConfirmEvent'),
+                props: true,
+                meta: {
+                    middleware: [
+                        isLogin
+                    ]
+                },
+            },
         ]
     },
     {

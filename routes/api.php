@@ -44,3 +44,5 @@ Route::delete('/task-destroy/{id}', [TaskController::class, 'destroy']);
 Route::post('/login', \App\Http\Controllers\API\AuthController::class);
 
 Route::post('/update-colors', [CalendarController::class, 'updateColors']);
+
+Route::post('confirm-event', [EventController::class, 'confirm']);
