@@ -37,10 +37,7 @@
                                             {{ event.name }}
                                             <edit-modal
                                                 :id="`event-`+event.id+'-'+day.index"
-                                                type-event="event"
-                                                :id-event="event.id"
-                                                :edit-modal-title="event.name"
-                                                :edit-modal-time="event.timeStart"
+                                                :event="event"
                                             >
                                             </edit-modal>
                                         </div>
@@ -50,11 +47,7 @@
                                             {{ event.name }}
                                             <edit-modal
                                                 :id="`reminder-`+event.id+'-'+day.index"
-                                                type-event="reminder"
-                                                :id-event="event.id"
-                                                :edit-modal-title="event.name"
-                                                :edit-modal-time="event.timeStart"
-                                                :description="event.description"
+                                                :event="event"
                                             >
                                             </edit-modal>
                                         </div>
@@ -64,10 +57,7 @@
                                             {{ event.name }}
                                             <edit-modal
                                                 :id="`task-`+event.id+'-'+day.index"
-                                                type-event="task"
-                                                :id-event="event.id"
-                                                :edit-modal-title="event.name"
-                                                :edit-modal-time="event.timeStart"
+                                                :event="event"
                                             >
                                             </edit-modal>
                                         </div>
@@ -77,10 +67,7 @@
                                             {{ event.name }}
                                             <edit-modal
                                                 :id="`birthday-`+event.id+'-'+day.index"
-                                                type-event="birthday"
-                                                :id-event="event.id"
-                                                :edit-modal-title="event.name"
-                                                :edit-modal-time="event.timeStart"
+                                                :event="event"
                                             >
                                             </edit-modal>
                                         </div>

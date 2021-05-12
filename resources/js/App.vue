@@ -12,7 +12,7 @@
         <!--окно редактирования Мероприятия-->
         <edit-event-window
             v-show="isVisibleEditEventWindow"
-            event="event"
+            :event="$store.state.eventEdit"
             @closeEditEventWindow="closeEditEventWindow"
         >
         </edit-event-window>
@@ -20,7 +20,7 @@
         <!--окно редактирования Дня рождения-->
         <edit-birthday-window
             v-show="isVisibleEditBirthdayWindow"
-            event="birthday"
+            :event="$store.state.eventEdit"
             @closeEditBirthdayWindow="closeEditBirthdayWindow"
         >
         </edit-birthday-window>
@@ -28,7 +28,7 @@
         <!--окно редактирования Напоминания-->
         <edit-reminder-window
             v-show="isVisibleEditReminderWindow"
-            event="reminder"
+            :event="$store.state.eventEdit"
             @closeEditReminderWindow="closeEditReminderWindow"
         >
         </edit-reminder-window>
@@ -36,7 +36,7 @@
         <!--окно редактирования Задачи-->
         <edit-task-window
             v-show="isVisibleEditTaskWindow"
-            event="task"
+            :event="$store.state.eventEdit"
             @closeEditTaskWindow="closeEditTaskWindow"
         >
         </edit-task-window>
@@ -88,6 +88,9 @@ export default {
         valueDeleteTypeEvent() {
             return this.valueDeleteTypeEvent
         },
+        eventEdit() {
+            return this.eventEdit
+        },
 
         holidays() {
             return this.holidays
@@ -103,6 +106,7 @@ export default {
             'valueDeleteIdEvent',
             'valueDeleteTypeEvent',
             'holidays',
+            'eventEdit'
         ]),
 
     },
@@ -149,10 +153,6 @@ export default {
         },
 
         deleteEvents() {
-            //здесь будет происходить определение - какое из видов и id событий удаляем из БД и стейта и само удаление
-            console.log(this.valueDeleteIdEvent)//id события
-            console.log(this.valueDeleteTypeEvent)//type события
-
             if (this.valueDeleteTypeEvent === 'event') {
                 this.deleteEvent(this.valueDeleteIdEvent)
                 this.$bvModal.show('modal-message-ok')

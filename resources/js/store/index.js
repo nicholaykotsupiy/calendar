@@ -41,6 +41,9 @@ export default new Vuex.Store({
 
         valueDeleteIdEvent: null,
         valueDeleteTypeEvent: null,
+        valueEditIdEvent: null,
+        valueEditTypeEvent: null,
+        eventEdit: {},
     },
 
     mutations: {
@@ -293,6 +296,33 @@ export default new Vuex.Store({
         setValueDeleteTypeEvent(state, value) {
             state.valueDeleteTypeEvent = value
         },
+        setValueEditIdEvent(state, value) {
+            state.valueEditIdEvent = value
+        },
+        setValueEditTypeEvent(state, value) {
+            state.valueEditTypeEvent = value
+        },
+
+        setEventEdit(state) {
+            let typeEvent = state.valueEditTypeEvent
+            let id = state.valueEditIdEvent
+            if (typeEvent === 'event') {
+                state.eventEdit = state.events.find(item => item.id === id)
+                console.log(state.eventEdit)
+            }
+            if (typeEvent === 'reminder') {
+                state.eventEdit = state.reminders.find(item => item.id === id)
+                console.log(state.eventEdit)
+            }
+            if (typeEvent === 'task') {
+                state.eventEdit = state.tasks.find(item => item.id === id)
+                console.log(state.eventEdit)
+            }
+            if (typeEvent === 'birthday') {
+                state.eventEdit = state.birthdays.find(item => item.id === id)
+                console.log(state.eventEdit)
+            }
+        },
 
     },
 
@@ -445,6 +475,16 @@ export default new Vuex.Store({
         valueDeleteTypeEvent(state) {
             return state.valueDeleteTypeEvent
         },
+        valueEditIdEvent(state) {
+            return state.valueEditIdEvent
+        },
+        valueEditTypeEvent(state) {
+            return state.valueEditTypeEvent
+        },
+
+        eventEdit(state) {
+            return status.eventEdit
+        }
     },
 
     plugins: [createPersistedState({paths: ['user', 'access_token', 'resetPasswordEmail']})],

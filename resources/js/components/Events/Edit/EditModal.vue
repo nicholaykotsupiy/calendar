@@ -13,9 +13,9 @@
                     <span class="material-icons"  @click="popClose">close</span>
                 </div>
             </template>
-            <span class="title">{{ editModalTitle }}</span><br>
-            <span class="title">{{ description }}</span><br>
-            <span class="title">{{ editModalTime }}</span>
+            <span class="title">{{ event.name }}</span><br>
+            <span class="title">{{ event.description }}</span><br>
+            <span class="title">{{ event.timeStart }}</span>
         </b-popover>
     </div>
 </template>
@@ -28,11 +28,7 @@ export default {
 
     props: [
         'id',
-        'typeEvent',
-        'idEvent',
-        'editModalTitle',
-        'editModalTime',
-        'description'
+        'event'
     ],
 
     data() {
@@ -50,6 +46,9 @@ export default {
             'setIsVisibleEditBirthdayWindow',
             'setValueDeleteIdEvent',
             'setValueDeleteTypeEvent',
+            'setValueEditIdEvent',
+            'setValueEditTypeEvent',
+            'setEventEdit',
         ]),
 
         popClose() {
@@ -60,24 +59,29 @@ export default {
             // console.log(this.typeEvent)
             // console.log(this.idEvent)
             this.popClose()
-            this.setValueDeleteIdEvent(this.idEvent)
-            this.setValueDeleteTypeEvent(this.typeEvent)
+            this.setValueDeleteIdEvent(this.event.id)
+            this.setValueDeleteTypeEvent(this.event.type)
             this.$bvModal.show('modal-message-yes-no')
         },
 
         showModal() {
             this.popClose()
-            // console.log(this.typeEvent)
-            if (this.typeEvent === 'event') {
+            // console.log('this.event', this.event)
+            // console.log(this.event.id)
+            // console.log(this.event.type)
+            this.setValueEditIdEvent(this.event.id)
+            this.setValueEditTypeEvent(this.event.type)
+            this.setEventEdit()
+            if (this.event.type === 'event') {
                 this.setIsVisibleEditEventWindow(true)
             }
-            if (this.typeEvent === 'reminder') {
+            if (this.event.type === 'reminder') {
                 this.setIsVisibleEditReminderWindow(true)
             }
-            if (this.typeEvent === 'task') {
+            if (this.event.type === 'task') {
                 this.setIsVisibleEditTaskWindow(true)
             }
-            if (this.typeEvent === 'birthday') {
+            if (this.event.type === 'birthday') {
                 this.setIsVisibleEditBirthdayWindow(true)
             }
         },

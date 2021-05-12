@@ -46,7 +46,7 @@
 
 <script>
 import TheEvent from "../TheEvent";
-import {mapActions} from "vuex";
+import { mapActions } from "vuex";
 
 export default {
 
@@ -57,9 +57,11 @@ export default {
     props: ['event'],
 
     methods: {
+
         ...mapActions([
             'editItem',
         ]),
+
         close() {
             //прослушиваем событие closeEditEventWindow в родительском компоненте
             this.$emit('closeEditEventWindow');
