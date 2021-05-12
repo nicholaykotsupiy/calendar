@@ -14,7 +14,8 @@
                 </div>
             </template>
             <span class="title">{{ editModalTitle }}</span><br>
-            <span class="time">{{ editModalTime }}</span>
+            <span class="title">{{ description }}</span><br>
+            <span class="title">{{ editModalTime }}</span>
         </b-popover>
     </div>
 </template>
@@ -28,15 +29,18 @@ export default {
     props: [
         'id',
         'typeEvent',
-        'idEvent'
+        'idEvent',
+        'editModalTitle',
+        'editModalTime',
+        'description'
     ],
 
     computed: {
 
-        ...mapGetters([
-            'editModalTitle',
-            'editModalTime',
-        ]),
+        // ...mapGetters([
+        //     'editModalTitle',
+        //     'editModalTime',
+        // ]),
     },
 
     data() {

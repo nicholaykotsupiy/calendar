@@ -73,6 +73,10 @@ export default {
             return this.valueDeleteTypeEvent
         },
 
+        holidays() {
+            return this.holidays
+        },
+
         ...mapGetters([
             'currentDate',
             'allEventsForDay',
@@ -82,6 +86,7 @@ export default {
             'isVisibleEditBirthdayWindow',
             'valueDeleteIdEvent',
             'valueDeleteTypeEvent',
+            'holidays',
         ]),
 
     },
@@ -95,6 +100,7 @@ export default {
             'setIsVisibleEditReminderWindow',
             'setIsVisibleEditTaskWindow',
             'setIsVisibleEditBirthdayWindow',
+            'addHolidaysToState',
         ]),
 
         ...mapActions([
@@ -105,6 +111,20 @@ export default {
             axios.get('/api/events').then(response => {
                 this.getDataFromServer(response.data)
             })
+            //add holidays
+            axios
+                .get('https://www.googleapis.com/calendar/v3/calendars/ru.ukrainian%23holiday%40group.v.calendar.google.com/events?key=AIzaSyCXtY_r4WvIlu_2N_iVZC8WTc_iXDkZMGM')
+                .then(response => {
+                    let holidays = {};
+                    for (let i = 0; i < response.data.items.length; i++) {
+                        let day = response.data.items[i].start.date
+                        if (!(day in holidays)) {
+                            holidays[day] = []
+                        }
+                        holidays[day].push(response.data.items[i])
+                    }
+                    this.addHolidaysToState(holidays)
+                })
         },
 
         del() {
