@@ -13,18 +13,12 @@
                         <div class="daygrid-day-top flex">
 
 <!--                                праздники Украины-->
-<!--                            <template v-for="holiday in holidaysForCurrentMonth()">-->
-<!--                                <template v-if="day.index === holiday.day">-->
-                            <template v-if="day.index === 9">
-                                <div class="daygrid-day-ukr">Праздник Укр</div>
-<!--                                    <div class="daygrid-day-ukr">{{ holiday.summary }}</div>-->
-
-                                <div class="daygrid-day-number holiday">
-                                    {{ day.index }}
-                                </div>
+                            <template v-if="day.isHoliday">
+                                    <div class="daygrid-day-ukr">{{ day.summary }}</div>
+                                    <div class="daygrid-day-number holiday">
+                                        {{ day.index }}
+                                    </div>
                             </template>
-
-
                             <template v-else>
                                 <div class="daygrid-day-number-without-ukr">
 <!--                                        обозначить текущий день-->
@@ -33,8 +27,6 @@
                                     </div>
                                 </div>
                             </template>
-
-<!--                            </template>-->
                         </div>
 
                         <!--                        события -->
@@ -183,33 +175,6 @@ export default {
             return (a, b) => a[field] > b[field] ? 1 : -1
         },
 
-        holidaysForCurrentMonth() {
-
-            let holidaysForThisMonth = []
-
-            for (let holidaysForDay of this.holidays) {
-                console.log(holidaysForDay)
-
-                // let dateArray = holidaysForDay.start.date.split('-')
-
-                // if ( +dateArray[1] === this.month+1 && +dateArray[0] === this.year) {
-                //
-                //     let cloneHolidaysForDay = {}
-                //
-                //     for (let key in holidaysForDay) {
-                //         cloneHolidaysForDay[key] = holidaysForDay[key]
-                //     }
-                //
-                //     cloneHolidaysForDay.day = +dateArray[2]
-                //     holidaysForThisMonth.push(cloneHolidaysForDay)
-                // }
-            }
-
-            // console.log(holidaysForThisMonth)
-            // return holidaysForThisMonth
-            return this.holidays
-        },
-
         eventsForCurrentMonth() {
 
             let eventsForThisMonth = []
@@ -260,13 +225,24 @@ export default {
                     }
                 }
             }
-
-            //отсортировать события по номеру дня
-            // eventsForThisMonth.sort(this.byField('day'));
             //отсортировать события по времени начала
             eventsForThisMonth.sort(this.byField('timeStart'));
 
             return eventsForThisMonth
+        },
+
+        yyyymmdd(dateObj) {
+            let mm = dateObj.getMonth() + 1; // getMonth() is zero-based
+            let dd = dateObj.getDate();
+
+            return [dateObj.getFullYear(),
+                (mm>9 ? '' : '0') + mm,
+                (dd>9 ? '' : '0') + dd
+            ].join('-');
+        },
+
+        capitalizeFirstLetter(str) {
+            return str.charAt(0).toUpperCase() + str.slice(1);
         },
 
         calendar() {
@@ -278,8 +254,25 @@ export default {
 
             for (let i = 1; i <= dlast; i++) {
 
+                let dayOfMonthDateObj = new Date(this.year, this.month, i)
+
                 if (new Date(this.year, this.month, i).getDay() !== this.dFirstMonth) {
-                    let a = {index:i}
+                    let a = {
+                        index:i,
+                        isHoliday: false,
+                        summary: '',
+                    }
+
+                    let dayOfMonthIsoDate = this.yyyymmdd(dayOfMonthDateObj)
+                    //проверка что день праздничный
+                    if (dayOfMonthIsoDate in this.holidays) {
+                        a.isHoliday = true
+                        for (let j = 0; j < this.holidays[dayOfMonthIsoDate].length; j++) {
+                            a.summary += this.capitalizeFirstLetter(this.holidays[dayOfMonthIsoDate][j].summary + ' ')
+                        }
+
+                    }
+
                     // this.count++
                     days[week].push(a)
                     if (i === new Date().getDate() && this.year === new Date().getFullYear() && this.month === new Date().getMonth())
@@ -291,7 +284,22 @@ export default {
                 else {
                     week++
                     days[week] = []
-                    let a = {index:i}
+                    let a = {
+                        index:i,
+                        isHoliday: false,
+                        summary: '',
+                    }
+
+                    let dayOfMonthIsoDate = this.yyyymmdd(dayOfMonthDateObj)
+                    //проверка что день праздничный
+                    if (dayOfMonthIsoDate in this.holidays) {
+                        a.isHoliday = true
+                        for (let j = 0; j < this.holidays[dayOfMonthIsoDate].length; j++) {
+                            a.summary += this.capitalizeFirstLetter(this.holidays[dayOfMonthIsoDate][j].summary + ' ')
+                        }
+
+                    }
+
                     // this.count++
                     days[week].push(a)
                     if ((i === new Date().getDate()) && (this.year === new Date().getFullYear()) && (this.month === new Date().getMonth()))                     {
@@ -423,6 +431,7 @@ export default {
     color: #222222;
     text-align: left;
     padding-left: 5px;
+    line-height: 18px;
 }
 .daygrid-day-number-without-ukr {
     width: 100%;
