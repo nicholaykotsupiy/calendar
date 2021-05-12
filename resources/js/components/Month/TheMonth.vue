@@ -8,65 +8,94 @@
             </thead>
             <tbody>
             <tr v-for="week in calendar()" class="flex">
-                <td :id="`td-`+day.index" v-for="(day, index) in week">
-<!--                    это окно надо прицепить на событие, вытягивать из него и передавать тип и id -->
-                    <modal-edit
-                        :id="`td-`+day.index"
-                        type-event="reminder"
-                        :id-event="day.index">
-                    </modal-edit>
-
+                <td v-for="(day, index) in week"                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               >
                     <div class="daygrid-day-frame">
                         <div class="daygrid-day-top flex">
 
-<!--                                пример как будут отображаться праздники Украины-->
-                            <template v-if="day.index === 8">
-                                <div class="daygrid-day-ukr">Праздник Укр </div>
+<!--                                праздники Украины-->
+<!--                            <template v-for="holiday in holidaysForCurrentMonth()">-->
+<!--                                <template v-if="day.index === holiday.day">-->
+                            <template v-if="day.index === 9">
+                                <div class="daygrid-day-ukr">Праздник Укр</div>
+<!--                                    <div class="daygrid-day-ukr">{{ holiday.summary }}</div>-->
 
                                 <div class="daygrid-day-number holiday">
                                     {{ day.index }}
-<!--                                        обозначить текущий день-->
-<!--                                    <span :style="{-->
-<!--                                        'color': day.current,-->
-<!--                                        'width': '30px',-->
-<!--                                        'height': '30px',-->
-<!--                                        'background': 'red',-->
-<!--                                        'border-radius': '10px'-->
-<!--                                        }">-->
-<!--                                        {{ day.index }}-->
-<!--                                    </span>-->
                                 </div>
                             </template>
+
 
                             <template v-else>
                                 <div class="daygrid-day-number-without-ukr">
 <!--                                        обозначить текущий день-->
-                                    <span
-                                       :style="{
-                                            'color': day.current,
-                                        }"
-                                    >
+                                    <div :style="{ 'color': day.current }" >
                                         {{ day.index }}
-                                    </span>
+                                    </div>
                                 </div>
                             </template>
+
+<!--                            </template>-->
                         </div>
 
-<!--                            пример напоминалок на один день, взяла 2-е число-->
-                        <template v-if="day.index === 2">
-                            <div class="daygrid-day-reminder">
-                                Напоминание
-                            </div>
-                            <div class="daygrid-day-task">
-                                Задача
-                            </div>
-                            <div class="daygrid-day-birthday">
-                                День рождения
-                            </div>
-                            <div class="daygrid-day-event">
-                                Мероприятие
-                            </div>
+                        <!--                        события -->
+                        <template v-for="event in eventsForCurrentMonth()">
+                            <template v-if="day.index === event.day">
+                                <template v-if="event.type === 'event'">
+                                    <div class="daygrid-day-event" :id="`event-`+event.id+'-'+day.index">
+                                        {{ event.id }} {{ event.name }}
+                                        <modal-edit
+                                            :id="`event-`+event.id+'-'+day.index"
+                                            type-event="event"
+                                            :id-event="event.id"
+                                            :edit-modal-title="event.name"
+                                            :edit-modal-time="event.timeStart"
+                                        >
+                                        </modal-edit>
+                                    </div>
+                                </template>
+                                <template v-if="event.type === 'reminder'">
+                                    <div class="daygrid-day-reminder" :id="`reminder-`+event.id+'-'+day.index">
+                                        {{ event.name }}
+                                        <modal-edit
+                                            :id="`reminder-`+event.id+'-'+day.index"
+                                            type-event="reminder"
+                                            :id-event="event.id"
+                                            :edit-modal-title="event.name"
+                                            :edit-modal-time="event.timeStart"
+                                            :description="event.description"
+                                        >
+                                        </modal-edit>
+                                    </div>
+                                </template>
+                                <template v-if="event.type === 'task'">
+                                    <div class="daygrid-day-task" :id="`task-`+event.id+'-'+day.index">
+                                        {{ event.name }}
+                                        <modal-edit
+                                            :id="`task-`+event.id+'-'+day.index"
+                                            type-event="task"
+                                            :id-event="event.id"
+                                            :edit-modal-title="event.name"
+                                            :edit-modal-time="event.timeStart"
+                                        >
+                                        </modal-edit>
+                                    </div>
+                                </template>
+                                <template v-if="event.type === 'birthday'">
+                                    <div class="daygrid-day-birthday" :id="`birthday-`+event.id+'-'+day.index">
+                                        {{ event.name }}
+                                        <modal-edit
+                                            :id="`birthday-`+event.id+'-'+day.index"
+                                            type-event="birthday"
+                                            :id-event="event.id"
+                                            :edit-modal-title="event.name"
+                                            :edit-modal-time="event.timeStart"
+                                        >
+                                        </modal-edit>
+                                    </div>
+                                </template>
+                            </template>
                         </template>
+
                     </div>
                 </td>
             </tr>
@@ -89,7 +118,7 @@ export default {
 
         return {
             dFirstMonth: 1,
-            day: ["Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота", "Воскресенье"],
+            day: ["понедельник", "вторник", "среда", "четверг", "пятница", "суббота", "воскресенье"],
             date: new Date(),
         }
 
@@ -100,21 +129,24 @@ export default {
         isMonth() {
             return this.isMonth
         },
-
         month() {
             return this.monthCalendarMonth
         },
-
         months() {
             return this.monthsCalendarMonth
         },
-
         year() {
             return this.yearCalendarMonth
         },
-
         titleNavigationCalendarMonth() {
             return this.titleNavigationCalendarMonth
+        },
+        allEventsForDay() {
+            return this.allEventsForDay
+        },
+
+        holidays() {
+            return this.holidays
         },
 
         ...mapGetters([
@@ -123,6 +155,8 @@ export default {
             'monthsCalendarMonth',
             'yearCalendarMonth',
             'titleNavigationCalendarMonth',
+            'allEventsForDay',
+            'holidays',
         ])
     },
 
@@ -141,8 +175,99 @@ export default {
             'setIsMonth',
             'prevMonth',
             'nextMonth',
-            'setTitleNavigationCalendarMonth'
+            'setTitleNavigationCalendarMonth',
         ]),
+
+        //сортировка
+        byField(field) {
+            return (a, b) => a[field] > b[field] ? 1 : -1
+        },
+
+        holidaysForCurrentMonth() {
+
+            let holidaysForThisMonth = []
+
+            for (let holidaysForDay of this.holidays) {
+                console.log(holidaysForDay)
+
+                // let dateArray = holidaysForDay.start.date.split('-')
+
+                // if ( +dateArray[1] === this.month+1 && +dateArray[0] === this.year) {
+                //
+                //     let cloneHolidaysForDay = {}
+                //
+                //     for (let key in holidaysForDay) {
+                //         cloneHolidaysForDay[key] = holidaysForDay[key]
+                //     }
+                //
+                //     cloneHolidaysForDay.day = +dateArray[2]
+                //     holidaysForThisMonth.push(cloneHolidaysForDay)
+                // }
+            }
+
+            // console.log(holidaysForThisMonth)
+            // return holidaysForThisMonth
+            return this.holidays
+        },
+
+        eventsForCurrentMonth() {
+
+            let eventsForThisMonth = []
+
+            for (let eventForDay of this.allEventsForDay) {
+
+                if (eventForDay.type === "reminder" &&
+                    typeof eventForDay["repeat"] !== "undefined" &&
+                    eventForDay["repeat"] === "ежедневно") {
+
+                    for (let i = 0; i < 31; i++) {
+                        let cloneEventForDay = {}
+                        for (let key in eventForDay) {
+                            cloneEventForDay[key] = eventForDay[key]
+                        }
+                        cloneEventForDay.day = i + 1
+                        eventsForThisMonth.push(cloneEventForDay)
+                    }
+
+                }
+            }
+
+            for (let eventForDay of this.allEventsForDay) {
+                for (let longsDateItem of eventForDay.longsDate) {
+
+                    let longsDateItemArray = longsDateItem.split('-')
+                    // longDateItem = '2021-05-12'
+                    // longsDateItemArray[0] = '2021'
+                    // longsDateItemArray[1] = '05'
+                    // longsDateItemArray[2] = '12'
+                    if ( +longsDateItemArray[1] === this.month+1 &&
+                        (+longsDateItemArray[0] === this.year ||
+                            (typeof eventForDay.everyYear !== "undefined" && eventForDay.everyYear) ||
+                            (typeof eventForDay["repeat"] !== "undefined" && eventForDay["repeat"] === "каждый год") ) &&
+                        !(eventForDay.type === "reminder" &&
+                            typeof eventForDay["repeat"] !== "undefined" &&
+                            eventForDay["repeat"] === "ежедневно")
+                    ) {
+
+                        let cloneEventForDay = {}
+
+                        for (let key in eventForDay) {
+                            cloneEventForDay[key] = eventForDay[key]
+                        }
+
+                        cloneEventForDay.day = +longsDateItemArray[2]
+                        eventsForThisMonth.push(cloneEventForDay)
+                    }
+                }
+            }
+
+            //отсортировать события по номеру дня
+            // eventsForThisMonth.sort(this.byField('day'));
+            //отсортировать события по времени начала
+            eventsForThisMonth.sort(this.byField('timeStart'));
+
+            return eventsForThisMonth
+        },
 
         calendar() {
 
@@ -155,6 +280,7 @@ export default {
 
                 if (new Date(this.year, this.month, i).getDay() !== this.dFirstMonth) {
                     let a = {index:i}
+                    // this.count++
                     days[week].push(a)
                     if (i === new Date().getDate() && this.year === new Date().getFullYear() && this.month === new Date().getMonth())
                     {
@@ -166,6 +292,7 @@ export default {
                     week++
                     days[week] = []
                     let a = {index:i}
+                    // this.count++
                     days[week].push(a)
                     if ((i === new Date().getDate()) && (this.year === new Date().getFullYear()) && (this.month === new Date().getMonth()))                     {
                         a.current = '#3490dc'
@@ -189,9 +316,9 @@ export default {
 
             // console.log(days);
             // console.log(week);
+            // console.log(days[week]);
 
             return days;
-
         },
 
     },
@@ -209,6 +336,7 @@ export default {
     padding: 0;
     color: #ffff;
     text-align: center;
+    line-height: 24px;
 }
 
 .currentDay{
@@ -260,7 +388,7 @@ export default {
     text-align: right;
     min-height: 90px;
     vertical-align: top;
-    padding-right: 10px;
+    /*padding-right: 10px;*/
     color: #CCCCCC;
     border: 1px solid #F5F5F5;
 }
@@ -276,7 +404,9 @@ export default {
 }
 
 .daygrid-day-reminder {
-    margin: 1px;
+    margin: 2px;
+    padding: 5px;
+    line-height: 14px;
     cursor: pointer;
     background: #FEEACC;
     border-radius: 4px;
@@ -284,7 +414,6 @@ export default {
     font-style: normal;
     font-weight: bold;
     font-size: 12px;
-    line-height: 30px;
     color: #D46D2C;
     text-align: center;
 }
@@ -299,39 +428,47 @@ export default {
     width: 100%;
 }
 .daygrid-day-task {
-    margin: 1px;
+    margin: 2px;
+    padding: 5px;
+    line-height: 14px;
     cursor: pointer;
     font-style: normal;
     font-weight: bold;
     font-size: 12px;
-    line-height: 30px;
     color: #008911;
     background: #E0F7D7;
     border-radius: 4px;
     text-align: center;
 }
 .daygrid-day-birthday {
-    margin: 1px;
+    margin: 2px;
+    padding: 5px;
+    line-height: 14px;
     cursor: pointer;
     font-style: normal;
     font-weight: bold;
     font-size: 12px;
-    line-height: 30px;
     color: #2675B5;
     background: #D2EFFE;
     text-align: center;
     border-radius: 4px;
 }
 .daygrid-day-event {
-    margin: 1px;
+    margin: 2px;
+    padding: 5px;
+    line-height: 14px;
     cursor: pointer;
     background: #F5E3F9;
     border-radius: 4px;
     font-weight: bold;
     font-size: 12px;
-    line-height: 30px;
     color: #86488A;
     text-align: center;
+}
+
+.daygrid-day-top {
+    padding-right: 5px;
+    padding-left: 5px;
 }
 
 </style>
