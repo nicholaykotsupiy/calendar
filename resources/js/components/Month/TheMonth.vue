@@ -42,7 +42,7 @@
                             <template v-if="day.index === event.day">
                                 <template v-if="event.type === 'event'">
                                     <div class="daygrid-day-event" :id="`event-`+event.id+'-'+day.index">
-                                        {{ event.id }} {{ event.name }}
+                                        {{ event.name }}
                                         <modal-edit
                                             :id="`event-`+event.id+'-'+day.index"
                                             type-event="event"
