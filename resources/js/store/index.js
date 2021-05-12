@@ -87,6 +87,22 @@ export default new Vuex.Store({
             })
         },
 
+        pushEventToState(state, newEvent) {
+            state.events.push(newEvent)
+        },
+
+        pushReminderToState(state, newReminder) {
+            state.reminders.push(newReminder)
+        },
+
+        pushTaskToState(state, newTask) {
+            state.tasks.push(newTask)
+        },
+
+        pushBirthdayToState(state, newBirthday) {
+            state.birthdays.push(newBirthday)
+        },
+
         deleteEvent(state, itemID) {
             let findItem = state.events.findIndex(item => item.id === itemID)
             state.events.splice(findItem,1)
