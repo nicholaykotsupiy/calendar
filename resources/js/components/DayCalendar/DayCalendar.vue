@@ -18,7 +18,7 @@ import BaseLeftBarCalendar from "../ Base/BaseLeftBar/BaseLeftBarCalendar";
 import DayCalendarInterface from "./DayCalendarInterface";
 import TheYear from "../Year/TheYear";
 import TheMonth from "../Month/TheMonth";
-import Week from "../Week/WeekComponent";
+import WeekComponent from "../Week/WeekComponent";
 export default {
     name: "DayCalendar",
     components: {
@@ -26,7 +26,7 @@ export default {
         BaseLeftBarCalendar,
         BaseHeaderCalendar,
         TheMonth,
-        Week,
+        WeekComponent,
         TheYear,
     },
     data: () => ({
