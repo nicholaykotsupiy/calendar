@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations } from 'vuex'
+import {mapActions, mapGetters, mapMutations} from 'vuex'
 
 export default {
     name: "EditModal",
@@ -34,14 +34,6 @@ export default {
         'editModalTime',
         'description'
     ],
-
-    computed: {
-
-        // ...mapGetters([
-        //     'editModalTitle',
-        //     'editModalTime',
-        // ]),
-    },
 
     data() {
         return {
@@ -65,15 +57,17 @@ export default {
         },
 
         showModalYesNo() {
-            console.log(this.typeEvent)
-            console.log(this.idEvent)
+            // console.log(this.typeEvent)
+            // console.log(this.idEvent)
+            this.popClose()
             this.setValueDeleteIdEvent(this.idEvent)
             this.setValueDeleteTypeEvent(this.typeEvent)
             this.$bvModal.show('modal-message-yes-no')
         },
 
         showModal() {
-            console.log(this.typeEvent)
+            this.popClose()
+            // console.log(this.typeEvent)
             if (this.typeEvent === 'event') {
                 this.setIsVisibleEditEventWindow(true)
             }

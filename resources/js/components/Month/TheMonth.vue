@@ -1,110 +1,114 @@
 <template>
-    <div class="container calendar-center">
-        <table class="table-month">
-            <thead>
-            <tr class="flex">
-                <td v-for="d in day">{{d}}</td>
-            </tr>
-            </thead>
-            <tbody>
-            <tr v-for="week in calendar()" class="flex">
-                <td v-for="(day, index) in week"                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               >
-                    <div class="daygrid-day-frame">
-                        <div class="daygrid-day-top flex">
+        <div class="container calendar-center">
+            <table class="table-month">
+                <thead>
+                <tr class="flex">
+                    <td v-for="d in day">{{d}}</td>
+                </tr>
+                </thead>
+                <tbody>
+                <tr v-for="week in calendar()" class="flex">
+                    <td v-for="(day, index) in week"                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               >
+                        <div class="daygrid-day-frame">
+                            <div class="daygrid-day-top flex">
 
-<!--                                праздники Украины-->
-                            <template v-if="day.isHoliday">
+                                <!--                                праздники Украины-->
+                                <template v-if="day.isHoliday">
                                     <div class="daygrid-day-ukr">{{ day.summary }}</div>
                                     <div class="daygrid-day-number holiday">
                                         {{ day.index }}
                                     </div>
-                            </template>
-                            <template v-else>
-                                <div class="daygrid-day-number-without-ukr">
-<!--                                        обозначить текущий день-->
-                                    <div :style="{ 'color': day.current }" >
-                                        {{ day.index }}
+                                </template>
+                                <template v-else>
+                                    <div class="daygrid-day-number-without-ukr">
+                                        <!--                                        обозначить текущий день-->
+                                        <div :style="{ 'color': day.current }" >
+                                            {{ day.index }}
+                                        </div>
                                     </div>
-                                </div>
+                                </template>
+                            </div>
+
+                            <!--                        события -->
+                            <template v-for="event in eventsForCurrentMonth()">
+                                <template v-if="day.index === event.day">
+                                    <template v-if="event.type === 'event'">
+                                        <div class="daygrid-day-event" :id="`event-`+event.id+'-'+day.index">
+                                            {{ event.name }}
+                                            <edit-modal
+                                                :id="`event-`+event.id+'-'+day.index"
+                                                type-event="event"
+                                                :id-event="event.id"
+                                                :edit-modal-title="event.name"
+                                                :edit-modal-time="event.timeStart"
+                                            >
+                                            </edit-modal>
+                                        </div>
+                                    </template>
+                                    <template v-if="event.type === 'reminder'">
+                                        <div class="daygrid-day-reminder" :id="`reminder-`+event.id+'-'+day.index">
+                                            {{ event.name }}
+                                            <edit-modal
+                                                :id="`reminder-`+event.id+'-'+day.index"
+                                                type-event="reminder"
+                                                :id-event="event.id"
+                                                :edit-modal-title="event.name"
+                                                :edit-modal-time="event.timeStart"
+                                                :description="event.description"
+                                            >
+                                            </edit-modal>
+                                        </div>
+                                    </template>
+                                    <template v-if="event.type === 'task'">
+                                        <div class="daygrid-day-task" :id="`task-`+event.id+'-'+day.index">
+                                            {{ event.name }}
+                                            <edit-modal
+                                                :id="`task-`+event.id+'-'+day.index"
+                                                type-event="task"
+                                                :id-event="event.id"
+                                                :edit-modal-title="event.name"
+                                                :edit-modal-time="event.timeStart"
+                                            >
+                                            </edit-modal>
+                                        </div>
+                                    </template>
+                                    <template v-if="event.type === 'birthday'">
+                                        <div class="daygrid-day-birthday" :id="`birthday-`+event.id+'-'+day.index">
+                                            {{ event.name }}
+                                            <edit-modal
+                                                :id="`birthday-`+event.id+'-'+day.index"
+                                                type-event="birthday"
+                                                :id-event="event.id"
+                                                :edit-modal-title="event.name"
+                                                :edit-modal-time="event.timeStart"
+                                            >
+                                            </edit-modal>
+                                        </div>
+                                    </template>
+                                </template>
                             </template>
+
                         </div>
-
-                        <!--                        события -->
-                        <template v-for="event in eventsForCurrentMonth()">
-                            <template v-if="day.index === event.day">
-                                <template v-if="event.type === 'event'">
-                                    <div class="daygrid-day-event" :id="`event-`+event.id+'-'+day.index">
-                                        {{ event.name }}
-                                        <modal-edit
-                                            :id="`event-`+event.id+'-'+day.index"
-                                            type-event="event"
-                                            :id-event="event.id"
-                                            :edit-modal-title="event.name"
-                                            :edit-modal-time="event.timeStart"
-                                        >
-                                        </modal-edit>
-                                    </div>
-                                </template>
-                                <template v-if="event.type === 'reminder'">
-                                    <div class="daygrid-day-reminder" :id="`reminder-`+event.id+'-'+day.index">
-                                        {{ event.name }}
-                                        <modal-edit
-                                            :id="`reminder-`+event.id+'-'+day.index"
-                                            type-event="reminder"
-                                            :id-event="event.id"
-                                            :edit-modal-title="event.name"
-                                            :edit-modal-time="event.timeStart"
-                                            :description="event.description"
-                                        >
-                                        </modal-edit>
-                                    </div>
-                                </template>
-                                <template v-if="event.type === 'task'">
-                                    <div class="daygrid-day-task" :id="`task-`+event.id+'-'+day.index">
-                                        {{ event.name }}
-                                        <modal-edit
-                                            :id="`task-`+event.id+'-'+day.index"
-                                            type-event="task"
-                                            :id-event="event.id"
-                                            :edit-modal-title="event.name"
-                                            :edit-modal-time="event.timeStart"
-                                        >
-                                        </modal-edit>
-                                    </div>
-                                </template>
-                                <template v-if="event.type === 'birthday'">
-                                    <div class="daygrid-day-birthday" :id="`birthday-`+event.id+'-'+day.index">
-                                        {{ event.name }}
-                                        <modal-edit
-                                            :id="`birthday-`+event.id+'-'+day.index"
-                                            type-event="birthday"
-                                            :id-event="event.id"
-                                            :edit-modal-title="event.name"
-                                            :edit-modal-time="event.timeStart"
-                                        >
-                                        </modal-edit>
-                                    </div>
-                                </template>
-                            </template>
-                        </template>
-
-                    </div>
-                </td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
 </template>
 
 <script>
 import DayCalendarNavigation from "../DayCalendar/DayCalendarComponents/DayCalendarNavigation";
-import { mapGetters, mapMutations } from 'vuex'
+import EditModal from "../Events/Edit/EditModal";
+import { mapGetters, mapMutations} from 'vuex'
 
 export default {
 
     name: "TheMont",
 
-    components: {DayCalendarNavigation},
+    components: {
+        DayCalendarNavigation,
+        EditModal,
+    },
 
     data() {
 
@@ -262,7 +266,6 @@ export default {
                         isHoliday: false,
                         summary: '',
                     }
-
                     let dayOfMonthIsoDate = this.yyyymmdd(dayOfMonthDateObj)
                     //проверка что день праздничный
                     if (dayOfMonthIsoDate in this.holidays) {
@@ -272,7 +275,6 @@ export default {
                         }
 
                     }
-
                     // this.count++
                     days[week].push(a)
                     if (i === new Date().getDate() && this.year === new Date().getFullYear() && this.month === new Date().getMonth())
@@ -289,7 +291,6 @@ export default {
                         isHoliday: false,
                         summary: '',
                     }
-
                     let dayOfMonthIsoDate = this.yyyymmdd(dayOfMonthDateObj)
                     //проверка что день праздничный
                     if (dayOfMonthIsoDate in this.holidays) {
@@ -299,7 +300,6 @@ export default {
                         }
 
                     }
-
                     // this.count++
                     days[week].push(a)
                     if ((i === new Date().getDate()) && (this.year === new Date().getFullYear()) && (this.month === new Date().getMonth()))                     {

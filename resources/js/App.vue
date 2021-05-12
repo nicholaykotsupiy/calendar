@@ -1,17 +1,18 @@
 <template>
     <div id="app">
         <!-- Модальное окно для сообщений об успешном/неуспешном добалении/удалении в БД-->
-        <modal-ok></modal-ok>
+        <ModalOK />
 
         <!-- Модальное окно для подтверждения удаления событий-->
         <modal-yes-no
-            @deleteMethod="del"
+            @deleteMethod="deleteEvents"
         >
         </modal-yes-no>
 
         <!--окно редактирования Мероприятия-->
         <edit-event-window
             v-show="isVisibleEditEventWindow"
+            event="event"
             @closeEditEventWindow="closeEditEventWindow"
         >
         </edit-event-window>
@@ -19,6 +20,7 @@
         <!--окно редактирования Дня рождения-->
         <edit-birthday-window
             v-show="isVisibleEditBirthdayWindow"
+            event="birthday"
             @closeEditBirthdayWindow="closeEditBirthdayWindow"
         >
         </edit-birthday-window>
@@ -26,6 +28,7 @@
         <!--окно редактирования Напоминания-->
         <edit-reminder-window
             v-show="isVisibleEditReminderWindow"
+            event="reminder"
             @closeEditReminderWindow="closeEditReminderWindow"
         >
         </edit-reminder-window>
@@ -33,6 +36,7 @@
         <!--окно редактирования Задачи-->
         <edit-task-window
             v-show="isVisibleEditTaskWindow"
+            event="task"
             @closeEditTaskWindow="closeEditTaskWindow"
         >
         </edit-task-window>
@@ -43,6 +47,12 @@
 
 <script>
 import DayCalendarWrapper from "./components/DayCalendar/DayCalendarWrapper";
+import EditEventWindow from "./components/Events/Edit/EditEventWindow";
+import EditBirthdayWindow from './components/Events/Edit/EditBirthdayWindow'
+import EditReminderWindow from './components/Events/Edit/EditReminderWindow'
+import EditTaskWindow from './components/Events/Edit/EditTaskWindow'
+import ModalOK from "./components/ModalMessages/ModalOK";
+import ModalYesNo from "./components/ModalMessages/ModalYesNo";
 import { mapGetters, mapActions, mapMutations } from 'vuex'
 import axios from "axios";
 
@@ -50,6 +60,12 @@ export default {
 
     components: {
         DayCalendarWrapper,
+        EditEventWindow,
+        EditBirthdayWindow,
+        EditReminderWindow,
+        EditTaskWindow,
+        ModalOK,
+        ModalYesNo
     },
 
     computed: {
@@ -101,6 +117,10 @@ export default {
             'setIsVisibleEditTaskWindow',
             'setIsVisibleEditBirthdayWindow',
             'addHolidaysToState',
+            'deleteEvent',
+            'deleteReminder',
+            'deleteBirthday',
+            'deleteTask'
         ]),
 
         ...mapActions([
@@ -108,6 +128,7 @@ export default {
         ]),
 
         load() {
+            //load all events from DB
             axios.get('/api/events').then(response => {
                 this.getDataFromServer(response.data)
             })
@@ -127,30 +148,27 @@ export default {
                 })
         },
 
-        del() {
+        deleteEvents() {
             //здесь будет происходить определение - какое из видов и id событий удаляем из БД и стейта и само удаление
             console.log(this.valueDeleteIdEvent)//id события
             console.log(this.valueDeleteTypeEvent)//type события
 
-            // axios.delete('/api/...-destroy/{id}')
-            //     .then(response => {
-            //     //метод
-            //
-                //сообщение об успешном удалении
-                this.setTitleModalMessage('')
-                this.setBodyModalMessage('Событие удалено!')
+            if (this.valueDeleteTypeEvent === 'event') {
+                this.deleteEvent(this.valueDeleteIdEvent)
                 this.$bvModal.show('modal-message-ok')
-
-                //удаляем из БД и состояния событие по id и type
-                console.log('Событие удалено!')
-            // })
-            // .catch(error => {
-            //     //сообщение о неуспешном удалении
-            //     this.setTitleModalMessage(error.response.data)
-            //     this.setBodyModalMessage('Событие не удалось удалить!')
-            //     this.$bvModal.show('modal-message-ok')
-            //     console.log('Событие не удалось удалить!')
-            // })
+            }
+            if (this.valueDeleteTypeEvent === 'reminder') {
+                this.deleteReminder(this.valueDeleteIdEvent)
+                this.$bvModal.show('modal-message-ok')
+            }
+            if (this.valueDeleteTypeEvent === 'birthday') {
+                this.deleteBirthday(this.valueDeleteIdEvent)
+                this.$bvModal.show('modal-message-ok')
+            }
+            if (this.valueDeleteTypeEvent === 'task') {
+                this.deleteTask(this.valueDeleteIdEvent)
+                this.$bvModal.show('modal-message-ok')
+            }
 
         },
 
