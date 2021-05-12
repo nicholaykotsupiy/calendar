@@ -18,6 +18,7 @@ export default new Vuex.Store({
         day
     },
     state: {
+        holidays: {},
         tasks: [],
         birthdays: [],
         events: [],
@@ -101,6 +102,10 @@ export default new Vuex.Store({
 
         pushBirthdayToState(state, newBirthday) {
             state.birthdays.push(newBirthday)
+        },
+
+        addHolidaysToState(state, payload) {
+            state.holidays = payload
         },
 
         deleteEvent(state, itemID) {
@@ -276,8 +281,13 @@ export default new Vuex.Store({
 
             return `${manthArr[month]} ${year}`
         },
+
         allEventsForDay(state, getters) {
             return [].concat(state.events, state.birthdays, state.reminders, state.tasks)
+        },
+
+        holidays(state) {
+            return state.holidays
         },
 
         user(state) {

@@ -19,23 +19,23 @@
                 </div>
                 <table>
                     <tbody>
-                        <div class="table-month">
-                            <tr>
-                                <td v-for="(d, dIndex) in day" :key="dIndex">{{ d }}</td>
-                            </tr>
+                    <div class="table-month">
+                        <tr>
+                            <td v-for="(d, dIndex) in day" :key="dIndex">{{ d }}</td>
+                        </tr>
 
-                            <tr v-for="(week, weekIndex) in month" :key="weekIndex">
-                                <td v-for="(day, dayIndex) in week" :key="dayIndex">
-                                    <div class="daygrid-day-frame">
-                                        <div class="daygrid-day-top flex">
-                                            <div class="daygrid-day-number-without-ukr">
-                                                <!--обозначить текущий день-->
-                                                <a
-                                                    data-toggle="tooltip"
-                                                    data-placement="top"
-                                                    :title="day.summary"
-                                                    @click="dayClickHandler(day)"
-                                                    :style="{
+                        <tr v-for="(week, weekIndex) in month" :key="weekIndex">
+                            <td v-for="(day, dayIndex) in week" :key="dayIndex">
+                                <div class="daygrid-day-frame">
+                                    <div class="daygrid-day-top flex">
+                                        <div class="daygrid-day-number-without-ukr">
+                                            <!--обозначить текущий день-->
+                                            <a
+                                                data-toggle="tooltip"
+                                                data-placement="top"
+                                                :title="day.summary"
+                                                @click="dayClickHandler(day)"
+                                                :style="{
                                                         'background': getDayBgColor(day),
                                                         'color': getDayColor(day),
                                                         'border-radius': '50%',
@@ -43,14 +43,14 @@
                                                         'height': '30px',
                                                         'padding': day.index < 10 ? '5px 8px' : '5px'
                                                     }">
-                                                    {{ day.index }}
-                                                </a>
-                                            </div>
+                                                {{ day.index }}
+                                            </a>
                                         </div>
                                     </div>
-                                </td>
-                            </tr>
-                        </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </div>
                     </tbody>
                 </table>
             </div>
@@ -59,6 +59,8 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
     name: "TheYear",
     data() {
@@ -69,25 +71,11 @@ export default {
             day:["Пн", "Вт","Ср","Чт","Пт","Сб", "Вс"],
             months: ["Январь","Февраль","Март","Апрель","Май","Июнь","Июль","Август","Сентябрь","Октябрь","Ноябрь","Декабрь"],
             date: new Date(),
-            holidays: {},
         }
     },
-    mounted() {
-        axios
-            .get('https://www.googleapis.com/calendar/v3/calendars/ru.ukrainian%23holiday%40group.v.calendar.google.com/events?key=AIzaSyCXtY_r4WvIlu_2N_iVZC8WTc_iXDkZMGM')
-            .then(response => {
-                let holidays = {};
-                for (let i = 0; i < response.data.items.length; i++) {
-                    let day = response.data.items[i].start.date
-                    if (!(day in holidays)) {
-                        holidays[day] = []
-                    }
-                    holidays[day].push(response.data.items[i])
-                }
-                this.holidays = holidays
-            });
-    },
+
     computed: {
+
         calendar() {
             let year = []
             for (let i = 0; i <= 11; i++) {
@@ -95,6 +83,15 @@ export default {
             }
             return year
         },
+
+        holidays() {
+            return this.holidays
+        },
+
+        ...mapGetters([
+            'holidays',
+        ]),
+
     },
     methods:{
         getMonth(month, year){
@@ -120,9 +117,9 @@ export default {
                     var dd = dateObj.getDate();
 
                     return [dateObj.getFullYear(),
-                            (mm>9 ? '' : '0') + mm,
-                            (dd>9 ? '' : '0') + dd
-                            ].join('-');
+                        (mm>9 ? '' : '0') + mm,
+                        (dd>9 ? '' : '0') + dd
+                    ].join('-');
                 };
                 function capitalizeFirstLetter(string) {
                     return string.charAt(0).toUpperCase() + string.slice(1);
@@ -187,47 +184,47 @@ export default {
 </script>
 
 <style scoped>
-    .flex {
-        display: flex;
-        align-content: space-between;
-        flex-wrap: wrap;
-    }
-    .container {
-        max-width: 1120px;
-        max-height: 780px;
-    }
-    .calendar-center {
-        margin: 0 auto;
-        padding-top: 30px;
-        padding-bottom: 30px;
-        font-size: 14px;
-        font-family: Roboto;
-        font-weight: 500;
-        font-style: normal;
-        color: #666666;
-    }
-    .month-lisst {
-        margin-right: 5px;
-        margin-bottom: 5px;
-        background-color: #ffffff;
-    }
-    .month-name {
-        padding: 10px 15px;
-        border-bottom: 3px solid rgb(245, 245, 245);
-    }
-    .table-month {
-        padding-left: 10px;
-        padding-top: 10px;
-        padding-right: 20px;
-        padding-bottom: 15px;
-    }
-    .daygrid-day-number a, .daygrid-day-number-without-ukr a {
-        cursor: pointer;
-        color: inherit;
-        text-decoration: none;
-        padding-left: 10px;
-    }
-    .daygrid-day-frame {
-        padding: 3px;
-    }
+.flex {
+    display: flex;
+    align-content: space-between;
+    flex-wrap: wrap;
+}
+.container {
+    max-width: 1120px;
+    max-height: 780px;
+}
+.calendar-center {
+    margin: 0 auto;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    font-size: 14px;
+    font-family: Roboto;
+    font-weight: 500;
+    font-style: normal;
+    color: #666666;
+}
+.month-lisst {
+    margin-right: 5px;
+    margin-bottom: 5px;
+    background-color: #ffffff;
+}
+.month-name {
+    padding: 10px 15px;
+    border-bottom: 3px solid rgb(245, 245, 245);
+}
+.table-month {
+    padding-left: 10px;
+    padding-top: 10px;
+    padding-right: 20px;
+    padding-bottom: 15px;
+}
+.daygrid-day-number a, .daygrid-day-number-without-ukr a {
+    cursor: pointer;
+    color: inherit;
+    text-decoration: none;
+    padding-left: 10px;
+}
+.daygrid-day-frame {
+    padding: 3px;
+}
 </style>
