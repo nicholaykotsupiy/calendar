@@ -41,4 +41,6 @@ Route::post('/task-store', [TaskController::class, 'store']);
 Route::put('/task-update', [TaskController::class, 'update']);
 Route::delete('/task-destroy/{id}', [TaskController::class, 'destroy']);
 
+Route::post('/login', \App\Http\Controllers\API\AuthController::class);
+
 Route::post('/update-colors', [CalendarController::class, 'updateColors']);

@@ -173,7 +173,7 @@ export default {
                 timeStart: this.timeStart,
                 dateEnd: this.dateEnd,
                 timeEnd: this.timeEnd,
-                allDay: Boolean,
+                allDay: this.allDay || false,
             },
 
         }

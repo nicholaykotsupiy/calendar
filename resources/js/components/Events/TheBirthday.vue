@@ -147,27 +147,10 @@ export default {
                 description: this.description,
                 date: this.date,
                 time: this.time,
-                allDay: this.allDay,
-                everyYear: this.everyYear,
+                allDay: this.allDay || false,
+                everyYear: this.everyYear || false,
             },
         }
-    },
-
-    mounted() {
-        // console.log(this.birthday)
-        // if (this.allDay === 'true') {
-        //     this.birthday.allDay = true
-        // } else {
-        //     this.birthday.allDay = false
-        // }
-        // document.getElementById("checkAllDay").checked = this.birthday.allDay
-        //
-        // if (this.everyYear === 'true') {
-        //     this.birthday.everyYear = true
-        // } else {
-        //     this.birthday.everyYear = false
-        // }
-        // document.getElementById("checkEveryYear").checked = this.birthday.everyYear
     },
 
     props: [
@@ -288,10 +271,8 @@ export default {
         },
 
         changeValueAllDay() {
-
             this.birthday.allDay = !this.birthday.allDay
             this.birthday.time = '00:01' // задаем время по ум. чтобы оно не было пустым и прошло валидацию
-
         },
 
         changeValueEveryYear() {

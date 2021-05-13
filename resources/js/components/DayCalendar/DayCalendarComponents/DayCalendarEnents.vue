@@ -71,7 +71,7 @@ import EditEventWindow from '../../../components/Events/Edit/EditEventWindow'
 import EditBirthdayWindow from '../../../components/Events/Edit/EditBirthdayWindow'
 import EditReminderWindow from '../../../components/Events/Edit/EditReminderWindow'
 import EditTaskWindow from '../../../components/Events/Edit/EditTaskWindow'
-
+import ModalOK from "../../ModalMessages/ModalOK";
 
 export default {
     name: "DayCalendarEnents",
@@ -81,6 +81,7 @@ export default {
         EditBirthdayWindow,
         EditReminderWindow,
         EditTaskWindow,
+        ModalOK
     },
     props: ['events', 'timeLine', 'currentDate'],
     data: () => ({
@@ -104,6 +105,7 @@ export default {
         deleteEvent() {
             this.deleteItem(this.eventItem)
             this.$bvModal.hide('id-modal')
+            this.$bvModal.show('modal-message-ok')
             this.eventItem = null
         },
         checkTypeEdit(event) {
@@ -148,7 +150,6 @@ export default {
         scrollTable(event) {
             let table = document.querySelector('table')
 
-
             if(event.offsetX > this.clickPosition ) {
                 if(parseInt(table.style.left)) {
                     table.style.left = parseInt(table.style.left)+10+'px'
@@ -167,7 +168,7 @@ export default {
     mounted() {
         this.formatedDate = dateformat(this.currentDate, 'yyyy-mm-dd')
 
-        console.log(this.virification)
+        // console.log(this.virification)
         for(let tr of this.$refs.tr){
             if(tr.querySelectorAll('td').length == 1 && tr.querySelector('td').getAttribute('rowspan') == 1) {
                 tr.querySelector('td').setAttribute('colspan', 2)

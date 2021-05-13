@@ -1,144 +1,144 @@
 <template>
-        <transition name="window-fade">
-            <div class="content-create-event-window">
-                <div class="backdrop-create-event-window">
-                    <div class="create-event-window">
-                        <div class="create-event">
-                            <div class="row justify-content-between py-2 header-create-event">
-                                <div class="col-md-11">
-                                    <div class="row text-center y-2">
-                                        <template v-if="isCreateEventWindowVisible">
-                                            <div class="col-md-3">
-                                                <button type="button" class="btn btn-primary" @click="showCreateEventWindow">
-                                                    Мероприятие
-                                                </button>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <button type="button" class="btn btn-outline-primary" @click="showCreateReminderWindow">
-                                                    Напоминание
-                                                </button>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <button type="button" class="btn btn-outline-primary" @click="showCreateTaskWindow">
-                                                    Задача
-                                                </button>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <button type="button" class="btn btn-outline-primary" @click="showCreateBirthdayWindow">
-                                                    День рождения
-                                                </button>
-                                            </div>
-                                        </template>
-                                        <template v-if="isCreateReminderWindowVisible">
-                                            <div class="col-md-3">
-                                                <button type="button" class="btn btn-outline-primary" @click="showCreateEventWindow">
-                                                    Мероприятие
-                                                </button>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <button type="button" class="btn btn-primary" @click="showCreateReminderWindow">
-                                                    Напоминание
-                                                </button>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <button type="button" class="btn btn-outline-primary" @click="showCreateTaskWindow">
-                                                    Задача
-                                                </button>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <button type="button" class="btn btn-outline-primary" @click="showCreateBirthdayWindow">
-                                                    День рождения
-                                                </button>
-                                            </div>
-                                        </template>
-                                        <template v-if="isCreateTaskWindowVisible">
-                                            <div class="col-md-3">
-                                                <button type="button" class="btn btn-outline-primary" @click="showCreateEventWindow">
-                                                    Мероприятие
-                                                </button>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <button type="button" class="btn btn-outline-primary" @click="showCreateReminderWindow">
-                                                    Напоминание
-                                                </button>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <button type="button" class="btn btn-primary" @click="showCreateTaskWindow">
-                                                    Задача
-                                                </button>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <button type="button" class="btn btn-outline-primary" @click="showCreateBirthdayWindow">
-                                                    День рождения
-                                                </button>
-                                            </div>
-                                        </template>
-                                        <template v-if="isCreateBirthdayWindowVisible">
-                                            <div class="col-md-3">
-                                                <button type="button" class="btn btn-outline-primary" @click="showCreateEventWindow">
-                                                    Мероприятие
-                                                </button>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <button type="button" class="btn btn-outline-primary" @click="showCreateReminderWindow">
-                                                    Напоминание
-                                                </button>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <button type="button" class="btn btn-outline-primary" @click="showCreateTaskWindow">
-                                                    Задача
-                                                </button>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <button type="button" class="btn btn-primary" @click="showCreateBirthdayWindow">
-                                                    День рождения
-                                                </button>
-                                            </div>
-                                        </template>
-                                    </div>
+<!--    <transition name="window-fade">-->
+        <div class="content-create-event-window">
+            <div class="backdrop-create-event-window">
+                <div class="create-event-window">
+                    <div class="create-event">
+                        <div class="row justify-content-between py-2 header-create-event">
+                            <div class="col-md-11">
+                                <div class="row text-center y-2">
+                                    <template v-if="isCreateEventWindowVisible">
+                                        <div class="col-md-3">
+                                            <button type="button" class="btn btn-primary" @click="showCreateEventWindow">
+                                                Мероприятие
+                                            </button>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <button type="button" class="btn btn-outline-primary" @click="showCreateReminderWindow">
+                                                Напоминание
+                                            </button>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <button type="button" class="btn btn-outline-primary" @click="showCreateTaskWindow">
+                                                Задача
+                                            </button>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <button type="button" class="btn btn-outline-primary" @click="showCreateBirthdayWindow">
+                                                День рождения
+                                            </button>
+                                        </div>
+                                    </template>
+                                    <template v-if="isCreateReminderWindowVisible">
+                                        <div class="col-md-3">
+                                            <button type="button" class="btn btn-outline-primary" @click="showCreateEventWindow">
+                                                Мероприятие
+                                            </button>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <button type="button" class="btn btn-primary" @click="showCreateReminderWindow">
+                                                Напоминание
+                                            </button>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <button type="button" class="btn btn-outline-primary" @click="showCreateTaskWindow">
+                                                Задача
+                                            </button>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <button type="button" class="btn btn-outline-primary" @click="showCreateBirthdayWindow">
+                                                День рождения
+                                            </button>
+                                        </div>
+                                    </template>
+                                    <template v-if="isCreateTaskWindowVisible">
+                                        <div class="col-md-3">
+                                            <button type="button" class="btn btn-outline-primary" @click="showCreateEventWindow">
+                                                Мероприятие
+                                            </button>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <button type="button" class="btn btn-outline-primary" @click="showCreateReminderWindow">
+                                                Напоминание
+                                            </button>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <button type="button" class="btn btn-primary" @click="showCreateTaskWindow">
+                                                Задача
+                                            </button>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <button type="button" class="btn btn-outline-primary" @click="showCreateBirthdayWindow">
+                                                День рождения
+                                            </button>
+                                        </div>
+                                    </template>
+                                    <template v-if="isCreateBirthdayWindowVisible">
+                                        <div class="col-md-3">
+                                            <button type="button" class="btn btn-outline-primary" @click="showCreateEventWindow">
+                                                Мероприятие
+                                            </button>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <button type="button" class="btn btn-outline-primary" @click="showCreateReminderWindow">
+                                                Напоминание
+                                            </button>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <button type="button" class="btn btn-outline-primary" @click="showCreateTaskWindow">
+                                                Задача
+                                            </button>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <button type="button" class="btn btn-primary" @click="showCreateBirthdayWindow">
+                                                День рождения
+                                            </button>
+                                        </div>
+                                    </template>
                                 </div>
-                                <button type="button" class="col-md-1 close my-close" aria-label="Close" @click="close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
                             </div>
-
-                            <!--        Компонент - модальное окно для создания Мероприятия-->
-                            <the-event
-                                v-show="isCreateEventWindowVisible"
-                                @close="closeCreateEventWindow"
-                                @saveEvent="saveNewEvent"
-                            >
-                            </the-event>
-
-                            <!--        Компонент - модальное окно для создания Напоминания-->
-                            <the-reminder
-                                v-show="isCreateReminderWindowVisible"
-                                @close="closeCreateReminderWindow"
-                                @saveEvent="saveNewReminder"
-                            >
-                            </the-reminder>
-
-                            <!--        Компонент - модальное окно для создания Задачи -->
-                            <the-task
-                                v-show="isCreateTaskWindowVisible"
-                                @close="closeCreateTaskWindow"
-                                @saveEvent="saveNewTask"
-                            >
-                            </the-task>
-
-                            <!--        Компонент - модальное окно для создания Дня рождения -->
-                            <the-birthday
-                                v-show="isCreateBirthdayWindowVisible"
-                                @close="closeCreateBirthdayWindow"
-                                @saveEvent="saveNewBirthday"
-                            >
-                            </the-birthday>
-
+                            <button type="button" class="col-md-1 close my-close" aria-label="Close" @click="close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
                         </div>
+
+                        <!--        Компонент - модальное окно для создания Мероприятия-->
+                        <the-event
+                            v-show="isCreateEventWindowVisible"
+                            @close="closeCreateEventWindow"
+                            @saveEvent="saveNewEvent"
+                        >
+                        </the-event>
+
+                        <!--        Компонент - модальное окно для создания Напоминания-->
+                        <the-reminder
+                            v-show="isCreateReminderWindowVisible"
+                            @close="closeCreateReminderWindow"
+                            @saveEvent="saveNewReminder"
+                        >
+                        </the-reminder>
+
+                        <!--        Компонент - модальное окно для создания Задачи -->
+                        <the-task
+                            v-show="isCreateTaskWindowVisible"
+                            @close="closeCreateTaskWindow"
+                            @saveEvent="saveNewTask"
+                        >
+                        </the-task>
+
+                        <!--        Компонент - модальное окно для создания Дня рождения -->
+                        <the-birthday
+                            v-show="isCreateBirthdayWindowVisible"
+                            @close="closeCreateBirthdayWindow"
+                            @saveEvent="saveNewBirthday"
+                        >
+                        </the-birthday>
+
                     </div>
                 </div>
             </div>
-        </transition>
+        </div>
+<!--    </transition>-->
 </template>
 
 <script>

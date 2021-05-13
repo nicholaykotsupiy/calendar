@@ -1,5 +1,5 @@
 <template>
-    <transition name="window-fade">
+<!--    <transition name="window-fade">-->
         <div class="content-create-event-window">
             <div class="backdrop-create-event-window">
                 <div class="create-event-window">
@@ -41,12 +41,12 @@
                 </div>
             </div>
         </div>
-    </transition>
+<!--    </transition>-->
 </template>
 
 <script>
 import TheEvent from "../TheEvent";
-import {mapActions} from "vuex";
+import { mapActions } from "vuex";
 
 export default {
 
@@ -57,26 +57,17 @@ export default {
     props: ['event'],
 
     methods: {
+
         ...mapActions([
-            'editItem'
+            'editItem',
         ]),
+
         close() {
             //прослушиваем событие closeEditEventWindow в родительском компоненте
             this.$emit('closeEditEventWindow');
         },
 
         saveChangeEvent(event) {
-            //валидация данных, которая расписана в компоненте, после успешной валидации -
-            //здесь будет метод сохранения измененных данных в БД, пока - в консоль
-            // console.log('Save event in parent component')
-            // console.log(event.name)
-            // console.log(event.guests)
-            // console.log(event.location)
-            // console.log(event.description)
-            // console.log(event.dateStart)
-            // console.log(event.dateEnd)
-            // console.log(event.timeStart)
-            // console.log(event.timeEnd)
             this.editItem(event)
             //после удачного сохранения события спрятать форму
             this.close();

@@ -78,30 +78,13 @@ export default {
             day:["Пн", "Вт","Ср","Чт","Пт","Сб", "Вс"],
             months: ["Январь","Февраль","Март","Апрель","Май","Июнь","Июль","Август","Сентябрь","Октябрь","Ноябрь","Декабрь"],
             date: new Date(),
-            holidays: {},
         }
     },
     mounted() {
         this.date = this.currentDate
-        axios
-            .get('https://www.googleapis.com/calendar/v3/calendars/ru.ukrainian%23holiday%40group.v.calendar.google.com/events?key=AIzaSyCXtY_r4WvIlu_2N_iVZC8WTc_iXDkZMGM')
-            .then(response => {
-                let holidays = {};
-                for (let i = 0; i < response.data.items.length; i++) {
-                    let day = response.data.items[i].start.date
-                    if (!(day in holidays)) {
-                        holidays[day] = []
-                    }
-                    holidays[day].push(response.data.items[i])
-                }
-                this.holidays = holidays
-            });
+        
     },
     computed: {
-        ...mapGetters([
-            'currentDate',
-            'monthsCalendarMonth',
-        ]),
         calendar() {
             let year = []
             for (let i = 0; i <= 11; i++) {
@@ -109,6 +92,12 @@ export default {
             }
             return year
         },
+        ...mapGetters([
+            'holidays',
+            'currentDate',
+            'monthsCalendarMonth',
+        ]),
+
     },
     methods:{
         ...mapMutations([
@@ -137,9 +126,9 @@ export default {
                     var dd = dateObj.getDate();
 
                     return [dateObj.getFullYear(),
-                            (mm>9 ? '' : '0') + mm,
-                            (dd>9 ? '' : '0') + dd
-                            ].join('-');
+                        (mm>9 ? '' : '0') + mm,
+                        (dd>9 ? '' : '0') + dd
+                    ].join('-');
                 };
                 function capitalizeFirstLetter(string) {
                     return string.charAt(0).toUpperCase() + string.slice(1);
