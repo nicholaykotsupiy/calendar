@@ -13,9 +13,11 @@
                     <span class="material-icons"  @click="popClose">close</span>
                 </div>
             </template>
-            <span class="title">{{ event.name }}</span><br>
-            <span class="title">{{ event.description }}</span><br>
-            <span class="title">{{ event.timeStart }}</span>
+            <div class="title">{{ event.name }}</div>
+            <div v-if="event.description" class="title">{{ event.description }}</div>
+            <div v-if="event.location" class="title">{{ event.location }}</div>
+            <div class="title">{{ event.dateStart }} {{ event.dateEnd }}</div>
+            <div class="title">{{ event.timeStart }} {{ event.timeEnd }}</div>
         </b-popover>
     </div>
 </template>
