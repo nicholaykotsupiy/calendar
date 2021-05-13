@@ -15,16 +15,22 @@
     <!--                                праздники Украины-->
                                 <template v-if="day.isHoliday">
                                     <div class="daygrid-day-ukr">{{ day.summary }}</div>
-                                    <div class="daygrid-day-number holiday">
-                                        {{ day.index }}
+                                    <div @click="dayClickHandler(day)">
+                                        <router-link
+                                            to="/"
+                                            class="daygrid-day-number holiday">
+                                            {{ day.index }}
+                                        </router-link>
                                     </div>
                                 </template>
                                 <template v-else>
-                                    <div class="daygrid-day-number-without-ukr">
+                                    <div class="daygrid-day-number-without-ukr" @click="dayClickHandler(day)">
     <!--                                        обозначить текущий день-->
-                                        <div :style="{ 'color': day.current }" >
+                                        <router-link
+                                            to="/"
+                                            :style="{ 'color': day.current }" >
                                             {{ day.index }}
-                                        </div>
+                                        </router-link>
                                     </div>
                                 </template>
                             </div>
@@ -159,7 +165,13 @@ export default {
             'prevMonth',
             'nextMonth',
             'setTitleNavigationCalendarMonth',
+            'swichToDate'
         ]),
+
+        dayClickHandler(e) {
+            let currentDate = new Date()
+            this.swichToDate(`${currentDate.getMonth()+1}/${e.index}/${currentDate.getFullYear()}`)
+        },
 
         //сортировка
         byField(field) {
