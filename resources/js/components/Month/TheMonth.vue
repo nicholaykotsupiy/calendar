@@ -392,7 +392,6 @@ export default {
     text-align: center;
 }
 .daygrid-day-ukr {
-    cursor: pointer;
     width: 100%;
     color: #222222;
     text-align: left;
