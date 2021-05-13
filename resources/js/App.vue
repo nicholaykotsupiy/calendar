@@ -11,7 +11,7 @@
 
         <!--окно редактирования Мероприятия-->
         <edit-event-window
-            v-show="isVisibleEditEventWindow"
+            v-if="isVisibleEditEventWindow"
             :event="$store.state.eventEdit"
             @closeEditEventWindow="closeEditEventWindow"
         >
@@ -19,7 +19,7 @@
 
         <!--окно редактирования Дня рождения-->
         <edit-birthday-window
-            v-show="isVisibleEditBirthdayWindow"
+            v-if="isVisibleEditBirthdayWindow"
             :event="$store.state.eventEdit"
             @closeEditBirthdayWindow="closeEditBirthdayWindow"
         >
@@ -27,7 +27,7 @@
 
         <!--окно редактирования Напоминания-->
         <edit-reminder-window
-            v-show="isVisibleEditReminderWindow"
+            v-if="isVisibleEditReminderWindow"
             :event="$store.state.eventEdit"
             @closeEditReminderWindow="closeEditReminderWindow"
         >
@@ -35,7 +35,7 @@
 
         <!--окно редактирования Задачи-->
         <edit-task-window
-            v-show="isVisibleEditTaskWindow"
+            v-if="isVisibleEditTaskWindow"
             :event="$store.state.eventEdit"
             @closeEditTaskWindow="closeEditTaskWindow"
         >
@@ -88,9 +88,6 @@ export default {
         valueDeleteTypeEvent() {
             return this.valueDeleteTypeEvent
         },
-        eventEdit() {
-            return this.eventEdit
-        },
 
         holidays() {
             return this.holidays
@@ -106,7 +103,6 @@ export default {
             'valueDeleteIdEvent',
             'valueDeleteTypeEvent',
             'holidays',
-            'eventEdit'
         ]),
 
     },
