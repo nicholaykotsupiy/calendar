@@ -14,8 +14,10 @@
 
         <div class="calendar-year flex">
             <div v-for="(month, monthIndex) in calendar" :key="monthIndex" class="month-lisst">
-                <div class="month-name">
-                    {{ months[monthIndex] }}
+                <div class="month-name" @click="monthClickHandler(month)">
+                    <router-link to="/month" class="month-color">
+                        {{ months[monthIndex] }}
+                    </router-link>
                 </div>
                 <table>
                     <tbody>
@@ -28,7 +30,7 @@
                                 <td v-for="(day, dayIndex) in week" :key="dayIndex">
                                     <div class="daygrid-day-frame">
                                         <div class="daygrid-day-top flex">
-                                            <div class="daygrid-day-number-without-ukr" @click="dayClickHandler(day)">
+                                            <div class="daygrid-day-number-without-ukr" @click="dayClickHandler(day, monthIndex)">
                                                 <!--обозначить текущий день-->
                                                 <router-link
                                                     to="/"
@@ -59,11 +61,15 @@
 </template>
 
 <script>
-
+import DayCalendarNavigation from "../DayCalendar/DayCalendarComponents/DayCalendarNavigation";
 import {mapGetters, mapMutations} from "vuex";
 
 export default {
+
     name: "TheYear",
+
+    components: {DayCalendarNavigation},
+
     data() {
         return {
             currentMonth: new Date().getMonth(),
@@ -76,6 +82,7 @@ export default {
         }
     },
     mounted() {
+        this.date = this.currentDate
         axios
             .get('https://www.googleapis.com/calendar/v3/calendars/ru.ukrainian%23holiday%40group.v.calendar.google.com/events?key=AIzaSyCXtY_r4WvIlu_2N_iVZC8WTc_iXDkZMGM')
             .then(response => {
@@ -92,7 +99,8 @@ export default {
     },
     computed: {
         ...mapGetters([
-            'currentDate'
+            'currentDate',
+            'monthsCalendarMonth',
         ]),
         calendar() {
             let year = []
@@ -170,9 +178,11 @@ export default {
         increase() {
             this.currentYear++
         },
-        dayClickHandler(e) {
-            let currentDate = new Date()
-            this.swichToDate(`${currentDate.getMonth()+1}/${e.index}/${currentDate.getFullYear()}`)
+        dayClickHandler(day, monthIndex) {
+            this.swichToDate(`${monthIndex +1}/${day.index}/${this.currentYear}`)
+        },
+        monthClickHandler(month) {
+            this.monthsCalendarMonth(month)
         },
         getDayBgColor(day) {
             if (day.isCurrent) {
@@ -224,6 +234,15 @@ export default {
     .month-name {
         padding: 10px 15px;
         border-bottom: 3px solid rgb(245, 245, 245);
+    }
+    .month-color {
+        font-weight: 600;
+        font-size: 15px;
+        text-align: center;
+        color: #666666;
+    }
+    .month-color:hover {
+        text-decoration: none;
     }
     .table-month {
         padding-left: 10px;
