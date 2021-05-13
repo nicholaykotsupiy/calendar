@@ -1,18 +1,18 @@
 <template>
-        <div class="container calendar-center">
-            <table class="table-month">
-                <thead>
+    <div class="container calendar-center">
+        <table class="table-month">
+            <thead>
                 <tr class="flex">
                     <td v-for="d in day">{{d}}</td>
                 </tr>
-                </thead>
-                <tbody>
+            </thead>
+            <tbody>
                 <tr v-for="week in calendar()" class="flex">
                     <td v-for="(day, index) in week"                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               >
                         <div class="daygrid-day-frame">
                             <div class="daygrid-day-top flex">
 
-                                <!--                                праздники Украины-->
+    <!--                                праздники Украины-->
                                 <template v-if="day.isHoliday">
                                     <div class="daygrid-day-ukr">{{ day.summary }}</div>
                                     <div class="daygrid-day-number holiday">
@@ -21,7 +21,7 @@
                                 </template>
                                 <template v-else>
                                     <div class="daygrid-day-number-without-ukr">
-                                        <!--                                        обозначить текущий день-->
+    <!--                                        обозначить текущий день-->
                                         <div :style="{ 'color': day.current }" >
                                             {{ day.index }}
                                         </div>
@@ -29,7 +29,7 @@
                                 </template>
                             </div>
 
-                            <!--                        события -->
+    <!--                        события -->
                             <template v-for="event in eventsForCurrentMonth()">
                                 <template v-if="day.index === event.day">
                                     <template v-if="event.type === 'event'">
@@ -78,9 +78,9 @@
                         </div>
                     </td>
                 </tr>
-                </tbody>
-            </table>
-        </div>
+            </tbody>
+        </table>
+    </div>
 </template>
 
 <script>
@@ -171,24 +171,6 @@ export default {
             let eventsForThisMonth = []
 
             for (let eventForDay of this.allEventsForDay) {
-
-                if (eventForDay.type === "reminder" &&
-                    typeof eventForDay["repeat"] !== "undefined" &&
-                    eventForDay["repeat"] === "ежедневно") {
-
-                    for (let i = 0; i < 31; i++) {
-                        let cloneEventForDay = {}
-                        for (let key in eventForDay) {
-                            cloneEventForDay[key] = eventForDay[key]
-                        }
-                        cloneEventForDay.day = i + 1
-                        eventsForThisMonth.push(cloneEventForDay)
-                    }
-
-                }
-            }
-
-            for (let eventForDay of this.allEventsForDay) {
                 for (let longsDateItem of eventForDay.longsDate) {
 
                     let longsDateItemArray = longsDateItem.split('-')
@@ -206,11 +188,9 @@ export default {
                     ) {
 
                         let cloneEventForDay = {}
-
                         for (let key in eventForDay) {
                             cloneEventForDay[key] = eventForDay[key]
                         }
-
                         cloneEventForDay.day = +longsDateItemArray[2]
                         eventsForThisMonth.push(cloneEventForDay)
                     }
@@ -312,7 +292,6 @@ export default {
             // console.log(days);
             // console.log(week);
             // console.log(days[week]);
-
             return days;
         },
 
@@ -413,7 +392,6 @@ export default {
     text-align: center;
 }
 .daygrid-day-ukr {
-    cursor: pointer;
     width: 100%;
     color: #222222;
     text-align: left;

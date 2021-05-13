@@ -147,8 +147,8 @@ export default {
                 description: this.description,
                 date: this.date,
                 time: this.time,
-                allDay: this.allDay,
-                everyYear: this.everyYear,
+                allDay: this.allDay || false,
+                everyYear: this.everyYear || false,
             },
         }
     },
@@ -271,10 +271,8 @@ export default {
         },
 
         changeValueAllDay() {
-
             this.birthday.allDay = !this.birthday.allDay
             this.birthday.time = '00:01' // задаем время по ум. чтобы оно не было пустым и прошло валидацию
-
         },
 
         changeValueEveryYear() {
