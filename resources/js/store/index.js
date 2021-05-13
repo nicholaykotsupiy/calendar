@@ -202,6 +202,10 @@ export default new Vuex.Store({
                     state.titleModalMessage = ''
                     state.bodyModalMessage = 'Событие изменено!'
                 })
+                .catch(error => {
+                    state.titleModalMessage = ''
+                    state.bodyModalMessage = 'Ошибка! Событие не удалось изменить!'
+                })
         },
 
         editTask(state, payload) {
@@ -211,6 +215,10 @@ export default new Vuex.Store({
                     state.tasks.splice(findItem,1, response.data)
                     state.titleModalMessage = ''
                     state.bodyModalMessage = 'Событие изменено!'
+                })
+                .catch(error => {
+                    state.titleModalMessage = ''
+                    state.bodyModalMessage = 'Ошибка! Событие не удалось изменить!'
                 })
         },
 
@@ -222,6 +230,10 @@ export default new Vuex.Store({
                     state.titleModalMessage = ''
                     state.bodyModalMessage = 'Событие изменено!'
                 })
+                .catch(error => {
+                    state.titleModalMessage = ''
+                    state.bodyModalMessage = 'Ошибка! Событие не удалось изменить!'
+                })
         },
 
         editBirthday(state, payload) {
@@ -231,6 +243,10 @@ export default new Vuex.Store({
                     state.birthdays.splice(findItem,1, response.data)
                     state.titleModalMessage = ''
                     state.bodyModalMessage = 'Событие изменено!'
+                })
+                .catch(error => {
+                    state.titleModalMessage = ''
+                    state.bodyModalMessage = 'Ошибка! Событие не удалось изменить!'
                 })
         },
 
