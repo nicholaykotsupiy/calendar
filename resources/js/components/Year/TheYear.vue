@@ -28,13 +28,13 @@
                                 <td v-for="(day, dayIndex) in week" :key="dayIndex">
                                     <div class="daygrid-day-frame">
                                         <div class="daygrid-day-top flex">
-                                            <div class="daygrid-day-number-without-ukr">
+                                            <div class="daygrid-day-number-without-ukr" @click="dayClickHandler(day)">
                                                 <!--обозначить текущий день-->
-                                                <a
+                                                <router-link
+                                                    to="/"
                                                     data-toggle="tooltip"
                                                     data-placement="top"
                                                     :title="day.summary"
-                                                    @click="dayClickHandler(day)"
                                                     :style="{
                                                         'background': getDayBgColor(day),
                                                         'color': getDayColor(day),
@@ -44,7 +44,7 @@
                                                         'padding': day.index < 10 ? '5px 8px' : '5px'
                                                     }">
                                                     {{ day.index }}
-                                                </a>
+                                                </router-link>
                                             </div>
                                         </div>
                                     </div>
@@ -59,6 +59,9 @@
 </template>
 
 <script>
+
+import {mapGetters, mapMutations} from "vuex";
+
 export default {
     name: "TheYear",
     data() {
@@ -88,6 +91,9 @@ export default {
             });
     },
     computed: {
+        ...mapGetters([
+            'currentDate'
+        ]),
         calendar() {
             let year = []
             for (let i = 0; i <= 11; i++) {
@@ -97,6 +103,9 @@ export default {
         },
     },
     methods:{
+        ...mapMutations([
+            'swichToDate'
+        ]),
         getMonth(month, year){
             let days = []
             let week = 0
@@ -162,7 +171,8 @@ export default {
             this.currentYear++
         },
         dayClickHandler(e) {
-            console.log(e)
+            let currentDate = new Date()
+            this.swichToDate(`${currentDate.getMonth()+1}/${e.index}/${currentDate.getFullYear()}`)
         },
         getDayBgColor(day) {
             if (day.isCurrent) {
