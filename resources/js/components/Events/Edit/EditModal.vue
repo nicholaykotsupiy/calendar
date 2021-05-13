@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import {mapActions, mapGetters, mapMutations} from 'vuex'
+import { mapMutations } from 'vuex'
 
 export default {
     name: "EditModal",
@@ -46,8 +46,6 @@ export default {
             'setIsVisibleEditBirthdayWindow',
             'setValueDeleteIdEvent',
             'setValueDeleteTypeEvent',
-            'setValueEditIdEvent',
-            'setValueEditTypeEvent',
             'setEventEdit',
         ]),
 
@@ -66,12 +64,7 @@ export default {
 
         showModal() {
             this.popClose()
-            // console.log('this.event', this.event)
-            // console.log(this.event.id)
-            // console.log(this.event.type)
-            this.setValueEditIdEvent(this.event.id)
-            this.setValueEditTypeEvent(this.event.type)
-            this.setEventEdit()
+            this.setEventEdit(this.event)
             if (this.event.type === 'event') {
                 this.setIsVisibleEditEventWindow(true)
             }

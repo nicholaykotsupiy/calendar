@@ -41,9 +41,8 @@ export default new Vuex.Store({
 
         valueDeleteIdEvent: null,
         valueDeleteTypeEvent: null,
-        valueEditIdEvent: null,
-        valueEditTypeEvent: null,
         eventEdit: {},
+        key: 0,
     },
 
     mutations: {
@@ -200,28 +199,38 @@ export default new Vuex.Store({
             axios.put('/api/event-update', payload)
                 .then(response => {
                     state.events.splice(findItem,1, response.data)
+                    state.titleModalMessage = ''
+                    state.bodyModalMessage = 'Событие изменено!'
                 })
         },
+
         editTask(state, payload) {
             let findItem = state.tasks.findIndex(item => item.id === payload.id)
             axios.put('/api/task-update', payload)
                 .then(response => {
                     state.tasks.splice(findItem,1, response.data)
+                    state.titleModalMessage = ''
+                    state.bodyModalMessage = 'Событие изменено!'
                 })
         },
+
         editReminder(state, payload) {
             let findItem = state.reminders.findIndex(item => item.id === payload.id)
             axios.put('/api/reminder-update', payload)
                 .then(response => {
-
                     state.reminders.splice(findItem,1, response.data)
+                    state.titleModalMessage = ''
+                    state.bodyModalMessage = 'Событие изменено!'
                 })
         },
+
         editBirthday(state, payload) {
             let findItem = state.birthdays.findIndex(item => item.id === payload.id)
             axios.put('/api/birthday-update', payload)
                 .then(response => {
                     state.birthdays.splice(findItem,1, response.data)
+                    state.titleModalMessage = ''
+                    state.bodyModalMessage = 'Событие изменено!'
                 })
         },
 
@@ -296,32 +305,11 @@ export default new Vuex.Store({
         setValueDeleteTypeEvent(state, value) {
             state.valueDeleteTypeEvent = value
         },
-        setValueEditIdEvent(state, value) {
-            state.valueEditIdEvent = value
-        },
-        setValueEditTypeEvent(state, value) {
-            state.valueEditTypeEvent = value
-        },
 
-        setEventEdit(state) {
-            let typeEvent = state.valueEditTypeEvent
-            let id = state.valueEditIdEvent
-            if (typeEvent === 'event') {
-                state.eventEdit = state.events.find(item => item.id === id)
-                console.log(state.eventEdit)
-            }
-            if (typeEvent === 'reminder') {
-                state.eventEdit = state.reminders.find(item => item.id === id)
-                console.log(state.eventEdit)
-            }
-            if (typeEvent === 'task') {
-                state.eventEdit = state.tasks.find(item => item.id === id)
-                console.log(state.eventEdit)
-            }
-            if (typeEvent === 'birthday') {
-                state.eventEdit = state.birthdays.find(item => item.id === id)
-                console.log(state.eventEdit)
-            }
+        setEventEdit(state, payload) {
+            state.eventEdit = payload
+            state.key++
+            console.log(state.eventEdit)
         },
 
     },
@@ -474,12 +462,6 @@ export default new Vuex.Store({
         },
         valueDeleteTypeEvent(state) {
             return state.valueDeleteTypeEvent
-        },
-        valueEditIdEvent(state) {
-            return state.valueEditIdEvent
-        },
-        valueEditTypeEvent(state) {
-            return state.valueEditTypeEvent
         },
 
         eventEdit(state) {
