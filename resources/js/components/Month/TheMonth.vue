@@ -1,18 +1,18 @@
 <template>
-    <div class="container calendar-center">
-        <table class="table-month">
-            <thead>
+    <div class="wrap mr-2">
+        <div class="container calendar-center">
+            <table class="table-month">
+                <thead>
                 <tr class="flex">
                     <td v-for="d in day">{{d}}</td>
                 </tr>
-            </thead>
-            <tbody>
+                </thead>
+                <tbody>
                 <tr v-for="week in calendar()" class="flex">
                     <td v-for="(day, index) in week"                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               >
                         <div class="daygrid-day-frame">
                             <div class="daygrid-day-top flex">
-
-    <!--                                праздники Украины-->
+                                <!--                                праздники Украины-->
                                 <template v-if="day.isHoliday">
                                     <div class="daygrid-day-ukr">{{ day.summary }}</div>
                                     <div @click="dayClickHandler(day)">
@@ -25,7 +25,7 @@
                                 </template>
                                 <template v-else>
                                     <div class="daygrid-day-number-without-ukr" @click="dayClickHandler(day)">
-    <!--                                        обозначить текущий день-->
+                                        <!--                                        обозначить текущий день-->
                                         <router-link
                                             to="/"
                                             :style="{ 'color': day.current }" >
@@ -35,7 +35,7 @@
                                 </template>
                             </div>
 
-    <!--                        события -->
+                            <!--                        события -->
                             <template v-for="event in eventsForCurrentMonth()">
                                 <template v-if="day.index === event.day">
                                     <template v-if="event.type === 'event'">
@@ -84,8 +84,9 @@
                         </div>
                     </td>
                 </tr>
-            </tbody>
-        </table>
+                </tbody>
+            </table>
+        </div>
     </div>
 </template>
 
@@ -342,10 +343,16 @@ export default {
     max-width: 1120px;
     max-height: 780px;
 }
+.wrap {
+    background: #ffffff;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.05);
+    border-radius: 6px;
+}
 .calendar-center {
     margin: 0 auto;
     padding-top: 30px;
     padding-bottom: 30px;
+    overflow: auto;
 }
 .table-month {
     font-family: Roboto;
