@@ -16,8 +16,18 @@
             <div class="title">{{ event.name }}</div>
             <div v-if="event.description" class="title">{{ event.description }}</div>
             <div v-if="event.location" class="title">{{ event.location }}</div>
-            <div class="title">{{ event.dateStart }} {{ event.dateEnd }}</div>
-            <div class="title">{{ event.timeStart }} {{ event.timeEnd }}</div>
+            <template v-if="event.dateEnd">
+                <div class="title">{{ formatData(event.dateStart) }} - {{ formatData(event.dateEnd) }}</div>
+            </template>
+            <template v-else>
+                <div class="title">{{ formatData(event.dateStart) }}</div>
+            </template>
+            <template v-if="event.timeEnd">
+                <div class="title">{{ formatTime(event.timeStart) }} - {{ formatTime(event.timeEnd) }}</div>
+            </template>
+            <template v-else>
+                <div class="title">{{ formatTime(event.timeStart) }}</div>
+            </template>
         </b-popover>
     </div>
 </template>
@@ -51,13 +61,29 @@ export default {
             'setEventEdit',
         ]),
 
+        formatData(d) {
+            let date = new Date(d);
+            let options = {
+                month: 'long',
+                day: 'numeric',
+                weekday: 'short',
+                timezone: 'UTC',
+            };
+
+            return date.toLocaleString("ru", options)
+        },
+
+        formatTime(t) {
+            let timeArray = t.split(':');
+
+            return timeArray[0] + ':' + timeArray[1]
+        },
+
         popClose() {
             this.pop = false
         },
 
         showModalYesNo() {
-            // console.log(this.typeEvent)
-            // console.log(this.idEvent)
             this.popClose()
             this.setValueDeleteIdEvent(this.event.id)
             this.setValueDeleteTypeEvent(this.event.type)
