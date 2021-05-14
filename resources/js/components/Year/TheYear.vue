@@ -14,7 +14,7 @@
 
         <div class="calendar-year flex">
             <div v-for="(month, monthIndex) in calendar" :key="monthIndex" class="month-lisst">
-                <div class="month-name" @click="monthClickHandler(month)">
+                <div class="month-name" @click="monthClickHandler(monthIndex)">
                     <router-link to="/month" class="month-color">
                         {{ months[monthIndex] }}
                     </router-link>
@@ -170,8 +170,8 @@ export default {
         dayClickHandler(day, monthIndex) {
             this.swichToDate(`${monthIndex +1}/${day.index}/${this.currentYear}`)
         },
-        monthClickHandler(month) {
-            this.monthsCalendarMonth(month)
+        monthClickHandler(monthIndex) {
+            this.swichToDate(`${monthIndex +1}/${this.day = 1}/${this.currentYear}`)
         },
         getDayBgColor(day) {
             if (day.isCurrent) {
