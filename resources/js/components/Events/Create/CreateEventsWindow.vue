@@ -380,12 +380,13 @@ export default {
 
             axios.post(`/api/task-store`, task)
                 .then(response => {
+                    console.log(response)
                     //параметры для модалки с сообщением
                     this.setTitleModalMessage('')
                     this.setBodyModalMessage('Событие добавлено!')
                     //вызвать мутацию для загрузки новой задачи в состояние
                     let newTask = (response.data)
-                    this.pushReminderToState(newTask)
+                    this.pushTaskToState(newTask)
                 })
                 .catch(error => {
                     //массив, для ошибок валидации на бэке
