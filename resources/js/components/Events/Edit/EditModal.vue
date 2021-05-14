@@ -13,35 +13,35 @@
                     <span class="material-icons"  @click="popClose">close</span>
                 </div>
             </template>
-            <span class="title">{{ editModalTitle }}</span><br>
-            <span class="title">{{ description }}</span><br>
-            <span class="title">{{ editModalTime }}</span>
+            <div class="title">{{ event.name }}</div>
+            <div v-if="event.description" class="title">{{ event.description }}</div>
+            <div v-if="event.location" class="title">{{ event.location }}</div>
+            <template v-if="event.dateEnd">
+                <div class="title">{{ formatData(event.dateStart) }} - {{ formatData(event.dateEnd) }}</div>
+            </template>
+            <template v-else>
+                <div class="title">{{ formatData(event.dateStart) }}</div>
+            </template>
+            <template v-if="event.timeEnd">
+                <div class="title">{{ formatTime(event.timeStart) }} - {{ formatTime(event.timeEnd) }}</div>
+            </template>
+            <template v-else>
+                <div class="title">{{ formatTime(event.timeStart) }}</div>
+            </template>
         </b-popover>
     </div>
 </template>
 
 <script>
-import { mapGetters, mapMutations } from 'vuex'
+import { mapMutations } from 'vuex'
 
 export default {
     name: "EditModal",
 
     props: [
         'id',
-        'typeEvent',
-        'idEvent',
-        'editModalTitle',
-        'editModalTime',
-        'description'
+        'event'
     ],
-
-    computed: {
-
-        // ...mapGetters([
-        //     'editModalTitle',
-        //     'editModalTime',
-        // ]),
-    },
 
     data() {
         return {
@@ -58,32 +58,51 @@ export default {
             'setIsVisibleEditBirthdayWindow',
             'setValueDeleteIdEvent',
             'setValueDeleteTypeEvent',
+            'setEventEdit',
         ]),
+
+        formatData(d) {
+            let date = new Date(d);
+            let options = {
+                month: 'long',
+                day: 'numeric',
+                weekday: 'short',
+                timezone: 'UTC',
+            };
+
+            return date.toLocaleString("ru", options)
+        },
+
+        formatTime(t) {
+            let timeArray = t.split(':');
+
+            return timeArray[0] + ':' + timeArray[1]
+        },
 
         popClose() {
             this.pop = false
         },
 
         showModalYesNo() {
-            console.log(this.typeEvent)
-            console.log(this.idEvent)
-            this.setValueDeleteIdEvent(this.idEvent)
-            this.setValueDeleteTypeEvent(this.typeEvent)
+            this.popClose()
+            this.setValueDeleteIdEvent(this.event.id)
+            this.setValueDeleteTypeEvent(this.event.type)
             this.$bvModal.show('modal-message-yes-no')
         },
 
         showModal() {
-            console.log(this.typeEvent)
-            if (this.typeEvent === 'event') {
+            this.popClose()
+            this.setEventEdit(this.event)
+            if (this.event.type === 'event') {
                 this.setIsVisibleEditEventWindow(true)
             }
-            if (this.typeEvent === 'reminder') {
+            if (this.event.type === 'reminder') {
                 this.setIsVisibleEditReminderWindow(true)
             }
-            if (this.typeEvent === 'task') {
+            if (this.event.type === 'task') {
                 this.setIsVisibleEditTaskWindow(true)
             }
-            if (this.typeEvent === 'birthday') {
+            if (this.event.type === 'birthday') {
                 this.setIsVisibleEditBirthdayWindow(true)
             }
         },

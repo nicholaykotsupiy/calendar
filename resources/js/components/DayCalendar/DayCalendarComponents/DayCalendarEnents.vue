@@ -75,6 +75,7 @@ import EditEventWindow from '../../../components/Events/Edit/EditEventWindow'
 import EditBirthdayWindow from '../../../components/Events/Edit/EditBirthdayWindow'
 import EditReminderWindow from '../../../components/Events/Edit/EditReminderWindow'
 import EditTaskWindow from '../../../components/Events/Edit/EditTaskWindow'
+import ModalOK from "../../ModalMessages/ModalOK";
 import GuestsListModal from "../../ModalMessages/GuestsListModal";
 
 
@@ -87,6 +88,7 @@ export default {
         EditBirthdayWindow,
         EditReminderWindow,
         EditTaskWindow,
+        ModalOK
     },
     props: ['events', 'timeLine', 'currentDate'],
     data: () => ({
@@ -111,6 +113,7 @@ export default {
         deleteEvent() {
             this.deleteItem(this.eventItem)
             this.$bvModal.hide('id-modal')
+            this.$bvModal.show('modal-message-ok')
             this.eventItem = null
         },
         checkTypeEdit(event) {

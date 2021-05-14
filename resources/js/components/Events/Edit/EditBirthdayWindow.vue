@@ -1,5 +1,5 @@
 <template>
-    <transition name="window-fade">
+<!--    <transition name="window-fade">-->
         <div class="content-create-event-window">
             <div class="backdrop-create-event-window">
                 <div class="create-event-window">
@@ -39,7 +39,7 @@
                 </div>
             </div>
         </div>
-    </transition>
+<!--    </transition>-->
 </template>
 
 <script>
@@ -53,6 +53,17 @@ export default {
     components: {TheBirthday},
 
     props: ['event'],
+
+    computed: {
+
+        eventEdit() {
+            return this.eventEdit
+        },
+
+        ...mapGetters([
+            'eventEdit',
+        ])
+    },
 
     methods: {
         ...mapActions([
