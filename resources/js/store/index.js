@@ -324,8 +324,6 @@ export default new Vuex.Store({
 
         setEventEdit(state, payload) {
             state.eventEdit = payload
-            state.key++
-            console.log(state.eventEdit)
         },
 
     },
