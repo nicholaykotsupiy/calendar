@@ -436,9 +436,6 @@ export default new Vuex.Store({
         resetPasswordEmail(state) {
             return state.resetPasswordEmail;
         },
-    },
-    plugins: [createPersistedState({paths: ['access_token', 'resetPasswordEmail']})],
-
         isCreateEventWindowVisible(state) {
             return state.isCreateEventWindowVisible
         },
@@ -483,6 +480,5 @@ export default new Vuex.Store({
             return status.eventEdit
         }
     },
-
-    plugins: [createPersistedState({paths: ['user', 'access_token', 'resetPasswordEmail']})],
+    plugins: [createPersistedState({paths: ['access_token', 'resetPasswordEmail']})],
 })
