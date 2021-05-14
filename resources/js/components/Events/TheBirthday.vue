@@ -154,20 +154,20 @@ export default {
     },
 
     mounted() {
-        // console.log(this.birthday)
-        // if (this.allDay === 'true') {
-        //     this.birthday.allDay = true
-        // } else {
-        //     this.birthday.allDay = false
-        // }
-        // document.getElementById("checkAllDay").checked = this.birthday.allDay
-        //
-        // if (this.everyYear === 'true') {
-        //     this.birthday.everyYear = true
-        // } else {
-        //     this.birthday.everyYear = false
-        // }
-        // document.getElementById("checkEveryYear").checked = this.birthday.everyYear
+        console.log(this.birthday)
+        if (this.allDay === 'true') {
+            this.birthday.allDay = true
+        } else {
+            this.birthday.allDay = false
+        }
+        document.getElementById("checkAllDay").checked = this.birthday.allDay
+
+        if (this.everyYear === 'true') {
+            this.birthday.everyYear = true
+        } else {
+            this.birthday.everyYear = false
+        }
+        document.getElementById("checkEveryYear").checked = this.birthday.everyYear
     },
 
     props: [
@@ -256,6 +256,7 @@ export default {
 
                 //прослушиваем событие saveEvent в родительском компоненте
                 //передаем параметры - this.birthday
+                console.log('1',this.birthday)
                 this.$emit('saveEvent', this.birthday)
 
                 this.$bvModal.show('modal-message-ok')

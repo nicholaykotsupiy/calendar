@@ -57,6 +57,7 @@ class EventResource extends JsonResource
             'user_id' => $this->user_id,
             'end' => $end,
             'guests' => $guestsMail,
+            'guestsArr' => $this->guests()->get(),
             'main_color' => $this->main_color,
             'bg_color' => $this->bg_color,
         ];

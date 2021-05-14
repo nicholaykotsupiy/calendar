@@ -7,6 +7,8 @@ use App\Http\Requests\Birthday\EditRequest;
 use App\Http\Requests\Birthday\StoreRequest;
 use App\Http\Resources\Birthday\StoreResource;
 use App\Models\Birthday;
+use App\Models\Event;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -15,36 +17,55 @@ use Illuminate\Http\Resources\Json\JsonResource;
 class BirthdayController extends Controller
 {
 
-    public function store(StoreRequest $request): JsonResponse
+    public function store(Request $request): JsonResponse
     {
+        $birthdayData = $request->birthday;
+
+        $user = User::where('access_token', $request->token)->first();
+
+        if(! $user)
+        {
+            return response()->json('Bad request');
+        }
         $birthday = new Birthday;
 
-        $birthday->name = $request->name;
-        $birthday->description = $request->description;
-        $birthday->date = $request->date;
-        $birthday->time = $request->time;
-        $birthday->all_day = $request->allDay;
-        $birthday->every_year = $request->everyYear;
+        $birthday->name = $birthdayData['name'];
+        $birthday->description = $birthdayData['description'];
+        $birthday->date = $birthdayData['date'];
+        $birthday->time = $birthdayData['time'];
+        $birthday->all_day = $birthdayData['allDay'];
+        $birthday->every_year = $birthdayData['everyYear'];
         $birthday->bg_color = '#FAFAFA';
         $birthday->main_color = '#808080';
-        $birthday->user_id = 1;//потом нужно добавлять user_id через аутентификацию
-//        $birthday->user_id = Auth::user()->id;
+        $birthday->user_id = $user->id;
 
         $birthday->save();
 
         return response()->json(new StoreResource($birthday));
     }
 
-    public function update(Request $request): JsonResponse
+    public function update(Request $request)
     {
-        $birthday = Birthday::find($request->id);
+        $user = User::where('access_token',$request->token)->first();
+        $event = Birthday::where('user_id', $user->id)->where('id', $request->birthday['id'])->first();
 
-        $birthday->name = $request->name;
-        $birthday->description = $request->description;
-        $birthday->date = $request->date;
-        $birthday->time = $request->time;
-        $birthday->all_day = $request->allDay;
-        $birthday->every_year = $request->everyYear;
+        $birthdayData = $request->birthday;
+
+//        return response($birthdayData['name']);
+
+        if( ! ($user && $event) )
+        {
+            return response()->json('Bad token');
+        }
+
+        $birthday = Birthday::find($birthdayData['id']);
+
+        $birthday->name = $birthdayData['name'];
+        $birthday->description = $birthdayData['description'];
+        $birthday->date = $birthdayData['date'];
+        $birthday->time = $birthdayData['time'];
+        $birthday->all_day = $birthdayData['allDay'];
+        $birthday->every_year = $birthdayData['everyYear'];
         $birthday->save();
 
         return response()->json(new StoreResource($birthday), 200);

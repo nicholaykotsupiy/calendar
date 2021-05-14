@@ -23,7 +23,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/events', [CalendarController::class, 'index']);
+Route::post('/events', [CalendarController::class, 'index']);
 
 Route::post('/birthday-store', [BirthdayController::class, 'store']);
 Route::put('/birthday-update', [BirthdayController::class, 'update']);

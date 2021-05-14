@@ -6,26 +6,37 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Task\StoreRequest;
 use App\Http\Resources\Task\TaskResource;
 use App\Models\Task;
+use App\Models\User;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\JsonResource;
 
 class TaskController extends Controller
 {
-    public function store(StoreRequest $request): JsonResponse
+    public function store(Request $request): JsonResponse
     {
+        $taskData = $request->task;
+
+        $user = User::where('access_token', $request->token)->first();
+
+        if(! $user)
+        {
+            return response()->json('Bad request');
+        }
+
         $task = new Task();
 
-        $task->name = $request->name;
-        $task->description = $request->description;
-        $task->date_start = $request->dateStart;
-        $task->date_end = $request->dateEnd;
-        $task->time_start = $request->timeStart;
-        $task->time_end = $request->timeEnd;
-        $task->all_day = $request->allDay;
+        $task->name = $taskData['name'];
+        $task->description = $taskData['description'];
+        $task->date_start = $taskData['dateStart'];
+        $task->date_end = $taskData['dateEnd'];
+        $task->time_start = $taskData['timeStart'];
+        $task->time_end = $taskData['timeEnd'];
+        $task->all_day = $taskData['allDay'];
         $task->bg_color = '#FAFAFA';
         $task->main_color = '#808080';
-        $task->user_id = 1;//потом нужно добавлять user_id через аутентификацию
-//        $birthday->user_id= Auth::user()->id;
+        $task->user_id = $user->id;
 
         $task->save();
 
@@ -34,15 +45,25 @@ class TaskController extends Controller
 
     public function update(Request $request)
     {
-        $task = Task::find($request->id);
+        $user = User::where('access_token',$request->token)->first();
+        $task = Task::where('user_id', $user->id)->where('id', $request->task['id'])->first();
 
-        $task->name = $request->name;
-        $task->description = $request->description;
-        $task->date_start = $request->dateStart;
-        $task->date_end = $request->dateEnd;
-        $task->time_start = $request->timeStart;
-        $task->time_end = $request->timeEnd;
-        $task->all_day = $request->allDay;
+        $taskData = $request->task;
+
+        if( ! ($user && $task) )
+        {
+            return response()->json('Bad token');
+        }
+
+        $task = Task::find($taskData['id']);
+
+        $task->name = $taskData['name'];
+        $task->description = $taskData['description'];
+        $task->date_start = $taskData['dateStart'];
+        $task->date_end = $taskData['dateEnd'];
+        $task->time_start = $taskData['timeStart'];
+        $task->time_end = $taskData['timeEnd'];
+        $task->all_day = $taskData['allDay'];
 
         $task->save();
 

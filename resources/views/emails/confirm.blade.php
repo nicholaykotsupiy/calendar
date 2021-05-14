@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Laravel</title>
+    <title>Calendar</title>
 
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
@@ -18,13 +18,27 @@
         body {
             font-family: 'Nunito', sans-serif;
         }
+        .button {
+            display: block;
+            width: 150px;
+            margin: 20px auto;
+            color: #fff !important;
+            text-decoration: none;
+            background: #2658db;
+            padding: 12px 40px;
+            text-align: center;
+            font-size: 20px;
+            font-weight: 500;
+        }
     </style>
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 <body class="antialiased">
-    <h1>Mail Confirm</h1>
-    <a href="{{env('APP_URL'). '/confirm-event/' . $randStr}}">Confirm</a>
+    <h1>Подтверждение</h1>
+    <p>Здравствуйте, вы были приглашены на мероприятие</p>
+    Нажмите кнопку подтверждения если хотите присоединиться.
+    <a class="button" href="{{env('APP_URL', 'http://localhost'). '/confirm-event/' . $randStr}}">Подтвердить</a>
 </body>
 </html>

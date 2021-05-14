@@ -44,7 +44,7 @@
 
 <script>
 import TheBirthday from "../TheBirthday";
-import {mapActions} from "vuex";
+import {mapActions, mapGetters} from "vuex";
 
 export default {
 
@@ -64,26 +64,15 @@ export default {
         },
 
         saveChangeBirthday(birthday) {
-            //валидация данных, которая расписана в компоненте, после успешной валидации -
-            // //здесь будет метод сохранения измененных данных в БД, пока - в консоль
-            // console.log('Save birthday in parent component')
-            // console.log(birthday.name)
-            // console.log(birthday.description)
-            // console.log(birthday.date)
-            // console.log(birthday.time)
-            // console.log(birthday.allDay)
-            // console.log(birthday.everyYear)
-            //после удачного сохранения события спрятать форму
-
-            this.editItem(birthday)
+            this.editItem({birthday, token: this.access_token, type: 'birthday'})
             this.close();
         }
     },
-    mounted() {
-        // console.log(this.event.allDay)
-        // console.log(this.event.everyYear)
+    computed: {
+        ...mapGetters([
+            'access_token'
+        ])
     }
-
 }
 </script>
 

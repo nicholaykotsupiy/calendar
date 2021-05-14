@@ -294,13 +294,14 @@ export default {
     },
 
     mounted() {
-        if(this.event.guests) {
-            let guestsArr = []
-            this.guests.map(elem => guestsArr.push(elem.mail))
-            this.event.guests = guestsArr.join(', ')
-        }else {
-            this.event.guests = ''
-        }
+        // console.log(this.event.guests)
+        // if(this.event.guests) {
+        //     let guestsArr = []
+        //     this.guests.map(elem => guestsArr.push(elem.mail))
+        //     this.event.guests = guestsArr.join(', ')
+        // }else {
+        //     this.event.guests = ''
+        // }
     }
 }
 </script>

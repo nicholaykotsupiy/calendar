@@ -160,7 +160,6 @@ export default {
     },
 
     computed: {
-
         isCreateEventWindowVisible() {
             return this.isCreateEventWindowVisible
         },
@@ -173,14 +172,13 @@ export default {
         isCreateBirthdayWindowVisible() {
             return this.isCreateBirthdayWindowVisible
         },
-
         ...mapGetters([
             'isCreateEventWindowVisible',
             'isCreateReminderWindowVisible',
             'isCreateTaskWindowVisible',
             'isCreateBirthdayWindowVisible',
+            'access_token',
         ]),
-
     },
 
     methods: {
@@ -248,8 +246,9 @@ export default {
 
         saveNewEvent(event) {
 
-            axios.post(`/api/event-store`, event)
+            axios.post(`/api/event-store`, {event, token: this.access_token})
                 .then(response => {
+                    console.log('event', response)
                     //параметры для модалки с сообщением
                     this.setTitleModalMessage('')
                     this.setBodyModalMessage('Событие добавлено!')
@@ -323,7 +322,7 @@ export default {
 
         saveNewReminder(reminder) {
 
-            axios.post(`/api/reminder-store`, reminder)
+            axios.post(`/api/reminder-store`, {reminder: reminder, token: this.access_token})
                 .then(response => {
                     //параметры для модалки с сообщением
                     this.setTitleModalMessage('')
@@ -377,8 +376,7 @@ export default {
         },
 
         saveNewTask(task) {
-
-            axios.post(`/api/task-store`, task)
+            axios.post(`/api/task-store`, {task, token: this.access_token})
                 .then(response => {
                     //параметры для модалки с сообщением
                     this.setTitleModalMessage('')
@@ -447,65 +445,66 @@ export default {
         },
 
         saveNewBirthday(birthday) {
-
-            axios.post(`/api/birthday-store`, birthday)
+            console.log(birthday)
+            axios.post(`/api/birthday-store`, {birthday: birthday, token: this.access_token})
                 .then(response => {
-                    //параметры для модалки с сообщением
+                    console.log(response.data)
+                    // параметры для модалки с сообщением
                     this.setTitleModalMessage('')
                     this.setBodyModalMessage('Событие добавлено!')
                     //вызвать мутацию для загрузки нового дня рождения в состояние
                     let newBirthday = (response.data)
                     this.pushBirthdayToState(newBirthday)
                 })
-                .catch(error => {
-                    //массив, для ошибок валидации на бэке
-                    let errorsArray = []
-
-                    //вывод ошибки
-                    //если есть ошибка валидации name
-                    if (error.response.data.errors.name) {
-                        for (let i=0; i<error.response.data.errors.name.length; i++) {
-                            errorsArray.push(error.response.data.errors.name[i])
-                        }
-                    }
-                    //если есть ошибка валидации description
-                    if (error.response.data.errors.description) {
-                        for (let i=0; i<error.response.data.errors.description.length; i++) {
-                            errorsArray.push(error.response.data.errors.description[i])
-                        }
-                    }
-                    //если есть ошибка валидации даты
-                    if (error.response.data.errors.date) {
-                        for (let i=0; i<error.response.data.errors.date.length; i++) {
-                            errorsArray.push(error.response.data.errors.date[i])
-                        }
-                    }
-                    //если есть ошибка валидации времени
-                    if (error.response.data.errors.time) {
-                        for (let i=0; i<error.response.data.errors.time.length; i++) {
-                            errorsArray.push(error.response.data.errors.time[i])
-                        }
-                    }
-                    //если есть ошибка зачени "Весь день"
-                    if (error.response.data.errors.allDay) {
-                        for (let i=0; i<error.response.data.errors.allDay.length; i++) {
-                            errorsArray.push(error.response.data.errors.allDay[i])
-                        }
-                    }
-                    //если есть ошибка зачени "Каждый год"
-                    if (error.response.data.errors.everyYear) {
-                        for (let i=0; i<error.response.data.errors.everyYear.length; i++) {
-                            errorsArray.push(error.response.data.errors.everyYear[i])
-                        }
-                    }
-
-                    this.setTitleModalMessage('Ошибка! Событие не добавлено!')
-                    let message =''
-                    for (let i=0; i<errorsArray.length; i++) {
-                        message += errorsArray[i]+"\n"
-                    }
-                    this.setBodyModalMessage(message)
-                })
+            //     .catch(error => {
+            //         //массив, для ошибок валидации на бэке
+            //         let errorsArray = []
+            //
+            //         //вывод ошибки
+            //         //если есть ошибка валидации name
+            //         if (error.response.data.errors.name) {
+            //             for (let i=0; i<error.response.data.errors.name.length; i++) {
+            //                 errorsArray.push(error.response.data.errors.name[i])
+            //             }
+            //         }
+            //         //если есть ошибка валидации description
+            //         if (error.response.data.errors.description) {
+            //             for (let i=0; i<error.response.data.errors.description.length; i++) {
+            //                 errorsArray.push(error.response.data.errors.description[i])
+            //             }
+            //         }
+            //         //если есть ошибка валидации даты
+            //         if (error.response.data.errors.date) {
+            //             for (let i=0; i<error.response.data.errors.date.length; i++) {
+            //                 errorsArray.push(error.response.data.errors.date[i])
+            //             }
+            //         }
+            //         //если есть ошибка валидации времени
+            //         if (error.response.data.errors.time) {
+            //             for (let i=0; i<error.response.data.errors.time.length; i++) {
+            //                 errorsArray.push(error.response.data.errors.time[i])
+            //             }
+            //         }
+            //         //если есть ошибка зачени "Весь день"
+            //         if (error.response.data.errors.allDay) {
+            //             for (let i=0; i<error.response.data.errors.allDay.length; i++) {
+            //                 errorsArray.push(error.response.data.errors.allDay[i])
+            //             }
+            //         }
+            //         //если есть ошибка зачени "Каждый год"
+            //         if (error.response.data.errors.everyYear) {
+            //             for (let i=0; i<error.response.data.errors.everyYear.length; i++) {
+            //                 errorsArray.push(error.response.data.errors.everyYear[i])
+            //             }
+            //         }
+            //
+            //         this.setTitleModalMessage('Ошибка! Событие не добавлено!')
+            //         let message =''
+            //         for (let i=0; i<errorsArray.length; i++) {
+            //             message += errorsArray[i]+"\n"
+            //         }
+            //         this.setBodyModalMessage(message)
+            //     })
 
             // закрыть окно
             this.close();

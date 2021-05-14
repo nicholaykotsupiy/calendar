@@ -9,34 +9,40 @@ use App\Mail\ConfirmMail;
 use App\Models\Event;
 use App\Models\Guest;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 
 class EventController extends Controller
 {
-    public function store(StoreRequest $request): JsonResponse
+    public function store(Request $request): JsonResponse
     {
+        $eventData = $request->event;
+        $user = User::where('access_token', $request->token)->first();
+
+        if(! $user)
+        {
+            return response()->json('Bad request');
+        }
         $event = new Event();
 
-        $event->name = $request->name;
-        $event->location = $request->location;
-        $event->description = $request->description;
-        $event->date_start = $request->dateStart;
-        $event->date_end = $request->dateEnd;
-        $event->time_start = $request->timeStart;
-        $event->time_end = $request->timeEnd;
+        $event->name = $eventData['name'];
+        $event->location = $eventData['location'];
+        $event->description = $eventData['description'];
+        $event->date_start = $eventData['dateStart'];
+        $event->date_end = $eventData['dateEnd'];
+        $event->time_start = $eventData['timeStart'];
+        $event->time_end = $eventData['timeEnd'];
         $event->bg_color = '#FAFAFA';
         $event->main_color = '#808080';
-        $event->user_id = 1;//потом нужно добавлять user_id через аутентификацию
-//        $event->user_id= Auth::user()->id;
+        $event->user_id = $user->id;
 
         $event->save();
 
-        if ($request->guests) {
-            $guests = Guest::saveForEvent($request, $event);
-        }
+        $guests = Guest::saveForEvent($request, $event);
 
         return response()->json(new EventResource($event));
     }
@@ -60,31 +66,53 @@ class EventController extends Controller
 
     public function update(Request $request)
     {
-        $event = Event::find($request->id);
+        $user = User::where('access_token',$request->token)->first();
+        $event = Event::where('user_id', $user->id)->where('id', $request->event['id'])->first();
 
-        $event->name = $request->name;
-        $event->location = $request->location;
-        $event->description = $request->description;
-        $event->date_start = $request->dateStart;
-        $event->date_end = $request->dateEnd;
-        $event->time_start = $request->timeStart;
-        $event->time_end = $request->timeEnd;
+        $eventData = $request->event;
 
-        $guests = Guest::where('event_id', $event->id)->get();
+        if( ! ($user && $event) )
+        {
+            return response()->json('Bad token');
+        }
 
-        foreach ($guests as $guest) {
+        $event = Event::find($eventData['id']);
+
+        $event->name = $eventData['name'];
+        $event->location = $eventData['location'];
+        $event->description = $eventData['description'];
+        $event->date_start = $eventData['dateStart'];
+        $event->date_end = $eventData['dateEnd'];
+        $event->time_start = $eventData['timeStart'];
+        $event->time_end = $eventData['timeEnd'];
+
+        $guests = Guest::where('event_id', $eventData['id'])->get();
+
+        foreach ($guests as $guest)
+        {
             $guest->delete();
         }
 
-        $guestsArr = explode(', ', $request->guests);
+        $guestsArr = explode(', ', $eventData['guests']);
 
-        foreach($guestsArr as $guestItem) {
-            $guest = new Guest();
+        if($guestsArr[0] !== "")
+        {
+            foreach($guestsArr as $guestItem)
+            {
+                $guest = new Guest();
 
-            $guest->mail = $guestItem;
-            $guest->event_id = $event->id;
+                $guest->mail = $guestItem;
+                $guest->event_id = $eventData['id'];
 
-            $guest->save();
+                $randStr = Str::random(16);
+
+                $guest->uuid = $randStr;
+
+                Mail::to($guest->mail)
+                    ->send(new ConfirmMail($randStr));
+
+                $guest->save();
+            }
         }
 
         $event->save();
@@ -98,6 +126,13 @@ class EventController extends Controller
 
         if($event)
         {
+            $guests = Guest::where('event_id', $id)->get();
+
+            foreach ($guests as $guest)
+            {
+                $guest->delete();
+            }
+
             $event->delete();
             return response()->json('Good', 200);
         }

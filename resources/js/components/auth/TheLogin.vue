@@ -87,9 +87,9 @@ export default {
             axios.post('http://it20auth.pp.ua/api/login', payload)
                 .then((response) => {
                     this.hasError = false;
-                    this.saveAccessFromServer(response.data.token);
+                    //
                     user = response.data.user
-                    this.$router.push({name: 'base', params: {user: user}});
+                    this.$router.push({name: 'base', params: {user: user, token: response.data.token}});
             }).catch((e) => {
                 if(e.response.status === 403) {
                     this.$router.push({ name: 'login.two-step', params: { email: this.email, password: this.password } });

@@ -108,10 +108,13 @@ export default {
         ]),
 
         load() {
-            axios.get('/api/events').then(response => {
-                this.getDataFromServer(response.data)
-            })
-            //add holidays
+            if(JSON.parse(window.localStorage.getItem('vuex'))){
+                let token = JSON.parse(window.localStorage.getItem('vuex')).access_token
+                axios.post('/api/events', {token}).then(response => {
+                    // console.log(response.data)
+                    this.getDataFromServer(response.data)
+                })
+            }
             axios
                 .get('https://www.googleapis.com/calendar/v3/calendars/ru.ukrainian%23holiday%40group.v.calendar.google.com/events?key=AIzaSyCXtY_r4WvIlu_2N_iVZC8WTc_iXDkZMGM')
                 .then(response => {

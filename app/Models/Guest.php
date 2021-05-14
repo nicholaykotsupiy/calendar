@@ -25,7 +25,7 @@ class Guest extends Model
 
     public static function saveForEvent(Request $request, Event $event)
     {
-        $strGuests = explode(',', $request->guests);
+        $strGuests = explode(',', $request->event['guests']);
 
         $guests = [];
         $k = 0;
@@ -49,8 +49,6 @@ class Guest extends Model
 
             $guests[$k] = $guest;
             $k++;
-
-
         }
 
     }

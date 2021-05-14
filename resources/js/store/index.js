@@ -24,7 +24,6 @@ export default new Vuex.Store({
         events: [],
         reminders: [],
         currentDate: new Date(),
-        user: null,
         access_token: '',
         resetPasswordEmail: ''
     },
@@ -138,21 +137,22 @@ export default new Vuex.Store({
         },
 
         editEvent(state, payload) {
-            let findItem = state.events.findIndex(item => item.id === payload.id)
+            let findItem = state.events.findIndex(item => item.id === payload.event.id)
             axios.put('/api/event-update', payload)
                 .then(response => {
                     state.events.splice(findItem,1, response.data)
                 })
         },
         editTask(state, payload) {
-            let findItem = state.tasks.findIndex(item => item.id === payload.id)
+            let findItem = state.tasks.findIndex(item => item.id === payload.task.id)
             axios.put('/api/task-update', payload)
                 .then(response => {
+                    // console.log(response.data)
                     state.tasks.splice(findItem,1, response.data)
                 })
         },
         editReminder(state, payload) {
-            let findItem = state.reminders.findIndex(item => item.id === payload.id)
+            let findItem = state.reminders.findIndex(item => item.id === payload.reminder.id)
             axios.put('/api/reminder-update', payload)
                 .then(response => {
 
@@ -160,7 +160,7 @@ export default new Vuex.Store({
                 })
         },
         editBirthday(state, payload) {
-            let findItem = state.birthdays.findIndex(item => item.id === payload.id)
+            let findItem = state.birthdays.findIndex(item => item.id === payload.birthday.id)
             axios.put('/api/birthday-update', payload)
                 .then(response => {
                     state.birthdays.splice(findItem,1, response.data)
@@ -300,5 +300,5 @@ export default new Vuex.Store({
             return state.resetPasswordEmail;
         },
     },
-    plugins: [createPersistedState({paths: ['user', 'access_token', 'resetPasswordEmail']})],
+    plugins: [createPersistedState({paths: ['access_token', 'resetPasswordEmail']})],
 })
