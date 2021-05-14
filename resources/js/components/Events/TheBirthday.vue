@@ -29,7 +29,7 @@
                 </div>
             </template>
 <!--        Если выбрано значение "Весь день", то время сделать неактивным и оно не обязательно для заполнения,
-в БД будет ложиться значение 00:00,но письма должны отправляться каждый час)-->
+            в БД будет ложиться значение 00:00,но письма должны отправляться каждый час)-->
             <template v-if="birthday.allDay">
                 <template v-if="!errorDateBirthday">
                     <div class="col-4 py-2">
@@ -223,7 +223,8 @@ export default {
                 this.errorTimeBirthday = true
             }
 
-            if (!this.errorNameBirthday && !this.errorDescriptionBirthday && !this.errorDateBirthday && !this.errorTimeBirthday) {
+            if (!this.errorNameBirthday && !this.errorDescriptionBirthday
+                    && !this.errorDateBirthday && !this.errorTimeBirthday) {
                 this.isValid = true
             } else {
                 this.isValid = false
