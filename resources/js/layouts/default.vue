@@ -7,7 +7,7 @@ import DayCalendarWrapper from "../components/DayCalendar/DayCalendarWrapper";
 import axios from "axios";
 import {mapActions, mapGetters} from "vuex";
 export default {
-    name: "main",
+    name: "default",
     components: {DayCalendarWrapper},
     methods: {
         ...mapActions([
