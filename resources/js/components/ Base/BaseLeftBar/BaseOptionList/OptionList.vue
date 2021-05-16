@@ -30,6 +30,18 @@
                                 <div style="background: #D46D2C" @click="addColors({type: calendar.option.type, main_color: '#D46D2C',bg_color: '#FEEACC'})" class="fake_check"></div>
                             </label>
                         </li>
+                        <li class="mx-2">
+                            <label>
+                                <input type="radio" name="color" class="checkbox">
+                                <div style="background: #008911" @click="addColors({type: calendar.option.type, main_color: '#E0F7D7',bg_color: '#008911'})" class="fake_check"></div>
+                            </label>
+                        </li>
+                        <li class="mx-2">
+                            <label>
+                                <input type="radio" name="color" class="checkbox">
+                                <div style="background: #2675B5" @click="addColors({type: calendar.option.type, main_color: '#2675B5',bg_color: '#D2EFFE'})" class="fake_check"></div>
+                            </label>
+                        </li>
                     </ul>
                 </form>
             </div>
