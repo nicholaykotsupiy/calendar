@@ -271,22 +271,22 @@ export default {
                 // разбиваем строку с вводимыми мейлами, шаблон для разделения:
                 // сколько угодно пробелов-запятая-сколько угодно пробелов
                 arrGuests = this.event.guests.split(/\s*,\s*/)
-                console.log(arrGuests)
+                // console.log(arrGuests)
                 let k = 0
                 for (let i=0; i<arrGuests.length; i++) {
-                    console.log(arrGuests[i])
+                    // console.log(arrGuests[i])
                     if ((arrGuests[i]).match(reqexp) !== null) {
-                        console.log((arrGuests[i]).match(reqexp))
+                        // console.log((arrGuests[i]).match(reqexp))
                         k++
                     }
                 }
                 console.log(k)
                 if (k === arrGuests.length) {
                     this.errorGuestsEvent = false
-                    console.log('мейлы гостей введены верно')
+                    // console.log('мейлы гостей введены верно')
                 } else {
                     this.errorGuestsEvent = true
-                    console.log('неверно введены мейлы гостей')
+                    // console.log('неверно введены мейлы гостей')
                 }
             } else {
                 this.errorGuestsEvent = false
