@@ -1,17 +1,5 @@
 <template>
     <div class="container calendar-center">
-
-        <!--временные кнопки-->
-        <div class="flex">
-            <div>
-                <button v-on:click="decrease"><</button>
-            </div>
-            <div>
-                <button v-on:click="increase">></button>
-            </div>
-            <div>{{ currentYear }}</div>
-        </div>
-
         <div class="calendar-year flex">
             <div v-for="(month, monthIndex) in calendar" :key="monthIndex" class="month-lisst">
                 <div class="month-name" @click="monthClickHandler(monthIndex)">
@@ -73,7 +61,6 @@ export default {
     data() {
         return {
             currentMonth: new Date().getMonth(),
-            currentYear: new Date().getFullYear(),
             firstDayOfWeek: 1, // начало недели в Пн
             day:["Пн", "Вт","Ср","Чт","Пт","Сб", "Вс"],
             months: ["Январь","Февраль","Март","Апрель","Май","Июнь","Июль","Август","Сентябрь","Октябрь","Ноябрь","Декабрь"],
@@ -82,13 +69,19 @@ export default {
     },
     mounted() {
         this.date = this.currentDate
-
+        this.setIsYear(true)
+        this.setTitleNavigationCalendarYear(this.yearCalendarYear + ' г')
     },
+
+    beforeDestroy() {
+        this.setIsYear(false)
+    },
+
     computed: {
         calendar() {
             let year = []
             for (let i = 0; i <= 11; i++) {
-                year.push(this.getMonth(i, this.currentYear))
+                year.push(this.getMonth(i, this.yearCalendarYear))
             }
             return year
         },
@@ -96,14 +89,20 @@ export default {
             'holidays',
             'currentDate',
             'monthsCalendarMonth',
+            'yearCalendarYear',
+            'titleNavigationCalendarYear',
         ]),
 
     },
+
     methods:{
         ...mapMutations([
             'swichToDate',
             'setTitleNavigationCalendarMonth',
             'switchToMonth',
+            'setIsYear',
+            'setYearCalendarYear',
+            'setTitleNavigationCalendarYear'
         ]),
         getMonth(month, year){
             let days = []
@@ -163,18 +162,12 @@ export default {
 
             return days;
         },
-        decrease() {
-            this.currentYear--
-        },
-        increase() {
-            this.currentYear++
-        },
         dayClickHandler(day, monthIndex) {
-            this.swichToDate(`${monthIndex +1}/${day.index}/${this.currentYear}`)
+            this.swichToDate(`${monthIndex +1}/${day.index}/${this.yearCalendarYear}`)
         },
         monthClickHandler(monthIndex) {
             console.log(monthIndex)
-            let value = `${monthIndex +1}/${this.day = 1}/${this.currentYear}`
+            let value = `${monthIndex +1}/${this.day = 1}/${this.yearCalendarYear}`
             console.log(value)
             this.switchToMonth(value)
         },
