@@ -82,7 +82,7 @@ export default {
     },
     mounted() {
         this.date = this.currentDate
-        
+
     },
     computed: {
         calendar() {
@@ -101,7 +101,9 @@ export default {
     },
     methods:{
         ...mapMutations([
-            'swichToDate'
+            'swichToDate',
+            'setTitleNavigationCalendarMonth',
+            'switchToMonth',
         ]),
         getMonth(month, year){
             let days = []
@@ -171,7 +173,10 @@ export default {
             this.swichToDate(`${monthIndex +1}/${day.index}/${this.currentYear}`)
         },
         monthClickHandler(monthIndex) {
-            this.swichToDate(`${monthIndex +1}/${this.day = 1}/${this.currentYear}`)
+            console.log(monthIndex)
+            let value = `${monthIndex +1}/${this.day = 1}/${this.currentYear}`
+            console.log(value)
+            this.switchToMonth(value)
         },
         getDayBgColor(day) {
             if (day.isCurrent) {
