@@ -32,7 +32,7 @@
                 <div class="form-label">Дата окончания не должна быть меньше даты начала события</div>
             </div>
             <div v-show="errorTime" class="col-12 error-title py-2">
-                <div class="form-label">Время окончания не должно быть меньше или равно времени начала события</div>
+                <div class="form-label">Время окончания не должно быть меньше или равно времени начала события, разница - минимум час</div>
             </div>
 
             <template v-if="!task.allDay">
@@ -265,15 +265,22 @@ export default {
                 this.errorEndTimeTask = true
             }
 
-            //проверка дат и времени
-
+            //проверка даты
             if (this.task.dateStart > this.task.dateEnd) {
                 this.errorStartDateTask = true
                 this.errorEndDateTask = true
                 this.errorDate = true
             }
 
-            if (this.task.dateStart === this.task.dateEnd && this.task.timeStart >= this.task.timeEnd) {
+            //разница между времением - минимум час если даты совпадают
+            let firstTime = this.task.timeStart.split(':')
+            let secondTime = this.task.timeEnd.split(':')
+            let firstTimeInMinuts = firstTime[0]*60+firstTime[1]
+            let secondTimeInMinuts = secondTime[0]*60+secondTime[1]
+            let different = (secondTimeInMinuts - firstTimeInMinuts)/100
+
+            //проверка времени
+            if (this.task.dateStart === this.task.dateEnd && ( this.task.timeStart >= this.task.timeEnd || different < 60) ) {
                 this.errorStartTimeTask = true
                 this.errorEndTimeTask = true
                 this.errorTime = true
