@@ -280,7 +280,7 @@ export default {
                         k++
                     }
                 }
-                console.log(k)
+                // console.log(k)
                 if (k === arrGuests.length) {
                     this.errorGuestsEvent = false
                     // console.log('мейлы гостей введены верно')

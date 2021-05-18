@@ -58,8 +58,17 @@
             @closeEditTaskWindow="switchEditTaskWindow"
         />
 
-        <b-modal v-model="modalShow">
+        <b-modal id="modal-guests" hide-footer v-model="modalShow">
             <GuestsListModal :eventItem="eventItem" />
+            <div class="row text-center">
+                <div class="col-12 my-3">
+                    <button type="button" class="btn btn-primary btn-lg" data-dismiss="modal"
+                            @click="$bvModal.hide('modal-guests')"
+                    >
+                        ОК
+                    </button>
+                </div>
+            </div>
         </b-modal>
     </table>
 </template>

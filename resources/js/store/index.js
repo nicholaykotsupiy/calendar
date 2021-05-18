@@ -220,7 +220,7 @@ export default new Vuex.Store({
         },
 
         editTask(state, payload) {
-            console.log(payload.task)
+            // console.log(payload.task)
             let findItem = state.tasks.findIndex(item => item.id === payload.task.id)
             axios.put('/api/task-update', payload)
                 .then(response => {
