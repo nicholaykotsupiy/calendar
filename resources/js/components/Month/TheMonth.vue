@@ -205,8 +205,8 @@ export default {
                     // longsDateItemArray[2] = '12'
                     if ( +longsDateItemArray[1] === this.month+1 &&
                         (+longsDateItemArray[0] === this.year ||
-                            (typeof eventForDay.everyYear !== "undefined" && eventForDay.everyYear && +longsDateItemArray[0] >= this.year) ||
-                            (typeof eventForDay["repeat"] !== "undefined" && eventForDay["repeat"] === "каждый год" && +longsDateItemArray[0] >= this.year) ) //&&
+                            (typeof eventForDay.everyYear !== "undefined" && eventForDay.everyYear && +longsDateItemArray[0] <= this.year) ||
+                            (typeof eventForDay["repeat"] !== "undefined" && eventForDay["repeat"] === "каждый год" && +longsDateItemArray[0] <= this.year) ) //&&
                         // !(eventForDay.type === "reminder" &&
                         //     typeof eventForDay["repeat"] !== "undefined" &&
                         //     eventForDay["repeat"] === "ежедневно")
