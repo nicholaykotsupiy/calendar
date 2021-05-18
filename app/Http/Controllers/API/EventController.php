@@ -97,15 +97,14 @@ class EventController extends Controller
         $event->time_start = $eventData['timeStart'];
         $event->time_end = $eventData['timeEnd'];
 
+        $guestsDelete = Guest::where('event_id', $eventData['id'])->get();
+        foreach ($guestsDelete as $guest)
+        {
+            $guest->delete();
+        }
+
         //поле может быть пустым
         if ($request->event['guests']) {
-
-            $guestsDelete = Guest::where('event_id', $eventData['id'])->get();
-            foreach ($guestsDelete as $guest)
-            {
-                $guest->delete();
-            }
-
             $guests = Guest::saveForEvent($request, $event);
         }
 
