@@ -27,7 +27,7 @@ class AddMainColorAndBgColorToReminders extends Migration
     public function down()
     {
         Schema::table('reminders', function (Blueprint $table) {
-            //
+            $table->dropColumn(['bg_color', 'main_color']);
         });
     }
 }
