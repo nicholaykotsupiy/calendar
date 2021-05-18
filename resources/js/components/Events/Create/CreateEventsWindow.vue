@@ -248,7 +248,7 @@ export default {
 
             axios.post(`/api/event-store`, {event, token: this.access_token})
                 .then(response => {
-                    console.log('event', response)
+                    // console.log('event', response)
                     //параметры для модалки с сообщением
                     this.setTitleModalMessage('')
                     this.setBodyModalMessage('Событие добавлено!')
@@ -257,55 +257,11 @@ export default {
                     this.pushEventToState(newEvent)
                 })
                 .catch(error => {
-                    //массив, для ошибок валидации на бэке
+                    //массив, для ошибок валидации на сервере
                     let errorsArray = []
 
-                    //вывод ошибки
-                    //если есть ошибка валидации name
-                    if (error.response.data.errors.name) {
-                        for (let i=0; i<error.response.data.errors.name.length; i++) {
-                            errorsArray.push(error.response.data.errors.name[i])
-                        }
-                    }
-                    //если есть ошибка валидации description
-                    if (error.response.data.errors.description) {
-                        for (let i=0; i<error.response.data.errors.description.length; i++) {
-                            errorsArray.push(error.response.data.errors.description[i])
-                        }
-                    }
-                    //если есть ошибка валидации guests
-                    if (error.response.data.errors.guests) {
-                        for (let i=0; i<error.response.data.errors.guests.length; i++) {
-                            errorsArray.push(error.response.data.errors.guests[i])
-                        }
-                    }
-                    //если есть ошибка валидации location
-                    if (error.response.data.errors.location) {
-                        for (let i=0; i<error.response.data.errors.location.length; i++) {
-                            errorsArray.push(error.response.data.errors.location[i])
-                        }
-                    }
-                    //если есть ошибка валидации даты
-                    if (error.response.data.errors.dateStart) {
-                        for (let i=0; i<error.response.data.errors.dateStart.length; i++) {
-                            errorsArray.push(error.response.data.errors.dateStart[i])
-                        }
-                    }
-                    if (error.response.data.errors.dateEnd) {
-                        for (let i=0; i<error.response.data.errors.dateEnd.length; i++) {
-                            errorsArray.push(error.response.data.errors.dateEnd[i])
-                        }
-                    }
-                    //если есть ошибка валидации времени
-                    if (error.response.data.errors.timeStart) {
-                        for (let i=0; i<error.response.data.errors.timeStart.length; i++) {
-                            errorsArray.push(error.response.data.errors.timeStart[i])
-                        }
-                    }
-                    if (error.response.data.errors.timeEnd) {
-                        for (let i=0; i<error.response.data.errors.timeEnd.length; i++) {
-                            errorsArray.push(error.response.data.errors.timeEnd[i])
-                        }
+                    for (let kay in error.response.data.errors) {
+                        errorsArray.push(error.response.data.errors[kay])
                     }
 
                     this.setTitleModalMessage('Ошибка! Событие не добавлено!')
@@ -332,33 +288,11 @@ export default {
                     this.pushReminderToState(newReminder)
                 })
                 .catch(error => {
-                    //массив, для ошибок валидации на бэке
+                    //массив, для ошибок валидации на сервере
                     let errorsArray = []
 
-                    //вывод ошибки
-                    //если есть ошибка валидации name
-                    if (error.response.data.errors.name) {
-                        for (let i=0; i<error.response.data.errors.name.length; i++) {
-                            errorsArray.push(error.response.data.errors.name[i])
-                        }
-                    }
-                    //если есть ошибка валидации даты
-                    if (error.response.data.errors.date) {
-                        for (let i=0; i<error.response.data.errors.date.length; i++) {
-                            errorsArray.push(error.response.data.errors.date[i])
-                        }
-                    }
-                    //если есть ошибка валидации времени
-                    if (error.response.data.errors.time) {
-                        for (let i=0; i<error.response.data.errors.time.length; i++) {
-                            errorsArray.push(error.response.data.errors.time[i])
-                        }
-                    }
-                    //если есть ошибка валидации toRepeat
-                    if (error.response.data.errors.toRepeat) {
-                        for (let i=0; i<error.response.data.errors.toRepeat.length; i++) {
-                            errorsArray.push(error.response.data.errors.toRepeat[i])
-                        }
+                    for (let kay in error.response.data.errors) {
+                        errorsArray.push(error.response.data.errors[kay])
                     }
 
                     this.setTitleModalMessage('Ошибка! Событие не добавлено!')
@@ -378,7 +312,7 @@ export default {
         saveNewTask(task) {
             axios.post(`/api/task-store`, {task, token: this.access_token})
                 .then(response => {
-                    console.log(response)
+                    // console.log(response)
                     //параметры для модалки с сообщением
                     this.setTitleModalMessage('')
                     this.setBodyModalMessage('Событие добавлено!')
@@ -387,49 +321,11 @@ export default {
                     this.pushTaskToState(newTask)
                 })
                 .catch(error => {
-                    //массив, для ошибок валидации на бэке
+                    //массив, для ошибок валидации на сервере
                     let errorsArray = []
 
-                    //вывод ошибки
-                    //если есть ошибка валидации name
-                    if (error.response.data.errors.name) {
-                        for (let i=0; i<error.response.data.errors.name.length; i++) {
-                            errorsArray.push(error.response.data.errors.name[i])
-                        }
-                    }
-                    //если есть ошибка валидации description
-                    if (error.response.data.errors.description) {
-                        for (let i=0; i<error.response.data.errors.description.length; i++) {
-                            errorsArray.push(error.response.data.errors.description[i])
-                        }
-                    }
-                    //если есть ошибка валидации даты
-                    if (error.response.data.errors.dateStart) {
-                        for (let i=0; i<error.response.data.errors.dateStart.length; i++) {
-                            errorsArray.push(error.response.data.errors.dateStart[i])
-                        }
-                    }
-                    if (error.response.data.errors.dateEnd) {
-                        for (let i=0; i<error.response.data.errors.dateEnd.length; i++) {
-                            errorsArray.push(error.response.data.errors.dateEnd[i])
-                        }
-                    }
-                    //если есть ошибка валидации времени
-                    if (error.response.data.errors.timeStart) {
-                        for (let i=0; i<error.response.data.errors.timeStart.length; i++) {
-                            errorsArray.push(error.response.data.errors.timeStart[i])
-                        }
-                    }
-                    if (error.response.data.errors.timeEnd) {
-                        for (let i=0; i<error.response.data.errors.timeEnd.length; i++) {
-                            errorsArray.push(error.response.data.errors.timeEnd[i])
-                        }
-                    }
-                    //если есть ошибка зачени "Весь день"
-                    if (error.response.data.errors.allDay) {
-                        for (let i=0; i<error.response.data.errors.allDay.length; i++) {
-                            errorsArray.push(error.response.data.errors.allDay[i])
-                        }
+                    for (let kay in error.response.data.errors) {
+                        errorsArray.push(error.response.data.errors[kay])
                     }
 
                     this.setTitleModalMessage('Ошибка! Событие не добавлено!')
@@ -446,10 +342,8 @@ export default {
         },
 
         saveNewBirthday(birthday) {
-            console.log(birthday)
             axios.post(`/api/birthday-store`, {birthday: birthday, token: this.access_token})
                 .then(response => {
-                    console.log(response.data)
                     // параметры для модалки с сообщением
                     this.setTitleModalMessage('')
                     this.setBodyModalMessage('Событие добавлено!')
@@ -457,55 +351,26 @@ export default {
                     let newBirthday = (response.data)
                     this.pushBirthdayToState(newBirthday)
                 })
-            //     .catch(error => {
-            //         //массив, для ошибок валидации на бэке
-            //         let errorsArray = []
-            //
-            //         //вывод ошибки
-            //         //если есть ошибка валидации name
-            //         if (error.response.data.errors.name) {
-            //             for (let i=0; i<error.response.data.errors.name.length; i++) {
-            //                 errorsArray.push(error.response.data.errors.name[i])
-            //             }
-            //         }
-            //         //если есть ошибка валидации description
-            //         if (error.response.data.errors.description) {
-            //             for (let i=0; i<error.response.data.errors.description.length; i++) {
-            //                 errorsArray.push(error.response.data.errors.description[i])
-            //             }
-            //         }
-            //         //если есть ошибка валидации даты
-            //         if (error.response.data.errors.date) {
-            //             for (let i=0; i<error.response.data.errors.date.length; i++) {
-            //                 errorsArray.push(error.response.data.errors.date[i])
-            //             }
-            //         }
-            //         //если есть ошибка валидации времени
-            //         if (error.response.data.errors.time) {
-            //             for (let i=0; i<error.response.data.errors.time.length; i++) {
-            //                 errorsArray.push(error.response.data.errors.time[i])
-            //             }
-            //         }
-            //         //если есть ошибка зачени "Весь день"
-            //         if (error.response.data.errors.allDay) {
-            //             for (let i=0; i<error.response.data.errors.allDay.length; i++) {
-            //                 errorsArray.push(error.response.data.errors.allDay[i])
-            //             }
-            //         }
-            //         //если есть ошибка зачени "Каждый год"
-            //         if (error.response.data.errors.everyYear) {
-            //             for (let i=0; i<error.response.data.errors.everyYear.length; i++) {
-            //                 errorsArray.push(error.response.data.errors.everyYear[i])
-            //             }
-            //         }
-            //
-            //         this.setTitleModalMessage('Ошибка! Событие не добавлено!')
-            //         let message =''
-            //         for (let i=0; i<errorsArray.length; i++) {
-            //             message += errorsArray[i]+"\n"
-            //         }
-            //         this.setBodyModalMessage(message)
-            //     })
+                .catch(error => {
+                    // console.log(error.response.data.errors)
+                    // console.log(error.response.data.errors["birthday.date"])
+
+                    //массив, для ошибок валидации на сервере
+                    let errorsArray = []
+
+                    for (let kay in error.response.data.errors) {
+                        errorsArray.push(error.response.data.errors[kay])
+                        // console.log('kay = ', error.response.data.errors[kay])
+                    }
+
+                    //вывод ошибок
+                    this.setTitleModalMessage('Ошибка! Событие не добавлено!')
+                    let message =''
+                    for (let i=0; i<errorsArray.length; i++) {
+                        message += errorsArray[i]+"\n"
+                    }
+                    this.setBodyModalMessage(message)
+                })
 
             // закрыть окно
             this.close();

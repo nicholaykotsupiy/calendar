@@ -17,6 +17,14 @@ class StoreRequest extends FormRequest
         return true;
     }
 
+    protected function prepareForValidation()
+    {
+        $this->merge([
+            'birthday.allDay' => (bool) $this->birthday['allDay'],
+            'birthday.everyYear' => (bool) $this->birthday['everyYear'],
+        ]);
+    }
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -25,38 +33,24 @@ class StoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|string|max:255',
-            'description' => 'required|string|max:255',
-            'date' => 'required|date',
-            'time' => 'required|date_format:"H:i"',
-            'allDay' => 'boolean',
-            'everyYear' => 'boolean',
+            'birthday.name' => 'required|string|max:255|unique:birthdays,name',
+            'birthday.description' => 'required|string|max:255',
+            'birthday.date' => 'required|date',
+            'birthday.time' => 'required|date_multi_format:"H:i","H:i:s"',
+            'birthday.allDay' => 'boolean',
+            'birthday.everyYear' => 'boolean',
         ];
     }
-//
-//    protected function formatErrors(Validator $validator)
-//    {
-//        return $validator->errors()->all();
-//    }
 
     /**
      * Получить сообщения об ошибках для определённых правил проверки.
      *
      * @return array
      */
-//    public function messages()
-//    {
-//        return [
-//            'name.required' => 'Необходимо указать название мероприятия',
-//            'name.max:255' => 'Максимальная длинна названия мероприятия - 255 символов',
-//            'description.required' => 'Необходимо указать описание мероприятия',
-//            'description.max:255' => 'Максимальная длинна описания мероприятия - 255 символов',
-//            'date.required' => 'Необходимо указать дату',
-//            'date.date'  => 'Неправильный формат даты',
-//            'time.required' => 'Необходимо указать время',
-//            'time.date_format:"H:i"'  => 'Неправильный формат времени',
-//            'allDay.boolean'  => 'Неправильный формат данных для поля "Весь день"',
-//            'everyYear.boolean'  => 'Неправильный формат данных для поля "Каждый год"',
-//        ];
-//    }
+    public function messages()
+    {
+        return [
+            'birthday.time.date_multi_format'  => 'Поле birthday.time не является временем',
+        ];
+    }
 }

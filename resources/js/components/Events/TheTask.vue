@@ -173,7 +173,7 @@ export default {
                 id: this.id,
                 type: 'task',
                 name: this.name,
-                description: this.description,
+                description: this.description || null,
                 dateStart: this.dateStart,
                 timeStart: this.timeStart,
                 dateEnd: this.dateEnd,
@@ -218,7 +218,7 @@ export default {
 
             //сбрасываем task
             this.task.name = this.name
-            this.task.description = this.description
+            this.task.description = this.description || null
             this.task.dateStart = this.dateStart
             this.task.dateEnd = this.dateEnd
             this.task.timeStart = this.timeStart
@@ -316,7 +316,7 @@ export default {
                 //сбрасываем task
                 this.task.id = this.id
                 this.task.name = this.name
-                this.task.description = this.description
+                this.task.description = this.description || null
                 this.task.dateStart = this.dateStart
                 this.task.dateEnd = this.dateEnd
                 this.task.timeStart = this.timeStart

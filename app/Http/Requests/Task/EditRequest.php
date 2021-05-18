@@ -15,6 +15,13 @@ class EditRequest extends FormRequest
     {
         return true;
     }
+    protected function prepareForValidation()
+    {
+        $this->merge([
+            'task.allDay' => (bool) $this->task['allDay'],
+        ]);
+    }
+
 
     /**
      * Get the validation rules that apply to the request.
@@ -24,13 +31,21 @@ class EditRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|string|max:255',
-            'description' => 'string|max:255',
-            'allDay' => 'boolean',
-            'dateStart' => 'required|date',
-            'dateEnd' => 'required|date',
-            'timeStart' => 'required|date_format:"H:i"',
-            'timeEnd' => 'required|date_format:"H:i"',
+            'task.name' => 'required|string|max:255',
+            'task.description' => 'nullable|string|max:255',
+            'task.allDay' => 'boolean',
+            'task.dateStart' => 'required|date',
+            'task.dateEnd' => 'required|date',
+            'task.timeStart' => 'required|date_multi_format:"H:i","H:i:s"',
+            'task.timeEnd' => 'required|date_multi_format:"H:i","H:i:s"',
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'task.timeStart.date_multi_format'  => 'Поле task.time не является временем',
+            'task.timeEnd.date_multi_format'  => 'Поле task.time не является временем',
         ];
     }
 }

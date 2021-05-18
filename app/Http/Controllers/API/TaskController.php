@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Task\EditRequest;
 use App\Http\Requests\Task\StoreRequest;
 use App\Http\Resources\Task\TaskResource;
 use App\Models\Task;
@@ -14,7 +15,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class TaskController extends Controller
 {
-    public function store(Request $request): JsonResponse
+    public function store(StoreRequest $request): JsonResponse
     {
         $taskData = $request->task;
 
@@ -28,7 +29,10 @@ class TaskController extends Controller
         $task = new Task();
 
         $task->name = $taskData['name'];
-        $task->description = $taskData['description'];
+        //поле может быть пустым
+        if ($request->task['description']) {
+            $task->description = $taskData['description'];
+        }
         $task->date_start = $taskData['dateStart'];
         $task->date_end = $taskData['dateEnd'];
         $task->time_start = $taskData['timeStart'];
@@ -43,7 +47,7 @@ class TaskController extends Controller
         return response()->json(new TaskResource($task));
     }
 
-    public function update(Request $request)
+    public function update(EditRequest $request)
     {
         $user = User::where('access_token',$request->token)->first();
         $task = Task::where('user_id', $user->id)->where('id', $request->task['id'])->first();
@@ -58,7 +62,10 @@ class TaskController extends Controller
         $task = Task::find($taskData['id']);
 
         $task->name = $taskData['name'];
-        $task->description = $taskData['description'];
+        //поле может быть пустым
+        if ($request->task['description']) {
+            $task->description = $taskData['description'];
+        }
         $task->date_start = $taskData['dateStart'];
         $task->date_end = $taskData['dateEnd'];
         $task->time_start = $taskData['timeStart'];

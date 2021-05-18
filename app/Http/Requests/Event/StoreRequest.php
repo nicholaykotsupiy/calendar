@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Event;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Arr;
 
 class StoreRequest extends FormRequest
 {
@@ -16,6 +17,19 @@ class StoreRequest extends FormRequest
         return true;
     }
 
+    protected function prepareForValidation()
+    {
+        if ($this->event['guests']) {
+            $this->merge([
+                'arrayGuests' => explode(', ', $this->event['guests']),
+            ]);
+//            dump('fill', $this->arrayGuests);
+        } else {
+            $this->arrayGuests = null;
+//            dump('null', $this->arrayGuests);
+        }
+    }
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -24,14 +38,23 @@ class StoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|string|max:255',
-//            'guests' => 'string|max:255|regex:/(.+@.+\..+\s*,?\s*)*/i',//доработаю
-            'location' => 'string|max:255',
-            'description' => 'required|string|max:255',
-            'dateStart' => 'required|date',
-            'dateEnd' => 'required|date',
-            'timeStart' => 'required|date_format:"H:i"',
-            'timeEnd' => 'required|date_format:"H:i"',
+            'event.name' => 'required|string|max:255|unique:events,name',
+            'event.location' => 'nullable|string|max:255',
+            'event.description' => 'required|string|max:255',
+            'event.dateStart' => 'required|date',
+            'event.dateEnd' => 'required|date',
+            'event.timeStart' => 'required|date_multi_format:"H:i","H:i:s"',
+            'event.timeEnd' => 'required|date_multi_format:"H:i","H:i:s"',
+            'arrayGuests.*' => 'nullable|email|distinct',
+            'event.guests' => 'nullable|string|max:255',
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'event.timeStart.date_multi_format'  => 'Поле event.time не является временем',
+            'event.timeEnd.date_multi_format'  => 'Поле event.time не является временем',
         ];
     }
 }

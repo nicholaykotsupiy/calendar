@@ -26,10 +26,17 @@ class EditRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|string|max:255',
-            'date' => 'required|date',
-            'time' => 'required|date_format:"H:i"',
-            'toRepeat' => Rule::in([Reminder::DAILY, Reminder::WEEKLY, Reminder::YEARLY, Reminder::DONOTREPEAT, Reminder::ALLDAY]),
+            'reminder.name' => 'required|string|max:255',
+            'reminder.date' => 'required|date',
+            'reminder.time' => 'required|date_multi_format:"H:i","H:i:s"',
+            'reminder.toRepeat' => Rule::in([Reminder::DAILY, Reminder::WEEKLY, Reminder::YEARLY, Reminder::DONOTREPEAT, Reminder::ALLDAY]),
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'reminder.time.date_multi_format'  => 'Поле reminder.time не является временем',
         ];
     }
 }

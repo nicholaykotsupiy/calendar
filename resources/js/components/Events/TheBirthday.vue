@@ -154,7 +154,7 @@ export default {
     },
 
     mounted() {
-        console.log(this.birthday)
+        // console.log(this.birthday)
         // if (this.allDay === 'true') {
         //     this.birthday.allDay = true
         // } else {
