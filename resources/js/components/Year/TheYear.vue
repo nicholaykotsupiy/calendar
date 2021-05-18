@@ -1,60 +1,50 @@
 <template>
-    <div class="container calendar-center">
+    <div class="wrap mr-2">
+        <div class="container calendar-center">
+            <div class="calendar-year flex">
+                <div v-for="(month, monthIndex) in calendar" :key="monthIndex" class="month-lisst">
+                    <div class="month-name" @click="monthClickHandler(monthIndex)">
+                        <router-link to="/month" class="month-color">
+                            {{ months[monthIndex] }}
+                        </router-link>
+                    </div>
+                    <table>
+                        <tbody>
+                            <div class="table-month">
+                                <tr>
+                                    <td v-for="(d, dIndex) in day" :key="dIndex">{{ d }}</td>
+                                </tr>
 
-        <!--временные кнопки-->
-        <div class="flex">
-            <div>
-                <button v-on:click="decrease"><</button>
-            </div>
-            <div>
-                <button v-on:click="increase">></button>
-            </div>
-            <div>{{ currentYear }}</div>
-        </div>
-
-        <div class="calendar-year flex">
-            <div v-for="(month, monthIndex) in calendar" :key="monthIndex" class="month-lisst">
-                <div class="month-name" @click="monthClickHandler(monthIndex)">
-                    <router-link to="/month" class="month-color">
-                        {{ months[monthIndex] }}
-                    </router-link>
-                </div>
-                <table>
-                    <tbody>
-                        <div class="table-month">
-                            <tr>
-                                <td v-for="(d, dIndex) in day" :key="dIndex">{{ d }}</td>
-                            </tr>
-
-                            <tr v-for="(week, weekIndex) in month" :key="weekIndex">
-                                <td v-for="(day, dayIndex) in week" :key="dayIndex">
-                                    <div class="daygrid-day-frame">
-                                        <div class="daygrid-day-top flex">
-                                            <div class="daygrid-day-number-without-ukr" @click="dayClickHandler(day, monthIndex)">
-                                                <!--обозначить текущий день-->
-                                                <router-link
-                                                    to="/"
-                                                    data-toggle="tooltip"
-                                                    data-placement="top"
-                                                    :title="day.summary"
-                                                    :style="{
-                                                        'background': getDayBgColor(day),
-                                                        'color': getDayColor(day),
-                                                        'border-radius': '50%',
-                                                        'width': '30px',
-                                                        'height': '30px',
-                                                        'padding': day.index < 10 ? '5px 8px' : '5px'
-                                                    }">
-                                                    {{ day.index }}
-                                                </router-link>
+                                <tr v-for="(week, weekIndex) in month" :key="weekIndex">
+                                    <td v-for="(day, dayIndex) in week" :key="dayIndex">
+                                        <div class="daygrid-day-frame">
+                                            <div class="daygrid-day-top flex">
+                                                <div class="daygrid-day-number-without-ukr" @click="dayClickHandler(day, monthIndex)">
+                                                    <!--обозначить текущий день-->
+                                                    <router-link
+                                                        to="/"
+                                                        data-toggle="tooltip"
+                                                        data-placement="top"
+                                                        :title="day.summary"
+                                                        :style="{
+                                                            'background': getDayBgColor(day),
+                                                            'color': getDayColor(day),
+                                                            'border-radius': '50%',
+                                                            'width': '30px',
+                                                            'height': '30px',
+                                                            'padding': day.index < 10 ? '5px 8px' : '5px'
+                                                        }">
+                                                        {{ day.index }}
+                                                    </router-link>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </td>
-                            </tr>
-                        </div>
-                    </tbody>
-                </table>
+                                    </td>
+                                </tr>
+                            </div>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
@@ -73,7 +63,6 @@ export default {
     data() {
         return {
             currentMonth: new Date().getMonth(),
-            currentYear: new Date().getFullYear(),
             firstDayOfWeek: 1, // начало недели в Пн
             day:["Пн", "Вт","Ср","Чт","Пт","Сб", "Вс"],
             months: ["Январь","Февраль","Март","Апрель","Май","Июнь","Июль","Август","Сентябрь","Октябрь","Ноябрь","Декабрь"],
@@ -82,13 +71,19 @@ export default {
     },
     mounted() {
         this.date = this.currentDate
-        
+        this.setIsYear(true)
+        this.setTitleNavigationCalendarYear(this.yearCalendarYear + ' г')
     },
+
+    beforeDestroy() {
+        this.setIsYear(false)
+    },
+
     computed: {
         calendar() {
             let year = []
             for (let i = 0; i <= 11; i++) {
-                year.push(this.getMonth(i, this.currentYear))
+                year.push(this.getMonth(i, this.yearCalendarYear))
             }
             return year
         },
@@ -96,12 +91,20 @@ export default {
             'holidays',
             'currentDate',
             'monthsCalendarMonth',
+            'yearCalendarYear',
+            'titleNavigationCalendarYear',
         ]),
 
     },
+
     methods:{
         ...mapMutations([
-            'swichToDate'
+            'swichToDate',
+            'setTitleNavigationCalendarMonth',
+            'switchToMonth',
+            'setIsYear',
+            'setYearCalendarYear',
+            'setTitleNavigationCalendarYear'
         ]),
         getMonth(month, year){
             let days = []
@@ -161,17 +164,14 @@ export default {
 
             return days;
         },
-        decrease() {
-            this.currentYear--
-        },
-        increase() {
-            this.currentYear++
-        },
         dayClickHandler(day, monthIndex) {
-            this.swichToDate(`${monthIndex +1}/${day.index}/${this.currentYear}`)
+            this.swichToDate(`${monthIndex +1}/${day.index}/${this.yearCalendarYear}`)
         },
         monthClickHandler(monthIndex) {
-            this.swichToDate(`${monthIndex +1}/${this.day = 1}/${this.currentYear}`)
+            console.log(monthIndex)
+            let value = `${monthIndex +1}/${this.day = 1}/${this.yearCalendarYear}`
+            console.log(value)
+            this.switchToMonth(value)
         },
         getDayBgColor(day) {
             if (day.isCurrent) {
@@ -202,13 +202,13 @@ export default {
         flex-wrap: wrap;
     }
     .container {
-        max-width: 1120px;
+        /*max-width: 1120px;*/
         max-height: 780px;
     }
     .calendar-center {
         margin: 0 auto;
-        padding-top: 30px;
-        padding-bottom: 30px;
+        padding-top: 15px;
+        padding-bottom: 15px;
         font-size: 14px;
         font-family: Roboto;
         font-weight: 500;
@@ -221,6 +221,7 @@ export default {
         background-color: #ffffff;
     }
     .month-name {
+        text-align: center;
         padding: 10px 15px;
         border-bottom: 3px solid rgb(245, 245, 245);
     }
@@ -247,5 +248,10 @@ export default {
     }
     .daygrid-day-frame {
         padding: 3px;
+    }
+    .wrap {
+        background: #ffffff;
+        box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.05);
+        border-radius: 6px;
     }
 </style>

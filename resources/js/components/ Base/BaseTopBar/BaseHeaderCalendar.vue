@@ -14,8 +14,12 @@
 <!--                <div class="arrow-left"><img :src="left_arrow" alt="left-arrow"></div>-->
 <!--                <div class="arrow-right"><img :src="right_arrow" alt="right-arrow"></div>-->
             </div>
+            <!--            если отображается календарь в масштабе год -->
+            <template v-if="isYear">
+                <div class="col-2 date-info">{{ titleNavigationCalendarYear }}</div>
+            </template>
 <!--            если отображается календарь в масштабе месяц -->
-            <template v-if="isMonth">
+            <template v-else-if="isMonth">
                 <div class="col-2 date-info">{{ titleNavigationCalendarMonth }}</div>
             </template>
 <!--            если отображается календарь в масштабе день-->
@@ -73,10 +77,20 @@ export default {
             return this.titleNavigationCalendarMonth
         },
 
+        isYear() {
+            return this.isYear
+        },
+
+        titleNavigationCalendarYear() {
+            return this.titleNavigationCalendarYear
+        },
+
         ...mapGetters([
             'isMonth',
             'titleNavigationCalendarMonth',
             'dateInterface',
+            'isYear',
+            'titleNavigationCalendarYear'
         ])
     },
 
