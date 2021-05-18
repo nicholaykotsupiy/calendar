@@ -16,6 +16,14 @@ class EditRequest extends FormRequest
         return true;
     }
 
+    protected function prepareForValidation()
+    {
+        $this->merge([
+            'birthday.allDay' => (bool) $this->birthday['allDay'],
+            'birthday.everyYear' => (bool) $this->birthday['everyYear'],
+        ]);
+    }
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -24,12 +32,20 @@ class EditRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|string|max:255',
-            'description' => 'required|string|max:255',
-            'date' => 'required|date',
-            'time' => 'required|date_format:"H:i"',
-            'allDay' => 'boolean',
-            'everyYear' => 'boolean',
+            'birthday.name' => 'required|string|max:255|unique:birthdays,name,' . $this->birthday['name'] . ',name',
+            'birthday.description' => 'required|string|max:255',
+            'birthday.date' => 'required|date',
+            'birthday.time' => 'required|date_multi_format:"H:i","H:i:s"',
+            'birthday.allDay' => 'boolean',
+            'birthday.everyYear' => 'boolean',
         ];
     }
+
+    public function messages()
+    {
+        return [
+            'birthday.time.date_multi_format'  => 'Поле birthday.time не является временем',
+        ];
+    }
+
 }

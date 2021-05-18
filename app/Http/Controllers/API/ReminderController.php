@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Reminder\EditRequest;
 use App\Http\Requests\Reminder\StoreRequest;
 use App\Http\Resources\Reminder\ReminderResource;
 use App\Mail\ConfirmMail;
@@ -18,7 +19,7 @@ use Illuminate\Support\Str;
 
 class ReminderController extends Controller
 {
-    public function store(Request $request)
+    public function store(StoreRequest $request)
     {
         $reminderData = $request->reminder;
 
@@ -44,7 +45,7 @@ class ReminderController extends Controller
         return response()->json(new ReminderResource($reminder));
     }
 
-    public function update(Request $request)
+    public function update(EditRequest $request)
     {
         $user = User::where('access_token',$request->token)->first();
         $reminder = Reminder::where('user_id', $user->id)->where('id', $request->reminder['id'])->first();

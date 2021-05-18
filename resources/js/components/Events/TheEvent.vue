@@ -52,7 +52,7 @@
                 <div class="form-label">Дата окончания не должна быть меньше даты начала события</div>
             </div>
             <div v-show="errorTime" class="col-12 error-title py-2">
-                <div class="form-label">Время окончания не должно быть меньше или равно времени начала события</div>
+                <div class="form-label">Время окончания не должно быть меньше или равно времени начала события, разница - минимум час</div>
             </div>
             <template v-if="!errorDateStartEvent && !errorTimeStartEvent">
                 <div class="col-4 py-2">
@@ -149,8 +149,8 @@ export default {
                 id: this.id,
                 name: this.name,
                 type: 'event',
-                guests: this.guests,
-                location: this.location,
+                guests: this.guests || null,
+                location: this.location || null,
                 description: this.description,
                 dateStart: this.dateStart,
                 timeStart: this.timeStart,
@@ -240,15 +240,22 @@ export default {
                 this.errorTimeEndEvent = true
             }
 
-            //проверка дат и времени
-
+            //проверка даты
             if (this.event.dateStart > this.event.dateEnd) {
                 this.errorDateStartEvent = true
                 this.errorDateEndEvent = true
                 this.errorDate = true
             }
 
-            if (this.event.dateStart === this.event.dateEnd && this.event.timeStart >= this.event.timeEnd) {
+            //разница между времением - минимум час если даты совпадают
+            let firstTime = this.event.timeStart.split(':')
+            let secondTime = this.event.timeEnd.split(':')
+            let firstTimeInMinuts = firstTime[0]*60+firstTime[1]
+            let secondTimeInMinuts = secondTime[0]*60+secondTime[1]
+            let different = (secondTimeInMinuts - firstTimeInMinuts)/100
+
+            //проверка времени
+            if (this.event.dateStart === this.event.dateEnd && (this.event.timeStart >= this.event.timeEnd || different < 60) ) {
                 this.errorTimeStartEvent = true
                 this.errorTimeEndEvent = true
                 this.errorTime = true
@@ -264,22 +271,22 @@ export default {
                 // разбиваем строку с вводимыми мейлами, шаблон для разделения:
                 // сколько угодно пробелов-запятая-сколько угодно пробелов
                 arrGuests = this.event.guests.split(/\s*,\s*/)
-                console.log(arrGuests)
+                // console.log(arrGuests)
                 let k = 0
                 for (let i=0; i<arrGuests.length; i++) {
-                    console.log(arrGuests[i])
+                    // console.log(arrGuests[i])
                     if ((arrGuests[i]).match(reqexp) !== null) {
-                        console.log((arrGuests[i]).match(reqexp))
+                        // console.log((arrGuests[i]).match(reqexp))
                         k++
                     }
                 }
                 console.log(k)
                 if (k === arrGuests.length) {
                     this.errorGuestsEvent = false
-                    console.log('мейлы гостей введены верно')
+                    // console.log('мейлы гостей введены верно')
                 } else {
                     this.errorGuestsEvent = true
-                    console.log('неверно введены мейлы гостей')
+                    // console.log('неверно введены мейлы гостей')
                 }
             } else {
                 this.errorGuestsEvent = false
