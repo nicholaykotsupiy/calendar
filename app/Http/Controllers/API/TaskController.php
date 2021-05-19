@@ -62,10 +62,7 @@ class TaskController extends Controller
         $task = Task::find($taskData['id']);
 
         $task->name = $taskData['name'];
-        //поле может быть пустым
-        if ($request->task['description']) {
-            $task->description = $taskData['description'];
-        }
+        $task->description = $taskData['description'];
         $task->date_start = $taskData['dateStart'];
         $task->date_end = $taskData['dateEnd'];
         $task->time_start = $taskData['timeStart'];

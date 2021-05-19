@@ -87,10 +87,7 @@ class EventController extends Controller
         $event = Event::find($eventData['id']);
 
         $event->name = $eventData['name'];
-        //поле может быть пустым
-        if ($request->event['location']) {
-            $event->location = $eventData['location'];
-        }
+        $event->location = $eventData['location'];
         $event->description = $eventData['description'];
         $event->date_start = $eventData['dateStart'];
         $event->date_end = $eventData['dateEnd'];
