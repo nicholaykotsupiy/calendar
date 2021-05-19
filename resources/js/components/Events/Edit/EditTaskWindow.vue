@@ -20,19 +20,21 @@
                         </div>
 
 <!--        Компонент - модальное окно для создания Задачи-->
-                        <the-task
-                            name="name of Task"
-                            description="description"
-                            date-start="2021-05-14"
-                            timeStart="07:15"
-                            dates-end="2021-05-14"
-                            time-end="08:00"
-                            all-day="true"
-                            @close="close"
-                            @saveEvent="saveChangeTask"
-                        >
-                        </the-task>
-
+                        <template v-if="event">
+                            <the-task
+                                :id="event.id"
+                                :name="event.name"
+                                :description="event.description"
+                                :dateStart="event.dateStart"
+                                :timeStart="event.timeStart"
+                                :dateEnd="event.dateEnd"
+                                :timeEnd="event.timeEnd"
+                                :allDay="event.allDay"
+                                @close="close"
+                                @saveEvent="saveChangeTask"
+                            >
+                            </the-task>
+                        </template>
                     </div>
                 </div>
             </div>
@@ -42,15 +44,19 @@
 
 <script>
 import TheTask from "../TheTask";
+import {mapActions} from "vuex";
 
 export default {
 
     name: "EditTaskWindow",
 
     components: {TheTask},
+    props: ['event'],
 
     methods: {
-
+        ...mapActions([
+            'editItem'
+        ]),
         close() {
             //прослушиваем событие closeEditEventWindow в родительском компоненте
             this.$emit('closeEditTaskWindow');
@@ -60,15 +66,16 @@ export default {
 
             //валидация данных, которая расписана в компоненте, после успешной валидации -
             //здесь будет метод сохранения измененных данных в БД, пока - в консоль
-            console.log('Save task in parent component')
-
-            console.log(task.name)
-            console.log(task.description)
-            console.log(task.dateStart)
-            console.log(task.dateEnd)
-            console.log(task.timeStart)
-            console.log(task.timeEnd)
-            console.log(task.allDay)
+            // console.log('Save task in parent component')
+            //
+            // console.log(task.name)
+            // console.log(task.description)
+            // console.log(task.dateStart)
+            // console.log(task.dateEnd)
+            // console.log(task.timeStart)
+            // console.log(task.timeEnd)
+            // console.log(task.allDay)
+            this.editItem(task)
 
             //после удачного сохранения события спрятать форму
             this.close();

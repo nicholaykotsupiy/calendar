@@ -20,19 +20,22 @@
                         </div>
 
 <!--        Компонент - модальное окно для создания Мероприятия-->
-                        <the-event
-                            name="name of Event"
-                            guests="guest list"
-                            location="location"
-                            description="description"
-                            dateStart="2021-05-05"
-                            dateEnd="2021-05-06"
-                            timeStart="08:00"
-                            timeEnd="12:00"
-                            @close="close"
-                            @saveEvent="saveChangeEvent"
-                        >
-                        </the-event>
+                        <template v-if="event">
+                            <the-event
+                                :id="event.id"
+                                :name="event.name"
+                                :guests="event.guests"
+                                :location="event.location"
+                                :description="event.description"
+                                :dateStart="event.dateStart"
+                                :dateEnd="event.dateEnd"
+                                :timeStart="event.timeStart"
+                                :timeEnd="event.timeEnd"
+                                @close="close"
+                                @saveEvent="saveChangeEvent"
+                            >
+                            </the-event>
+                        </template>
 
                     </div>
                 </div>
@@ -43,6 +46,7 @@
 
 <script>
 import TheEvent from "../TheEvent";
+import {mapActions} from "vuex";
 
 export default {
 
@@ -50,8 +54,12 @@ export default {
 
     components: {TheEvent},
 
-    methods: {
+    props: ['event'],
 
+    methods: {
+        ...mapActions([
+            'editItem'
+        ]),
         close() {
             //прослушиваем событие closeEditEventWindow в родительском компоненте
             this.$emit('closeEditEventWindow');
@@ -60,19 +68,19 @@ export default {
         saveChangeEvent(event) {
             //валидация данных, которая расписана в компоненте, после успешной валидации -
             //здесь будет метод сохранения измененных данных в БД, пока - в консоль
-            console.log('Save event in parent component')
-            console.log(event.name)
-            console.log(event.guests)
-            console.log(event.location)
-            console.log(event.description)
-            console.log(event.dateStart)
-            console.log(event.dateEnd)
-            console.log(event.timeStart)
-            console.log(event.timeEnd)
+            // console.log('Save event in parent component')
+            // console.log(event.name)
+            // console.log(event.guests)
+            // console.log(event.location)
+            // console.log(event.description)
+            // console.log(event.dateStart)
+            // console.log(event.dateEnd)
+            // console.log(event.timeStart)
+            // console.log(event.timeEnd)
+            this.editItem(event)
             //после удачного сохранения события спрятать форму
             this.close();
         }
-
     }
 
 }

@@ -4,7 +4,7 @@ namespace App\Http\Resources\Reminder;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class StoreResource extends JsonResource
+class ReminderResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,10 +16,16 @@ class StoreResource extends JsonResource
     {
         return [
             'id' => $this->id,
+            'type' => 'reminder',
             'name' => $this->name,
-            'date' => $this->date,
-            'time' => $this->time,
+            'dateStart' => $this->date,
+            'timeStart' => $this->time,
             'repeat' => $this->repeat,
+            'user_id' => $this->user_id,
+            'end' => 1,
+            'longsDate' => [$this->date],
+            'main_color' => $this->main_color,
+            'bg_color' => $this->bg_color,
         ];
     }
 }
