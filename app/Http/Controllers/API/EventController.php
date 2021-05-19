@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Event\ConfirmEventRequest;
+use App\Http\Requests\Event\EditRequest;
 use App\Http\Requests\Event\StoreRequest;
 use App\Http\Resources\Event\EventResource;
 use App\Mail\ConfirmMail;
@@ -18,7 +20,7 @@ use Illuminate\Support\Str;
 
 class EventController extends Controller
 {
-    public function store(Request $request): JsonResponse
+    public function store(StoreRequest $request): JsonResponse
     {
         $eventData = $request->event;
         $user = User::where('access_token', $request->token)->first();
@@ -27,10 +29,14 @@ class EventController extends Controller
         {
             return response()->json('Bad request');
         }
+
         $event = new Event();
 
         $event->name = $eventData['name'];
-        $event->location = $eventData['location'];
+        //поле может быть пустым
+        if ($request->event['location']) {
+            $event->location = $eventData['location'];
+        }
         $event->description = $eventData['description'];
         $event->date_start = $eventData['dateStart'];
         $event->date_end = $eventData['dateEnd'];
@@ -42,12 +48,15 @@ class EventController extends Controller
 
         $event->save();
 
-        $guests = Guest::saveForEvent($request, $event);
+        //поле может быть пустым
+        if ($request->event['guests']) {
+            $guests = Guest::saveForEvent($request, $event);
+        }
 
         return response()->json(new EventResource($event));
     }
 
-    public function confirm(Request $request)
+    public function confirm(ConfirmEventRequest $request)
     {
         $guest = Guest::where('uuid', $request->uuid)->first();
 
@@ -64,7 +73,7 @@ class EventController extends Controller
         return response('Bad request', 404);
     }
 
-    public function update(Request $request)
+    public function update(EditRequest $request)
     {
         $user = User::where('access_token',$request->token)->first();
         $event = Event::where('user_id', $user->id)->where('id', $request->event['id'])->first();
@@ -86,33 +95,15 @@ class EventController extends Controller
         $event->time_start = $eventData['timeStart'];
         $event->time_end = $eventData['timeEnd'];
 
-        $guests = Guest::where('event_id', $eventData['id'])->get();
-
-        foreach ($guests as $guest)
+        $guestsDelete = Guest::where('event_id', $eventData['id'])->get();
+        foreach ($guestsDelete as $guest)
         {
             $guest->delete();
         }
 
-        $guestsArr = explode(', ', $eventData['guests']);
-
-        if($guestsArr[0] !== "")
-        {
-            foreach($guestsArr as $guestItem)
-            {
-                $guest = new Guest();
-
-                $guest->mail = $guestItem;
-                $guest->event_id = $eventData['id'];
-
-                $randStr = Str::random(16);
-
-                $guest->uuid = $randStr;
-
-                Mail::to($guest->mail)
-                    ->send(new ConfirmMail($randStr));
-
-                $guest->save();
-            }
+        //поле может быть пустым
+        if ($request->event['guests']) {
+            $guests = Guest::saveForEvent($request, $event);
         }
 
         $event->save();

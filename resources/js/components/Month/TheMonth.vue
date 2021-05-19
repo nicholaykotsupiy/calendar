@@ -39,7 +39,10 @@
                             <template v-for="event in eventsForCurrentMonth()">
                                 <template v-if="day.index === event.day">
                                     <template v-if="event.type === 'event'">
-                                        <div class="daygrid-day-event" :id="`event-`+event.id+'-'+day.index">
+                                        <div class="daygrid-day-event"
+                                             :id="`event-`+event.id+'-'+day.index"
+                                             :style="{background: event.bg_color, color: event.main_color}"
+                                        >
                                             {{ event.name }}
                                             <edit-modal
                                                 :id="`event-`+event.id+'-'+day.index"
@@ -49,7 +52,10 @@
                                         </div>
                                     </template>
                                     <template v-if="event.type === 'reminder'">
-                                        <div class="daygrid-day-reminder" :id="`reminder-`+event.id+'-'+day.index">
+                                        <div class="daygrid-day-reminder"
+                                             :id="`reminder-`+event.id+'-'+day.index"
+                                             :style="{background: event.bg_color, color: event.main_color}"
+                                        >
                                             {{ event.name }}
                                             <edit-modal
                                                 :id="`reminder-`+event.id+'-'+day.index"
@@ -59,7 +65,10 @@
                                         </div>
                                     </template>
                                     <template v-if="event.type === 'task'">
-                                        <div class="daygrid-day-task" :id="`task-`+event.id+'-'+day.index">
+                                        <div class="daygrid-day-task"
+                                             :id="`task-`+event.id+'-'+day.index"
+                                             :style="{background: event.bg_color, color: event.main_color}"
+                                        >
                                             {{ event.name }}
                                             <edit-modal
                                                 :id="`task-`+event.id+'-'+day.index"
@@ -69,7 +78,10 @@
                                         </div>
                                     </template>
                                     <template v-if="event.type === 'birthday'">
-                                        <div class="daygrid-day-birthday" :id="`birthday-`+event.id+'-'+day.index">
+                                        <div class="daygrid-day-birthday"
+                                             :id="`birthday-`+event.id+'-'+day.index"
+                                             :style="{background: event.bg_color, color: event.main_color}"
+                                        >
                                             {{ event.name }}
                                             <edit-modal
                                                 :id="`birthday-`+event.id+'-'+day.index"
@@ -193,11 +205,11 @@ export default {
                     // longsDateItemArray[2] = '12'
                     if ( +longsDateItemArray[1] === this.month+1 &&
                         (+longsDateItemArray[0] === this.year ||
-                            (typeof eventForDay.everyYear !== "undefined" && eventForDay.everyYear) ||
-                            (typeof eventForDay["repeat"] !== "undefined" && eventForDay["repeat"] === "каждый год") ) &&
-                        !(eventForDay.type === "reminder" &&
-                            typeof eventForDay["repeat"] !== "undefined" &&
-                            eventForDay["repeat"] === "ежедневно")
+                            (typeof eventForDay.everyYear !== "undefined" && eventForDay.everyYear && +longsDateItemArray[0] <= this.year) ||
+                            (typeof eventForDay["repeat"] !== "undefined" && eventForDay["repeat"] === "каждый год" && +longsDateItemArray[0] <= this.year) ) //&&
+                        // !(eventForDay.type === "reminder" &&
+                        //     typeof eventForDay["repeat"] !== "undefined" &&
+                        //     eventForDay["repeat"] === "ежедневно")
                     ) {
 
                         let cloneEventForDay = {}
@@ -324,6 +336,7 @@ export default {
     color: #ffff;
     text-align: center;
     line-height: 24px;
+    text-decoration: none;
 }
 
 .currentDay{
@@ -393,7 +406,8 @@ export default {
 }
 
 .daygrid-day-number {
-    width: 30px;
+    width: 25px;
+    text-decoration: none;
 }
 
 .daygrid-day-reminder {

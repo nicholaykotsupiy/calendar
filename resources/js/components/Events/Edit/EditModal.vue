@@ -1,16 +1,18 @@
 <template>
     <div>
+
         <b-popover
             :show.sync="pop"
             :target="id"
             placement="leftbottom"
             triggers="click"
         >
-            <template  #title>
+            <template #title>
                 <div class="icons">
+                    <span v-if="event.guests" class="material-icons" @click="openModalGuests()">peoples</span>
                     <span class="material-icons" @click="showModalYesNo">delete</span>
                     <span class="material-icons" @click="showModal">edit</span>
-                    <span class="material-icons"  @click="popClose">close</span>
+                    <span class="material-icons" @click="popClose">close</span>
                 </div>
             </template>
             <div class="title">{{ event.name }}</div>
@@ -29,14 +31,34 @@
                 <div class="title">{{ formatTime(event.timeStart) }}</div>
             </template>
         </b-popover>
+
+        <b-modal id="modal-guests" hide-footer v-model="modalGuestsShow">
+            <guests-list-modal :eventItem="event"></guests-list-modal>
+            <div class="row text-center">
+                <div class="col-12 my-3">
+                    <button type="button" class="btn btn-primary btn-lg" data-dismiss="modal"
+                            @click="$bvModal.hide('modal-guests')"
+                    >
+                        ОК
+                    </button>
+                </div>
+            </div>
+        </b-modal>
+
     </div>
 </template>
 
 <script>
 import { mapMutations } from 'vuex'
+import GuestsListModal from "../../ModalMessages/GuestsListModal";
 
 export default {
+
     name: "EditModal",
+
+    components: {
+        GuestsListModal
+    },
 
     props: [
         'id',
@@ -46,6 +68,7 @@ export default {
     data() {
         return {
             pop: false,
+            modalGuestsShow: false,
         }
     },
 
@@ -106,6 +129,10 @@ export default {
                 this.setIsVisibleEditBirthdayWindow(true)
             }
         },
+
+        openModalGuests() {
+            this.modalGuestsShow = !this.modalGuestsShow
+        }
 
     }
 }

@@ -21,7 +21,7 @@
                 :style="{background: event.bg_color, color: event.main_color}"
                 :key="index"
                 :rowspan="event.longsDate.includes(virification)
-                            ? 24 - event.timeStart.slice(0, event.timeStart.indexOf(':')) : event.longsDate.length > 1 ? event.end+1: event.end"
+                                ? 24 - event.timeStart.slice(0, event.timeStart.indexOf(':')) : event.allDay ? 24 : event.longsDate.length > 1 ? event.end+1: event.end"
                 class="event_item border position-relative">
                 <div :style="{borderLeft: '2px solid '+event.main_color}" class="info d-flex align-items-top position-absolute top-0">
                     <span class="exect_time">{{ event.timeStart }}</span>
@@ -58,8 +58,17 @@
             @closeEditTaskWindow="switchEditTaskWindow"
         />
 
-        <b-modal v-model="modalShow">
+        <b-modal id="modal-guests" hide-footer v-model="modalShow">
             <GuestsListModal :eventItem="eventItem" />
+            <div class="row text-center">
+                <div class="col-12 my-3">
+                    <button type="button" class="btn btn-primary btn-lg" data-dismiss="modal"
+                            @click="$bvModal.hide('modal-guests')"
+                    >
+                        ОК
+                    </button>
+                </div>
+            </div>
         </b-modal>
     </table>
 </template>

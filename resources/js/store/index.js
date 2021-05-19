@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import month from "./month";
 import day from "./day";
+import year from "./year";
 import createPersistedState from "vuex-persistedstate";
 
 import axios from "axios";
@@ -11,7 +12,8 @@ Vue.use(Vuex)
 export default new Vuex.Store({
     modules: {
         month,
-        day
+        day,
+        year
     },
     state: {
         holidays: {},
@@ -201,12 +203,24 @@ export default new Vuex.Store({
                     state.bodyModalMessage = 'Событие изменено!'
                 })
                 .catch(error => {
-                    state.titleModalMessage = ''
-                    state.bodyModalMessage = 'Ошибка! Событие не удалось изменить!'
+                    //массив, для ошибок валидации на сервере
+                    let errorsArray = []
+
+                    for (let kay in error.response.data.errors) {
+                        errorsArray.push(error.response.data.errors[kay])
+                    }
+
+                    state.titleModalMessage = 'Ошибка! Событие не удалось изменить!'
+                    let message = ''
+                    for (let i=0; i<errorsArray.length; i++) {
+                        message += errorsArray[i]+"\n"
+                    }
+                    state.bodyModalMessage = message
                 })
         },
 
         editTask(state, payload) {
+            // console.log(payload.task)
             let findItem = state.tasks.findIndex(item => item.id === payload.task.id)
             axios.put('/api/task-update', payload)
                 .then(response => {
@@ -216,8 +230,19 @@ export default new Vuex.Store({
                     state.bodyModalMessage = 'Событие изменено!'
                 })
                 .catch(error => {
-                    state.titleModalMessage = ''
-                    state.bodyModalMessage = 'Ошибка! Событие не удалось изменить!'
+                    //массив, для ошибок валидации на сервере
+                    let errorsArray = []
+
+                    for (let kay in error.response.data.errors) {
+                        errorsArray.push(error.response.data.errors[kay])
+                    }
+
+                    state.titleModalMessage = 'Ошибка! Событие не удалось изменить!'
+                    let message = ''
+                    for (let i=0; i<errorsArray.length; i++) {
+                        message += errorsArray[i]+"\n"
+                    }
+                    state.bodyModalMessage = message
                 })
         },
 
@@ -230,8 +255,19 @@ export default new Vuex.Store({
                     state.bodyModalMessage = 'Событие изменено!'
                 })
                 .catch(error => {
-                    state.titleModalMessage = ''
-                    state.bodyModalMessage = 'Ошибка! Событие не удалось изменить!'
+                    //массив, для ошибок валидации на сервере
+                    let errorsArray = []
+
+                    for (let kay in error.response.data.errors) {
+                        errorsArray.push(error.response.data.errors[kay])
+                    }
+
+                    state.titleModalMessage = 'Ошибка! Событие не удалось изменить!'
+                    let message = ''
+                    for (let i=0; i<errorsArray.length; i++) {
+                        message += errorsArray[i]+"\n"
+                    }
+                    state.bodyModalMessage = message
                 })
         },
 
@@ -244,8 +280,19 @@ export default new Vuex.Store({
                     state.bodyModalMessage = 'Событие изменено!'
                 })
                 .catch(error => {
-                    state.titleModalMessage = ''
-                    state.bodyModalMessage = 'Ошибка! Событие не удалось изменить!'
+                    //массив, для ошибок валидации на сервере
+                    let errorsArray = []
+
+                    for (let kay in error.response.data.errors) {
+                        errorsArray.push(error.response.data.errors[kay])
+                    }
+
+                    state.titleModalMessage = 'Ошибка! Событие не удалось изменить!'
+                    let message = ''
+                    for (let i=0; i<errorsArray.length; i++) {
+                        message += errorsArray[i]+"\n"
+                    }
+                    state.bodyModalMessage = message
                 })
         },
 

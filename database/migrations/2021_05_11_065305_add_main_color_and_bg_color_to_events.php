@@ -27,7 +27,7 @@ class AddMainColorAndBgColorToEvents extends Migration
     public function down()
     {
         Schema::table('events', function (Blueprint $table) {
-            //
+            $table->dropColumn(['bg_color', 'main_color']);
         });
     }
 }

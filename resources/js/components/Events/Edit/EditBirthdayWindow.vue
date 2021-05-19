@@ -62,6 +62,7 @@ export default {
 
         ...mapGetters([
             'eventEdit',
+            'access_token'
         ])
     },
 
@@ -78,11 +79,6 @@ export default {
             this.editItem({birthday, token: this.access_token, type: 'birthday'})
             this.close();
         }
-    },
-    computed: {
-        ...mapGetters([
-            'access_token'
-        ])
     }
 }
 </script>

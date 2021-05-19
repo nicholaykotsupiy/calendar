@@ -39,9 +39,7 @@ class Guest extends Model
             $guest->event_id = $event->id;
 
             $randStr = Str::random(16);
-
             $guest->uuid = $randStr;
-
             Mail::to($guest->mail)
                 ->send(new ConfirmMail($randStr));
 
@@ -50,6 +48,8 @@ class Guest extends Model
             $guests[$k] = $guest;
             $k++;
         }
+
+        return $guests;
 
     }
 }

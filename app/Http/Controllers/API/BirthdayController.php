@@ -17,7 +17,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 class BirthdayController extends Controller
 {
 
-    public function store(Request $request): JsonResponse
+    public function store(StoreRequest $request): JsonResponse
     {
         $birthdayData = $request->birthday;
 
@@ -44,7 +44,7 @@ class BirthdayController extends Controller
         return response()->json(new StoreResource($birthday));
     }
 
-    public function update(Request $request)
+    public function update(EditRequest $request)
     {
         $user = User::where('access_token',$request->token)->first();
         $event = Birthday::where('user_id', $user->id)->where('id', $request->birthday['id'])->first();
