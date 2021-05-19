@@ -24,8 +24,8 @@ class ConfirmEventRequest extends FormRequest
     public function rules()
     {
         return [
-            'uuid' => 'nullable|string|max:16',
-            'status' => 'boolean|required',
+            'uuid' => 'string|max:16',
+//            'status' => 'boolean|required',
         ];
     }
 }
