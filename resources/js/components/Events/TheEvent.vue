@@ -19,7 +19,7 @@
             <template v-if="!errorGuestsEvent">
                 <div class="col-12 py-2">
                     <label for="guestsEvent" class="form-label">
-                        Гости <span class="warning">(емейлы гостей должны быть разделены запятой)</span>
+                        Гости <span class="warning">(емейлы гостей должны быть разделены запятой и не должны повторяться)</span>
                     </label>
                     <input v-model.trim="event.guests" type="text" class="form-control" id="guestsEvent" name="guestsEvent">
                 </div>
@@ -27,7 +27,7 @@
             <template v-else>
                 <div class="col-12 py-2">
                     <label for="guestsEvent" class="form-label error">
-                        Гости <span class="warning">(емейлы гостей должны быть разделены запятой)</span>
+                        Гости <span class="warning">(емейлы гостей должны быть разделены запятой и не должны повторяться)</span>
                     </label>
                     <input v-model.trim="event.guests" type="text" class="form-control error" id="guestsEvent" name="guestsEvent">
                 </div>
@@ -48,6 +48,12 @@
                     <input v-model.trim="event.description" type="text" class="form-control error" id="descriptionEvent" name="descriptionEvent">
                 </div>
             </template>
+            <div v-show="errorDate" class="col-12 error-title py-2">
+                <div class="form-label">Дата окончания не должна быть меньше даты начала события</div>
+            </div>
+            <div v-show="errorTime" class="col-12 error-title py-2">
+                <div class="form-label">Время окончания не должно быть меньше или равно времени начала события, разница - минимум час</div>
+            </div>
             <template v-if="!errorDateStartEvent && !errorTimeStartEvent">
                 <div class="col-4 py-2">
                     <label class="form-label">Начало<span>*</span>:</label>
@@ -136,13 +142,15 @@ export default {
             errorDateEndEvent: false,
             errorTimeEndEvent: false,
             errorGuestsEvent: false,
+            errorDate: false,
+            errorTime: false,
 
             event: {
                 id: this.id,
                 name: this.name,
                 type: 'event',
-                guests: this.guests,
-                location: this.location,
+                guests: this.guests || null,
+                location: this.location || null,
                 description: this.description,
                 dateStart: this.dateStart,
                 timeStart: this.timeStart,
@@ -178,6 +186,8 @@ export default {
             this.errorTimeStartEvent = false
             this.errorTimeEndEvent = false
             this.errorGuestsEvent = false
+            this.errorDate = false
+            this.errorTime = false
 
             //сбрасываем event
             //если пропсы есть (для редактировния), то поля заполнятся их значениями
@@ -208,6 +218,8 @@ export default {
             this.errorTimeStartEvent = false
             this.errorTimeEndEvent = false
             this.errorGuestsEvent = false
+            this.errorDate = false
+            this.errorTime = false
 
             if (!this.event.name) {
                 this.errorNameEvent = true
@@ -228,35 +240,69 @@ export default {
                 this.errorTimeEndEvent = true
             }
 
+            //проверка даты
+            if (this.event.dateStart > this.event.dateEnd) {
+                this.errorDateStartEvent = true
+                this.errorDateEndEvent = true
+                this.errorDate = true
+            }
+
+            //разница между времением - минимум час если даты совпадают
+            let firstTime = this.event.timeStart.split(':')
+            let secondTime = this.event.timeEnd.split(':')
+            let firstTimeInMinuts = firstTime[0]*60+firstTime[1]
+            let secondTimeInMinuts = secondTime[0]*60+secondTime[1]
+            let different = (secondTimeInMinuts - firstTimeInMinuts)/100
+
+            //проверка времени
+            if (this.event.dateStart === this.event.dateEnd && (this.event.timeStart >= this.event.timeEnd || different < 60) ) {
+                this.errorTimeStartEvent = true
+                this.errorTimeEndEvent = true
+                this.errorTime = true
+            }
+
             //валидация на мейлы с помощью регулярные выражений в поле Гости
             //шаблон для  одного мейла
-            let reqexp = /.+@.+\..+/i //один адрес в поле
+            // let reqexp = /.+@.+\..+/i //один адрес в поле
+            let reqexp = /(.+@[^\s]+\.[^\s]+)/i //один адрес в поле
+            let arrGuests = []
             //если поле Гости не пустое
             if (this.event.guests) {
-                // разбиваем строку с вводимыми мейлами, шаблон для разделения: сколько угодно пробелов-запятая-сколько угодно пробелов
-                let arrGuests = this.event.guests.split(/\s*,\s*/)
-                console.log(arrGuests)
+                // разбиваем строку с вводимыми мейлами, шаблон для разделения:
+                // сколько угодно пробелов-запятая-сколько угодно пробелов
+                arrGuests = this.event.guests.split(/\s*,\s*/)
+                // console.log(arrGuests)
                 let k = 0
                 for (let i=0; i<arrGuests.length; i++) {
-                    console.log(arrGuests[i])
+                    // console.log(arrGuests[i])
                     if ((arrGuests[i]).match(reqexp) !== null) {
-                        console.log((arrGuests[i]).match(reqexp))
+                        // console.log((arrGuests[i]).match(reqexp))
                         k++
                     }
                 }
+                // console.log(k)
                 if (k === arrGuests.length) {
                     this.errorGuestsEvent = false
-                    console.log('мейлы гостей введены верно')
+                    // console.log('мейлы гостей введены верно')
                 } else {
                     this.errorGuestsEvent = true
-                    console.log('неверно введены мейлы гостей')
+                    // console.log('неверно введены мейлы гостей')
                 }
             } else {
                 this.errorGuestsEvent = false
             }
 
-            if (!this.errorNameEvent && !this.errorDescriptionEvent && !this.errorDateStartEvent && !this.errorDateEndEvent
-                && !this.errorTimeStartEvent && !this.errorTimeEndEvent && !this.errorGuestsEvent) {
+            //проверка на повторяющиеся значения емейлов
+            let isDuplicate = arrGuests.some(function(item, idx){
+                return arrGuests.indexOf(item) != idx
+            });
+            if (isDuplicate) {
+                this.errorGuestsEvent = true
+            }
+
+            if (!this.errorNameEvent && !this.errorDescriptionEvent && !this.errorDateStartEvent
+                    && !this.errorDateEndEvent && !this.errorTimeStartEvent && !this.errorTimeEndEvent
+                    && !this.errorGuestsEvent) {
                 this.isValid = true
             } else {
                 this.isValid = false
@@ -294,15 +340,17 @@ export default {
     },
 
     mounted() {
-        if(this.event.guests) {
-            let guestsArr = []
-            this.guests.map(elem => guestsArr.push(elem.mail))
-            this.event.guests = guestsArr.join(', ')
-        }else {
-            this.event.guests = ''
-        }
+        // console.log(this.event.guests)
+        // if(this.event.guests) {
+        //     let guestsArr = []
+        //     this.guests.map(elem => guestsArr.push(elem.mail))
+        //     this.event.guests = guestsArr.join(', ')
+        // }else {
+        //     this.event.guests = ''
+        // }
     }
 }
+
 </script>
 
 <style scoped>

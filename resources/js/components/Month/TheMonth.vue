@@ -1,118 +1,120 @@
 <template>
-    <div class="container calendar-center">
-        <table class="table-month">
-            <thead>
-            <tr class="flex">
-                <td v-for="d in day">{{d}}</td>
-            </tr>
-            </thead>
-            <tbody>
-            <tr v-for="week in calendar()" class="flex">
-                <td v-for="(day, index) in week"                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               >
-                    <div class="daygrid-day-frame">
-                        <div class="daygrid-day-top flex">
-
-<!--                                праздники Украины-->
-<!--                            <template v-for="holiday in holidaysForCurrentMonth()">-->
-<!--                                <template v-if="day.index === holiday.day">-->
-                            <template v-if="day.index === 9">
-                                <div class="daygrid-day-ukr">Праздник Укр</div>
-<!--                                    <div class="daygrid-day-ukr">{{ holiday.summary }}</div>-->
-
-                                <div class="daygrid-day-number holiday">
-                                    {{ day.index }}
-                                </div>
-                            </template>
-
-
-                            <template v-else>
-                                <div class="daygrid-day-number-without-ukr">
-<!--                                        обозначить текущий день-->
-                                    <div :style="{ 'color': day.current }" >
-                                        {{ day.index }}
+    <div class="wrap mr-2">
+        <div class="container calendar-center">
+            <table class="table-month">
+                <thead>
+                <tr class="flex">
+                    <td v-for="d in day">{{d}}</td>
+                </tr>
+                </thead>
+                <tbody>
+                <tr v-for="week in calendar()" class="flex">
+                    <td v-for="(day, index) in week"                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               >
+                        <div class="daygrid-day-frame">
+                            <div class="daygrid-day-top flex">
+                                <!--                                праздники Украины-->
+                                <template v-if="day.isHoliday">
+                                    <div class="daygrid-day-ukr">{{ day.summary }}</div>
+                                    <div @click="dayClickHandler(day)">
+                                        <router-link
+                                            to="/"
+                                            class="daygrid-day-number holiday">
+                                            {{ day.index }}
+                                        </router-link>
                                     </div>
-                                </div>
+                                </template>
+                                <template v-else>
+                                    <div class="daygrid-day-number-without-ukr" @click="dayClickHandler(day)">
+                                        <!--                                        обозначить текущий день-->
+                                        <router-link
+                                            to="/"
+                                            :style="{ 'color': day.current }" >
+                                            {{ day.index }}
+                                        </router-link>
+                                    </div>
+                                </template>
+                            </div>
+
+                            <!--                        события -->
+                            <template v-for="event in eventsForCurrentMonth()">
+                                <template v-if="day.index === event.day">
+                                    <template v-if="event.type === 'event'">
+                                        <div class="daygrid-day-event"
+                                             :id="`event-`+event.id+'-'+day.index"
+                                             :style="{background: event.bg_color, color: event.main_color}"
+                                        >
+                                            {{ event.name }}
+                                            <edit-modal
+                                                :id="`event-`+event.id+'-'+day.index"
+                                                :event="event"
+                                            >
+                                            </edit-modal>
+                                        </div>
+                                    </template>
+                                    <template v-if="event.type === 'reminder'">
+                                        <div class="daygrid-day-reminder"
+                                             :id="`reminder-`+event.id+'-'+day.index"
+                                             :style="{background: event.bg_color, color: event.main_color}"
+                                        >
+                                            {{ event.name }}
+                                            <edit-modal
+                                                :id="`reminder-`+event.id+'-'+day.index"
+                                                :event="event"
+                                            >
+                                            </edit-modal>
+                                        </div>
+                                    </template>
+                                    <template v-if="event.type === 'task'">
+                                        <div class="daygrid-day-task"
+                                             :id="`task-`+event.id+'-'+day.index"
+                                             :style="{background: event.bg_color, color: event.main_color}"
+                                        >
+                                            {{ event.name }}
+                                            <edit-modal
+                                                :id="`task-`+event.id+'-'+day.index"
+                                                :event="event"
+                                            >
+                                            </edit-modal>
+                                        </div>
+                                    </template>
+                                    <template v-if="event.type === 'birthday'">
+                                        <div class="daygrid-day-birthday"
+                                             :id="`birthday-`+event.id+'-'+day.index"
+                                             :style="{background: event.bg_color, color: event.main_color}"
+                                        >
+                                            {{ event.name }}
+                                            <edit-modal
+                                                :id="`birthday-`+event.id+'-'+day.index"
+                                                :event="event"
+                                            >
+                                            </edit-modal>
+                                        </div>
+                                    </template>
+                                </template>
                             </template>
 
-<!--                            </template>-->
                         </div>
-
-                        <!--                        события -->
-                        <template v-for="event in eventsForCurrentMonth()">
-                            <template v-if="day.index === event.day">
-                                <template v-if="event.type === 'event'">
-                                    <div class="daygrid-day-event" :id="`event-`+event.id+'-'+day.index">
-                                        {{ event.name }}
-                                        <modal-edit
-                                            :id="`event-`+event.id+'-'+day.index"
-                                            type-event="event"
-                                            :id-event="event.id"
-                                            :edit-modal-title="event.name"
-                                            :edit-modal-time="event.timeStart"
-                                        >
-                                        </modal-edit>
-                                    </div>
-                                </template>
-                                <template v-if="event.type === 'reminder'">
-                                    <div class="daygrid-day-reminder" :id="`reminder-`+event.id+'-'+day.index">
-                                        {{ event.name }}
-                                        <modal-edit
-                                            :id="`reminder-`+event.id+'-'+day.index"
-                                            type-event="reminder"
-                                            :id-event="event.id"
-                                            :edit-modal-title="event.name"
-                                            :edit-modal-time="event.timeStart"
-                                            :description="event.description"
-                                        >
-                                        </modal-edit>
-                                    </div>
-                                </template>
-                                <template v-if="event.type === 'task'">
-                                    <div class="daygrid-day-task" :id="`task-`+event.id+'-'+day.index">
-                                        {{ event.name }}
-                                        <modal-edit
-                                            :id="`task-`+event.id+'-'+day.index"
-                                            type-event="task"
-                                            :id-event="event.id"
-                                            :edit-modal-title="event.name"
-                                            :edit-modal-time="event.timeStart"
-                                        >
-                                        </modal-edit>
-                                    </div>
-                                </template>
-                                <template v-if="event.type === 'birthday'">
-                                    <div class="daygrid-day-birthday" :id="`birthday-`+event.id+'-'+day.index">
-                                        {{ event.name }}
-                                        <modal-edit
-                                            :id="`birthday-`+event.id+'-'+day.index"
-                                            type-event="birthday"
-                                            :id-event="event.id"
-                                            :edit-modal-title="event.name"
-                                            :edit-modal-time="event.timeStart"
-                                        >
-                                        </modal-edit>
-                                    </div>
-                                </template>
-                            </template>
-                        </template>
-
-                    </div>
-                </td>
-            </tr>
-            </tbody>
-        </table>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 </template>
 
 <script>
 import DayCalendarNavigation from "../DayCalendar/DayCalendarComponents/DayCalendarNavigation";
-import { mapGetters, mapMutations } from 'vuex'
+import EditModal from "../Events/Edit/EditModal";
+import { mapGetters, mapMutations} from 'vuex'
 
 export default {
 
     name: "TheMont",
 
-    components: {DayCalendarNavigation},
+    components: {
+        DayCalendarNavigation,
+        EditModal,
+    },
 
     data() {
 
@@ -176,61 +178,22 @@ export default {
             'prevMonth',
             'nextMonth',
             'setTitleNavigationCalendarMonth',
+            'swichToDate'
         ]),
+
+        dayClickHandler(e) {
+            let currentDate = new Date()
+            this.swichToDate(`${currentDate.getMonth()+1}/${e.index}/${currentDate.getFullYear()}`)
+        },
 
         //сортировка
         byField(field) {
             return (a, b) => a[field] > b[field] ? 1 : -1
         },
 
-        holidaysForCurrentMonth() {
-
-            let holidaysForThisMonth = []
-
-            for (let holidaysForDay of this.holidays) {
-                console.log(holidaysForDay)
-
-                // let dateArray = holidaysForDay.start.date.split('-')
-
-                // if ( +dateArray[1] === this.month+1 && +dateArray[0] === this.year) {
-                //
-                //     let cloneHolidaysForDay = {}
-                //
-                //     for (let key in holidaysForDay) {
-                //         cloneHolidaysForDay[key] = holidaysForDay[key]
-                //     }
-                //
-                //     cloneHolidaysForDay.day = +dateArray[2]
-                //     holidaysForThisMonth.push(cloneHolidaysForDay)
-                // }
-            }
-
-            // console.log(holidaysForThisMonth)
-            // return holidaysForThisMonth
-            return this.holidays
-        },
-
         eventsForCurrentMonth() {
 
             let eventsForThisMonth = []
-
-            for (let eventForDay of this.allEventsForDay) {
-
-                if (eventForDay.type === "reminder" &&
-                    typeof eventForDay["repeat"] !== "undefined" &&
-                    eventForDay["repeat"] === "ежедневно") {
-
-                    for (let i = 0; i < 31; i++) {
-                        let cloneEventForDay = {}
-                        for (let key in eventForDay) {
-                            cloneEventForDay[key] = eventForDay[key]
-                        }
-                        cloneEventForDay.day = i + 1
-                        eventsForThisMonth.push(cloneEventForDay)
-                    }
-
-                }
-            }
 
             for (let eventForDay of this.allEventsForDay) {
                 for (let longsDateItem of eventForDay.longsDate) {
@@ -242,31 +205,40 @@ export default {
                     // longsDateItemArray[2] = '12'
                     if ( +longsDateItemArray[1] === this.month+1 &&
                         (+longsDateItemArray[0] === this.year ||
-                            (typeof eventForDay.everyYear !== "undefined" && eventForDay.everyYear) ||
-                            (typeof eventForDay["repeat"] !== "undefined" && eventForDay["repeat"] === "каждый год") ) &&
-                        !(eventForDay.type === "reminder" &&
-                            typeof eventForDay["repeat"] !== "undefined" &&
-                            eventForDay["repeat"] === "ежедневно")
+                            (typeof eventForDay.everyYear !== "undefined" && eventForDay.everyYear && +longsDateItemArray[0] <= this.year) ||
+                            (typeof eventForDay["repeat"] !== "undefined" && eventForDay["repeat"] === "каждый год" && +longsDateItemArray[0] <= this.year) ) //&&
+                        // !(eventForDay.type === "reminder" &&
+                        //     typeof eventForDay["repeat"] !== "undefined" &&
+                        //     eventForDay["repeat"] === "ежедневно")
                     ) {
 
                         let cloneEventForDay = {}
-
                         for (let key in eventForDay) {
                             cloneEventForDay[key] = eventForDay[key]
                         }
-
                         cloneEventForDay.day = +longsDateItemArray[2]
                         eventsForThisMonth.push(cloneEventForDay)
                     }
                 }
             }
-
-            //отсортировать события по номеру дня
-            // eventsForThisMonth.sort(this.byField('day'));
             //отсортировать события по времени начала
             eventsForThisMonth.sort(this.byField('timeStart'));
 
             return eventsForThisMonth
+        },
+
+        yyyymmdd(dateObj) {
+            let mm = dateObj.getMonth() + 1; // getMonth() is zero-based
+            let dd = dateObj.getDate();
+
+            return [dateObj.getFullYear(),
+                (mm>9 ? '' : '0') + mm,
+                (dd>9 ? '' : '0') + dd
+            ].join('-');
+        },
+
+        capitalizeFirstLetter(str) {
+            return str.charAt(0).toUpperCase() + str.slice(1);
         },
 
         calendar() {
@@ -278,8 +250,23 @@ export default {
 
             for (let i = 1; i <= dlast; i++) {
 
+                let dayOfMonthDateObj = new Date(this.year, this.month, i)
+
                 if (new Date(this.year, this.month, i).getDay() !== this.dFirstMonth) {
-                    let a = {index:i}
+                    let a = {
+                        index:i,
+                        isHoliday: false,
+                        summary: '',
+                    }
+                    let dayOfMonthIsoDate = this.yyyymmdd(dayOfMonthDateObj)
+                    //проверка что день праздничный
+                    if (dayOfMonthIsoDate in this.holidays) {
+                        a.isHoliday = true
+                        for (let j = 0; j < this.holidays[dayOfMonthIsoDate].length; j++) {
+                            a.summary += this.capitalizeFirstLetter(this.holidays[dayOfMonthIsoDate][j].summary + ' ')
+                        }
+
+                    }
                     // this.count++
                     days[week].push(a)
                     if (i === new Date().getDate() && this.year === new Date().getFullYear() && this.month === new Date().getMonth())
@@ -291,7 +278,20 @@ export default {
                 else {
                     week++
                     days[week] = []
-                    let a = {index:i}
+                    let a = {
+                        index:i,
+                        isHoliday: false,
+                        summary: '',
+                    }
+                    let dayOfMonthIsoDate = this.yyyymmdd(dayOfMonthDateObj)
+                    //проверка что день праздничный
+                    if (dayOfMonthIsoDate in this.holidays) {
+                        a.isHoliday = true
+                        for (let j = 0; j < this.holidays[dayOfMonthIsoDate].length; j++) {
+                            a.summary += this.capitalizeFirstLetter(this.holidays[dayOfMonthIsoDate][j].summary + ' ')
+                        }
+
+                    }
                     // this.count++
                     days[week].push(a)
                     if ((i === new Date().getDate()) && (this.year === new Date().getFullYear()) && (this.month === new Date().getMonth()))                     {
@@ -317,7 +317,6 @@ export default {
             // console.log(days);
             // console.log(week);
             // console.log(days[week]);
-
             return days;
         },
 
@@ -337,6 +336,7 @@ export default {
     color: #ffff;
     text-align: center;
     line-height: 24px;
+    text-decoration: none;
 }
 
 .currentDay{
@@ -356,10 +356,16 @@ export default {
     max-width: 1120px;
     max-height: 780px;
 }
+.wrap {
+    background: #ffffff;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.05);
+    border-radius: 6px;
+}
 .calendar-center {
     margin: 0 auto;
     padding-top: 30px;
     padding-bottom: 30px;
+    overflow: auto;
 }
 .table-month {
     font-family: Roboto;
@@ -400,7 +406,8 @@ export default {
 }
 
 .daygrid-day-number {
-    width: 30px;
+    width: 25px;
+    text-decoration: none;
 }
 
 .daygrid-day-reminder {
@@ -418,11 +425,11 @@ export default {
     text-align: center;
 }
 .daygrid-day-ukr {
-    cursor: pointer;
     width: 100%;
     color: #222222;
     text-align: left;
     padding-left: 5px;
+    line-height: 18px;
 }
 .daygrid-day-number-without-ukr {
     width: 100%;

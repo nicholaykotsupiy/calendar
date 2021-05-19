@@ -9,7 +9,7 @@ import TheRepairPassword from "../components/auth/TheRepairPassword";
 import TheRepairPasswordCode from "../components/auth/TheRepairPasswordCode";
 import TheRepairPasswordNew from "../components/auth/TheRepairPasswordNew";
 import TheRepairPasswordCodeWord from "../components/auth/TheRepairPasswordCodeWord";
-import main from "../layouts/main";
+import main from "../layouts/default";
 import middlewarePipeline from "./middlewarePipeline";
 import isLogin from './isLogin';
 
@@ -58,6 +58,16 @@ const routes = [
                 path: 'year',
                 name: 'Year',
                 component: () => import('../components/Year/TheYear'),
+                props: true,
+                meta: {
+                    middleware: [
+                        isLogin
+                    ]
+                },
+            },
+            {
+                path: 'confirm-event/:uuid',
+                component: () => import('../components/Notification/ConfirmEvent'),
                 props: true,
                 meta: {
                     middleware: [

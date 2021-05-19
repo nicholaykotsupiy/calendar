@@ -1,9 +1,8 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import month from "./month";
-import saveEvents from "./saveEvents";
-import editEvents from "./editEvents";
 import day from "./day";
+import year from "./year";
 import createPersistedState from "vuex-persistedstate";
 
 import axios from "axios";
@@ -13,9 +12,8 @@ Vue.use(Vuex)
 export default new Vuex.Store({
     modules: {
         month,
-        saveEvents,
-        editEvents,
-        day
+        day,
+        year
     },
     state: {
         holidays: {},
@@ -24,10 +22,29 @@ export default new Vuex.Store({
         events: [],
         reminders: [],
         currentDate: new Date(),
-        user: null,
         access_token: '',
-        resetPasswordEmail: ''
+        resetPasswordEmail: '',
+
+        isCreateEventWindowVisible: true,
+        isCreateReminderWindowVisible: false,
+        isCreateTaskWindowVisible: false,
+        isCreateBirthdayWindowVisible: false,
+
+        titleModalMessage: '',
+        bodyModalMessage: '',
+        // bodyModalMessage: 'Событие добавлено!',
+
+        isVisibleEditEventWindow: false,
+        isVisibleEditReminderWindow: false,
+        isVisibleEditTaskWindow: false,
+        isVisibleEditBirthdayWindow: false,
+
+        valueDeleteIdEvent: null,
+        valueDeleteTypeEvent: null,
+        eventEdit: {},
+        key: 0,
     },
+
     mutations: {
         setUser(state, user) {
             state.user = user;
@@ -113,57 +130,169 @@ export default new Vuex.Store({
             state.events.splice(findItem,1)
 
             axios.delete('api/event-destroy/' + itemID)
-                .then(response => console.log(response.data))
+                .then(response => {
+                    state.titleModalMessage = ''
+                    state.bodyModalMessage = 'Событие удалено!'
+                    //console.log(response.data)
+                })
+                .catch(error => {
+                    //сообщение о неуспешном удалении
+                    state.titleModalMessage = error.response.data
+                    state.bodyModalMessage = 'Событие не удалось удалить!'
+                })
+
         },
+
         deleteReminder(state, itemID) {
             let findItem = state.reminders.findIndex(item => item.id === itemID)
             state.reminders.splice(findItem,1)
 
             axios.delete('api/reminder-destroy/' + itemID)
-                .then(response => console.log(response.data))
+                .then(response => {
+                    state.titleModalMessage = ''
+                    state.bodyModalMessage = 'Событие удалено!'
+                    //console.log(response.data)
+                })
+                .catch(error => {
+                    //сообщение о неуспешном удалении
+                    state.titleModalMessage = error.response.data
+                    state.bodyModalMessage = 'Событие не удалось удалить!'
+                })
         },
+
         deleteBirthday(state, itemID) {
             let findItem = state.birthdays.findIndex(item => item.id === itemID)
             state.birthdays.splice(findItem,1)
 
             axios.delete('api/birthday-destroy/' + itemID)
-                .then(response => console.log(response.data))
+                .then(response => {
+                    state.titleModalMessage = ''
+                    state.bodyModalMessage = 'Событие удалено!'
+                    //console.log(response.data)
+                })
+                .catch(error => {
+                    //сообщение о неуспешном удалении
+                    state.titleModalMessage = error.response.data
+                    state.bodyModalMessage = 'Событие не удалось удалить!'
+                })
         },
+
         deleteTask(state, itemID) {
             let findItem = state.tasks.findIndex(item => item.id === itemID)
             state.tasks.splice(findItem,1)
 
             axios.delete('api/task-destroy/' + itemID)
-                .then(response => console.log(response.data))
+                .then(response => {
+                    state.titleModalMessage = ''
+                    state.bodyModalMessage = 'Событие удалено!'
+                    //console.log(response.data)
+                })
+                .catch(error => {
+                    //сообщение о неуспешном удалении
+                    state.titleModalMessage = error.response.data
+                    state.bodyModalMessage = 'Событие не удалось удалить!'
+                })
         },
 
         editEvent(state, payload) {
-            let findItem = state.events.findIndex(item => item.id === payload.id)
+            let findItem = state.events.findIndex(item => item.id === payload.event.id)
             axios.put('/api/event-update', payload)
                 .then(response => {
                     state.events.splice(findItem,1, response.data)
+                    state.titleModalMessage = ''
+                    state.bodyModalMessage = 'Событие изменено!'
+                })
+                .catch(error => {
+                    //массив, для ошибок валидации на сервере
+                    let errorsArray = []
+
+                    for (let kay in error.response.data.errors) {
+                        errorsArray.push(error.response.data.errors[kay])
+                    }
+
+                    state.titleModalMessage = 'Ошибка! Событие не удалось изменить!'
+                    let message = ''
+                    for (let i=0; i<errorsArray.length; i++) {
+                        message += errorsArray[i]+"\n"
+                    }
+                    state.bodyModalMessage = message
                 })
         },
+
         editTask(state, payload) {
-            let findItem = state.tasks.findIndex(item => item.id === payload.id)
+            // console.log(payload.task)
+            let findItem = state.tasks.findIndex(item => item.id === payload.task.id)
             axios.put('/api/task-update', payload)
                 .then(response => {
+                    // console.log(response.data)
                     state.tasks.splice(findItem,1, response.data)
+                    state.titleModalMessage = ''
+                    state.bodyModalMessage = 'Событие изменено!'
+                })
+                .catch(error => {
+                    //массив, для ошибок валидации на сервере
+                    let errorsArray = []
+
+                    for (let kay in error.response.data.errors) {
+                        errorsArray.push(error.response.data.errors[kay])
+                    }
+
+                    state.titleModalMessage = 'Ошибка! Событие не удалось изменить!'
+                    let message = ''
+                    for (let i=0; i<errorsArray.length; i++) {
+                        message += errorsArray[i]+"\n"
+                    }
+                    state.bodyModalMessage = message
                 })
         },
+
         editReminder(state, payload) {
-            let findItem = state.reminders.findIndex(item => item.id === payload.id)
+            let findItem = state.reminders.findIndex(item => item.id === payload.reminder.id)
             axios.put('/api/reminder-update', payload)
                 .then(response => {
-
                     state.reminders.splice(findItem,1, response.data)
+                    state.titleModalMessage = ''
+                    state.bodyModalMessage = 'Событие изменено!'
+                })
+                .catch(error => {
+                    //массив, для ошибок валидации на сервере
+                    let errorsArray = []
+
+                    for (let kay in error.response.data.errors) {
+                        errorsArray.push(error.response.data.errors[kay])
+                    }
+
+                    state.titleModalMessage = 'Ошибка! Событие не удалось изменить!'
+                    let message = ''
+                    for (let i=0; i<errorsArray.length; i++) {
+                        message += errorsArray[i]+"\n"
+                    }
+                    state.bodyModalMessage = message
                 })
         },
+
         editBirthday(state, payload) {
-            let findItem = state.birthdays.findIndex(item => item.id === payload.id)
+            let findItem = state.birthdays.findIndex(item => item.id === payload.birthday.id)
             axios.put('/api/birthday-update', payload)
                 .then(response => {
                     state.birthdays.splice(findItem,1, response.data)
+                    state.titleModalMessage = ''
+                    state.bodyModalMessage = 'Событие изменено!'
+                })
+                .catch(error => {
+                    //массив, для ошибок валидации на сервере
+                    let errorsArray = []
+
+                    for (let kay in error.response.data.errors) {
+                        errorsArray.push(error.response.data.errors[kay])
+                    }
+
+                    state.titleModalMessage = 'Ошибка! Событие не удалось изменить!'
+                    let message = ''
+                    for (let i=0; i<errorsArray.length; i++) {
+                        message += errorsArray[i]+"\n"
+                    }
+                    state.bodyModalMessage = message
                 })
         },
 
@@ -191,7 +320,60 @@ export default new Vuex.Store({
                 item.bg_color = payload.bg_color
             })
         },
+
+        setIsCreateEventWindowVisible(state, value) {
+            state.isCreateEventWindowVisible = value
+        },
+        setIsCreateReminderWindowVisible(state, value) {
+            state.isCreateReminderWindowVisible = value
+        },
+        setIsCreateTaskWindowVisible(state, value) {
+            state.isCreateTaskWindowVisible = value
+        },
+        setIsCreateBirthdayWindowVisible(state, value) {
+            state.isCreateBirthdayWindowVisible = value
+        },
+
+        showCreateEventWindow(state) {
+            state.isCreateEventWindowVisible = true
+            state.isCreateReminderWindowVisible = false
+            state.isCreateTaskWindowVisible = false
+            state.isCreateBirthdayWindowVisible = false
+        },
+
+        setTitleModalMessage(state, value) {
+            state.titleModalMessage = value
+        },
+        setBodyModalMessage(state, value) {
+            state.bodyModalMessage = value
+        },
+
+        setIsVisibleEditEventWindow(state, value) {
+            state.isVisibleEditEventWindow = value
+        },
+        setIsVisibleEditReminderWindow(state, value) {
+            state.isVisibleEditReminderWindow = value
+        },
+        setIsVisibleEditTaskWindow(state, value) {
+            state.isVisibleEditTaskWindow = value
+        },
+        setIsVisibleEditBirthdayWindow(state, value) {
+            state.isVisibleEditBirthdayWindow = value
+        },
+
+        setValueDeleteIdEvent(state, value) {
+            state.valueDeleteIdEvent = value
+        },
+        setValueDeleteTypeEvent(state, value) {
+            state.valueDeleteTypeEvent = value
+        },
+
+        setEventEdit(state, payload) {
+            state.eventEdit = payload
+        },
+
     },
+
     actions: {
         saveUserFromServer({commit}, user) {
             console.log(user);
@@ -266,7 +448,9 @@ export default new Vuex.Store({
             }
         }
     },
+
     getters: {
+
         currentDate(state) {
             return state.currentDate
         },
@@ -299,6 +483,49 @@ export default new Vuex.Store({
         resetPasswordEmail(state) {
             return state.resetPasswordEmail;
         },
+        isCreateEventWindowVisible(state) {
+            return state.isCreateEventWindowVisible
+        },
+        isCreateReminderWindowVisible(state) {
+            return state.isCreateReminderWindowVisible
+        },
+        isCreateTaskWindowVisible(state) {
+            return state.isCreateTaskWindowVisible
+        },
+        isCreateBirthdayWindowVisible(state) {
+            return state.isCreateBirthdayWindowVisible
+        },
+
+        titleModalMessage(state) {
+            return state.titleModalMessage
+        },
+        bodyModalMessage(state) {
+            return state.bodyModalMessage
+        },
+
+        isVisibleEditEventWindow(state) {
+            return state.isVisibleEditEventWindow
+        },
+        isVisibleEditReminderWindow(state) {
+            return state.isVisibleEditReminderWindow
+        },
+        isVisibleEditTaskWindow(state) {
+            return state.isVisibleEditTaskWindow
+        },
+        isVisibleEditBirthdayWindow(state) {
+            return state.isVisibleEditBirthdayWindow
+        },
+
+        valueDeleteIdEvent(state) {
+            return state.valueDeleteIdEvent
+        },
+        valueDeleteTypeEvent(state) {
+            return state.valueDeleteTypeEvent
+        },
+
+        eventEdit(state) {
+            return status.eventEdit
+        }
     },
-    plugins: [createPersistedState({paths: ['user', 'access_token', 'resetPasswordEmail']})],
+    plugins: [createPersistedState({paths: ['access_token', 'resetPasswordEmail']})],
 })

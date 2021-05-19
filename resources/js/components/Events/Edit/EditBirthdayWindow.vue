@@ -1,5 +1,5 @@
 <template>
-    <transition name="window-fade">
+<!--    <transition name="window-fade">-->
         <div class="content-create-event-window">
             <div class="backdrop-create-event-window">
                 <div class="create-event-window">
@@ -39,12 +39,12 @@
                 </div>
             </div>
         </div>
-    </transition>
+<!--    </transition>-->
 </template>
 
 <script>
 import TheBirthday from "../TheBirthday";
-import {mapActions} from "vuex";
+import {mapActions, mapGetters} from "vuex";
 
 export default {
 
@@ -53,6 +53,18 @@ export default {
     components: {TheBirthday},
 
     props: ['event'],
+
+    computed: {
+
+        eventEdit() {
+            return this.eventEdit
+        },
+
+        ...mapGetters([
+            'eventEdit',
+            'access_token'
+        ])
+    },
 
     methods: {
         ...mapActions([
@@ -64,26 +76,10 @@ export default {
         },
 
         saveChangeBirthday(birthday) {
-            //валидация данных, которая расписана в компоненте, после успешной валидации -
-            // //здесь будет метод сохранения измененных данных в БД, пока - в консоль
-            // console.log('Save birthday in parent component')
-            // console.log(birthday.name)
-            // console.log(birthday.description)
-            // console.log(birthday.date)
-            // console.log(birthday.time)
-            // console.log(birthday.allDay)
-            // console.log(birthday.everyYear)
-            //после удачного сохранения события спрятать форму
-
-            this.editItem(birthday)
+            this.editItem({birthday, token: this.access_token, type: 'birthday'})
             this.close();
         }
-    },
-    mounted() {
-        // console.log(this.event.allDay)
-        // console.log(this.event.everyYear)
     }
-
 }
 </script>
 

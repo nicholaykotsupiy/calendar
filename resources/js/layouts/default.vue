@@ -7,27 +7,27 @@ import DayCalendarWrapper from "../components/DayCalendar/DayCalendarWrapper";
 import axios from "axios";
 import {mapActions, mapGetters} from "vuex";
 export default {
-    name: "main",
+    name: "default",
     components: {DayCalendarWrapper},
     methods: {
         ...mapActions([
-            'saveUserFromServer',
+            'saveAccessFromServer',
         ]),
     },
     computed: {
       ...mapGetters([
-         'user'
+         'access_token'
       ]),
     },
     created() {
-        console.log(this.user)
-        if(!this.user){
+        console.log(!this.access_token)
+        if(!this.access_token){
             let user = this.$route.params.user
-            console.log(this.$route.params.user)
-            axios.post('/api/login', user)
+            let token = this.$route.params.token
+            axios.post('/api/login', {token, user})
                 .then(response => {
-                    // console.log(response)
-                    this.saveUserFromServer(response.data);
+                    console.log(response)
+                    this.saveAccessFromServer(token);
                     this.$router.push('/');
                 })
         }

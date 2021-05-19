@@ -46,7 +46,7 @@
 
 <script>
 import TheEvent from "../TheEvent";
-import {mapActions} from "vuex";
+import {mapActions, mapGetters} from "vuex";
 
 export default {
 
@@ -66,21 +66,15 @@ export default {
         },
 
         saveChangeEvent(event) {
-            //валидация данных, которая расписана в компоненте, после успешной валидации -
-            //здесь будет метод сохранения измененных данных в БД, пока - в консоль
-            // console.log('Save event in parent component')
-            // console.log(event.name)
-            // console.log(event.guests)
-            // console.log(event.location)
-            // console.log(event.description)
-            // console.log(event.dateStart)
-            // console.log(event.dateEnd)
-            // console.log(event.timeStart)
-            // console.log(event.timeEnd)
-            this.editItem(event)
+            this.editItem({event, token: this.access_token, type: 'event'})
             //после удачного сохранения события спрятать форму
             this.close();
         }
+    },
+    computed: {
+        ...mapGetters([
+            'access_token'
+        ])
     }
 
 }

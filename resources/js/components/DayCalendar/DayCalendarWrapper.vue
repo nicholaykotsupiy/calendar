@@ -7,13 +7,13 @@
             <DayCalendarNavigation @current="switchToCurrentMonth" @prev="prevMonth" @next="nextMonth" />
         </template>
 <!--        если выбран календарь в масштабе неделя -->
-<!--        <template v-if="">-->
+<!--        <template v-else-if="">-->
 <!--            <DayCalendarNavigation @current="" @prev="" @next="" />-->
 <!--        </template>-->
 <!--        если выбран календарь в масштабе год -->
-<!--        <template v-if="">-->
-<!--            <DayCalendarNavigation @current="" @prev="" @next="" />-->
-<!--        </template>-->
+        <template v-else-if="isYear">
+            <DayCalendarNavigation @current="switchToCurrentYear" @prev="prevYear" @next="nextYear" />
+        </template>
 <!--        если выбран календарь в масштабе день-->
         <template v-else>
             <DayCalendarNavigation @current="currentDateToDayCalendar" @prev="prevDateToDayCalendar" @next="nextDateToDayCalendar" />
@@ -53,8 +53,13 @@ export default {
             return this.isMonth
         },
 
+        isYear() {
+            return this.isYear
+        },
+
         ...mapGetters([
             'isMonth',
+            'isYear'
         ])
     },
 
@@ -67,6 +72,9 @@ export default {
             'prevMonth',
             'nextMonth',
             'switchToCurrentMonth',
+            'switchToCurrentYear',
+            'nextYear',
+            'prevYear'
         ])
     }
 }

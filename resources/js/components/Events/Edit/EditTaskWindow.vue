@@ -1,5 +1,5 @@
 <template>
-    <transition name="window-fade">
+<!--    <transition name="window-fade">-->
         <div class="content-create-event-window">
             <div class="backdrop-create-event-window">
                 <div class="create-event-window">
@@ -39,12 +39,12 @@
                 </div>
             </div>
         </div>
-    </transition>
+<!--    </transition>-->
 </template>
 
 <script>
 import TheTask from "../TheTask";
-import {mapActions} from "vuex";
+import {mapActions, mapGetters} from "vuex";
 
 export default {
 
@@ -63,24 +63,15 @@ export default {
         },
 
         saveChangeTask(task) {
-
-            //валидация данных, которая расписана в компоненте, после успешной валидации -
-            //здесь будет метод сохранения измененных данных в БД, пока - в консоль
-            // console.log('Save task in parent component')
-            //
-            // console.log(task.name)
-            // console.log(task.description)
-            // console.log(task.dateStart)
-            // console.log(task.dateEnd)
-            // console.log(task.timeStart)
-            // console.log(task.timeEnd)
-            // console.log(task.allDay)
-            this.editItem(task)
-
+            this.editItem({task, token: this.access_token, type: 'task'})
             //после удачного сохранения события спрятать форму
             this.close();
         }
-
+    },
+    computed: {
+        ...mapGetters([
+            'access_token'
+        ])
     }
 
 }

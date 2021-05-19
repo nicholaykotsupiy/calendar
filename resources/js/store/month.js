@@ -48,7 +48,6 @@ export default {
                 state.monthCalendarMonth--
                 state.yearCalendarMonth--
             }
-
             state.titleNavigationCalendarMonth = state.monthsCalendarMonth[state.monthCalendarMonth]+' '+state.yearCalendarMonth
 
         },
@@ -61,7 +60,6 @@ export default {
                 state.monthCalendarMonth++
                 state.yearCalendarMonth++
             }
-
             state.titleNavigationCalendarMonth = state.monthsCalendarMonth[state.monthCalendarMonth]+' '+state.yearCalendarMonth
 
         },
@@ -74,13 +72,14 @@ export default {
             state.monthCalendarMonth = new Date().getMonth()
             state.yearCalendarMonth = new Date().getFullYear()
             state.titleNavigationCalendarMonth = state.monthsCalendarMonth[new Date().getMonth()]+' '+new Date().getFullYear()
+        },
+
+        switchToMonth(state, value) {
+            state.monthCalendarMonth = new Date(value).getMonth()
+            state.yearCalendarMonth = new Date(value).getFullYear()
+            state.titleNavigationCalendarMonth = state.monthsCalendarMonth[new Date(value).getMonth()]+' '+new Date(value).getFullYear()
         }
 
     },
 
-    actions: {
-
-
-
-    }
 }

@@ -1,5 +1,5 @@
 <template>
-    <transition name="window-fade">
+<!--    <transition name="window-fade">-->
         <div class="content-create-event-window">
             <div class="backdrop-create-event-window">
                 <div class="create-event-window">
@@ -37,12 +37,12 @@
                 </div>
             </div>
         </div>
-    </transition>
+<!--    </transition>-->
 </template>
 
 <script>
 import TheReminder from "../TheReminder";
-import {mapActions} from "vuex";
+import {mapActions, mapGetters} from "vuex";
 
 export default {
 
@@ -62,23 +62,15 @@ export default {
         },
 
         saveChangeReminder(reminder) {
-
-            //валидация данных, которая расписана в компоненте, после успешной валидации -
-            //здесь будет метод сохранения измененных данных в БД, пока - в консоль
-            // console.log('Save reminder in parent component')
-            //
-            // console.log(reminder.id)
-            // console.log(reminder.name)
-            // console.log(reminder.date)
-            // console.log(reminder.time)
-            // console.log(reminder.toRepeat)
-
-            this.editItem(reminder)
-
+            this.editItem({reminder, token: this.access_token, type: 'reminder'})
             //после удачного сохранения события спрятать форму
             this.close();
         }
-
+    },
+    computed: {
+        ...mapGetters([
+            'access_token'
+        ])
     }
 }
 </script>

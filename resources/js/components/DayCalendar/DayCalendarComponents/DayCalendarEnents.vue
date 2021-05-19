@@ -1,5 +1,5 @@
 <template>
-    <table @mousedown="dragTable" @mouseup="clearDrag" class="w-100 border-top events position-relative">
+    <table id="table_calendar" @mousedown="dragTable" @mouseup="clearDrag" class="w-100 border-top events position-relative">
         <tr>
             <td></td>
             <td></td>
@@ -21,14 +21,14 @@
                 :style="{background: event.bg_color, color: event.main_color}"
                 :key="index"
                 :rowspan="event.longsDate.includes(virification)
-                            ? 24 - event.timeStart.slice(0, event.timeStart.indexOf(':')) : event.longsDate.length > 1 ? event.end+1: event.end"
+                                ? 24 - event.timeStart.slice(0, event.timeStart.indexOf(':')) : event.allDay ? 24 : event.longsDate.length > 1 ? event.end+1: event.end"
                 class="event_item border position-relative">
                 <div :style="{borderLeft: '2px solid '+event.main_color}" class="info d-flex align-items-top position-absolute top-0">
                     <span class="exect_time">{{ event.timeStart }}</span>
                     <span class="title">{{ event.name }}</span>
                 </div>
                 <div class="buttons">
-                    <img v-if="event.guests" :src="peoples" alt="peoples">
+                    <img v-if="event.guests" @click="openModalGuests(event)"  :src="peoples" alt="peoples">
                     <img :src="del" alt="delete" @click="deleteHandler(event)">
                     <img :src="edit" alt="edit" @click="checkTypeEdit(event)">
                 </div>
@@ -57,6 +57,19 @@
             :event="eventItem"
             @closeEditTaskWindow="switchEditTaskWindow"
         />
+
+        <b-modal id="modal-guests" hide-footer v-model="modalShow">
+            <GuestsListModal :eventItem="eventItem" />
+            <div class="row text-center">
+                <div class="col-12 my-3">
+                    <button type="button" class="btn btn-primary btn-lg" data-dismiss="modal"
+                            @click="$bvModal.hide('modal-guests')"
+                    >
+                        ОК
+                    </button>
+                </div>
+            </div>
+        </b-modal>
     </table>
 </template>
 
@@ -71,16 +84,20 @@ import EditEventWindow from '../../../components/Events/Edit/EditEventWindow'
 import EditBirthdayWindow from '../../../components/Events/Edit/EditBirthdayWindow'
 import EditReminderWindow from '../../../components/Events/Edit/EditReminderWindow'
 import EditTaskWindow from '../../../components/Events/Edit/EditTaskWindow'
+import ModalOK from "../../ModalMessages/ModalOK";
+import GuestsListModal from "../../ModalMessages/GuestsListModal";
 
 
 export default {
     name: "DayCalendarEnents",
     components: {
+        GuestsListModal,
         DeleteModal,
         EditEventWindow,
         EditBirthdayWindow,
         EditReminderWindow,
         EditTaskWindow,
+        ModalOK
     },
     props: ['events', 'timeLine', 'currentDate'],
     data: () => ({
@@ -94,6 +111,7 @@ export default {
         isVisibleEditReminderWindow: false,
         isVisibleEditTaskWindow: false,
         clickPosition: null,
+        modalShow: false,
     }),
     methods: {
         ...mapActions(['deleteItem']),
@@ -104,6 +122,7 @@ export default {
         deleteEvent() {
             this.deleteItem(this.eventItem)
             this.$bvModal.hide('id-modal')
+            this.$bvModal.show('modal-message-ok')
             this.eventItem = null
         },
         checkTypeEdit(event) {
@@ -138,15 +157,16 @@ export default {
 
         dragTable(event) {
             this.clickPosition = event.offsetX
-            document.querySelector('table').onmousemove = this.scrollTable
-            document.querySelector('table').style.cursor = 'grabbing'
+            document.querySelector('#table_calendar').onmousemove = this.scrollTable
+            document.querySelector('#table_calendar').style.cursor = 'grabbing'
         },
         clearDrag(event) {
-            document.querySelector('table').onmousemove = null
-            document.querySelector('table').style.cursor = 'pointer'
+            document.querySelector('#table_calendar').onmousemove = null
+            document.querySelector('#table_calendar').style.cursor = 'pointer'
         },
         scrollTable(event) {
-            let table = document.querySelector('table')
+            // console.log(event.offsetX)
+            let table = document.querySelector('#table_calendar')
 
             if(event.offsetX > this.clickPosition ) {
                 if(parseInt(table.style.left)) {
@@ -161,6 +181,11 @@ export default {
                     table.style.left = table.clientLeft-10+'px'
                 }
             }
+        },
+
+        openModalGuests(event) {
+            this.eventItem = event
+            this.modalShow = !this.modalShow
         }
     },
     mounted() {

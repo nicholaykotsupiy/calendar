@@ -23,7 +23,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/events', [CalendarController::class, 'index']);
+Route::post('/events', [CalendarController::class, 'index']);
 
 Route::post('/birthday-store', [BirthdayController::class, 'store']);
 Route::put('/birthday-update', [BirthdayController::class, 'update']);
@@ -44,3 +44,5 @@ Route::delete('/task-destroy/{id}', [TaskController::class, 'destroy']);
 Route::post('/login', \App\Http\Controllers\API\AuthController::class);
 
 Route::post('/update-colors', [CalendarController::class, 'updateColors']);
+
+Route::post('confirm-event', [EventController::class, 'confirm']);
