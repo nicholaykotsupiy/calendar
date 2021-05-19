@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Event\ConfirmEventRequest;
 use App\Http\Requests\Event\EditRequest;
 use App\Http\Requests\Event\StoreRequest;
 use App\Http\Resources\Event\EventResource;
@@ -55,7 +56,7 @@ class EventController extends Controller
         return response()->json(new EventResource($event));
     }
 
-    public function confirm(Request $request)
+    public function confirm(ConfirmEventRequest $request)
     {
         $guest = Guest::where('uuid', $request->uuid)->first();
 
@@ -87,10 +88,7 @@ class EventController extends Controller
         $event = Event::find($eventData['id']);
 
         $event->name = $eventData['name'];
-        //поле может быть пустым
-        if ($request->event['location']) {
-            $event->location = $eventData['location'];
-        }
+        $event->location = $eventData['location'];
         $event->description = $eventData['description'];
         $event->date_start = $eventData['dateStart'];
         $event->date_end = $eventData['dateEnd'];
