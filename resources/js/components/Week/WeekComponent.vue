@@ -22,59 +22,61 @@
                 <td>{{ time.format('HH:mm') }}</td>
                 <td v-for="day in days">
                     <!--                    {{ getEventsForThisDateTime(day, time) }}-->
-                    <template v-for="event in getEventsForThisDateTime(day, time)">
-                        <template v-if="event.type === 'event'">
-                            <div class="daygrid-day-event" :id="`event-`+event.id+'-'+day.index">
-                                {{ event.name }}
-                                <modal-edit
-                                    :id="`event-`+event.id+'-'+day.index"
-                                    type-event="event"
-                                    :id-event="event.id"
-                                    :edit-modal-title="event.name"
-                                    :edit-modal-time="event.timeStart"
-                                >
-                                </modal-edit>
-                            </div>
-                        </template>
-                        <template v-if="event.type === 'reminder'">
-                            <div class="daygrid-day-reminder" :id="`reminder-`+event.id+'-'+day.index">
-                                {{ event.name }}
-                                <modal-edit
-                                    :id="`reminder-`+event.id+'-'+day.index"
-                                    type-event="reminder"
-                                    :id-event="event.id"
-                                    :edit-modal-title="event.name"
-                                    :edit-modal-time="event.timeStart"
-                                    :description="event.description"
-                                >
-                                </modal-edit>
-                            </div>
-                        </template>
-                        <template v-if="event.type === 'task'">
-                            <div class="daygrid-day-task" :id="`task-`+event.id+'-'+day.index">
-                                {{ event.name }}
-                                <modal-edit
-                                    :id="`task-`+event.id+'-'+day.index"
-                                    type-event="task"
-                                    :id-event="event.id"
-                                    :edit-modal-title="event.name"
-                                    :edit-modal-time="event.timeStart"
-                                >
-                                </modal-edit>
-                            </div>
-                        </template>
-                        <template v-if="event.type === 'birthday'">
-                            <div class="daygrid-day-birthday" :id="`birthday-`+event.id+'-'+day.index">
-                                {{ event.name }}
-                                <modal-edit
-                                    :id="`birthday-`+event.id+'-'+day.index"
-                                    type-event="birthday"
-                                    :id-event="event.id"
-                                    :edit-modal-title="event.name"
-                                    :edit-modal-time="event.timeStart"
-                                >
-                                </modal-edit>
-                            </div>
+                    <template v-for="event in allEventsForWeek">
+                        <template v-if="isEventDateTime(event, day, time)">
+                            <template v-if="event.type === 'event'">
+                                <div class="daygrid-day-event" :id="`event-`+event.id+'-'+day.index">
+                                    {{ event.name }}
+                                    <modal-edit
+                                        :id="`event-`+event.id+'-'+day.index"
+                                        type-event="event"
+                                        :id-event="event.id"
+                                        :edit-modal-title="event.name"
+                                        :edit-modal-time="event.timeStart"
+                                    >
+                                    </modal-edit>
+                                </div>
+                            </template>
+                            <template v-if="event.type === 'reminder'">
+                                <div class="daygrid-day-reminder" :id="`reminder-`+event.id+'-'+day.index">
+                                    {{ event.name }}
+                                    <modal-edit
+                                        :id="`reminder-`+event.id+'-'+day.index"
+                                        type-event="reminder"
+                                        :id-event="event.id"
+                                        :edit-modal-title="event.name"
+                                        :edit-modal-time="event.timeStart"
+                                        :description="event.description"
+                                    >
+                                    </modal-edit>
+                                </div>
+                            </template>
+                            <template v-if="event.type === 'task'">
+                                <div class="daygrid-day-task" :id="`task-`+event.id+'-'+day.index">
+                                    {{ event.name }}
+                                    <modal-edit
+                                        :id="`task-`+event.id+'-'+day.index"
+                                        type-event="task"
+                                        :id-event="event.id"
+                                        :edit-modal-title="event.name"
+                                        :edit-modal-time="event.timeStart"
+                                    >
+                                    </modal-edit>
+                                </div>
+                            </template>
+                            <template v-if="event.type === 'birthday'">
+                                <div class="daygrid-day-birthday" :id="`birthday-`+event.id+'-'+day.index">
+                                    {{ event.name }}
+                                    <modal-edit
+                                        :id="`birthday-`+event.id+'-'+day.index"
+                                        type-event="birthday"
+                                        :id-event="event.id"
+                                        :edit-modal-title="event.name"
+                                        :edit-modal-time="event.timeStart"
+                                    >
+                                    </modal-edit>
+                                </div>
+                            </template>
                         </template>
                     </template>
                 </td>
@@ -86,7 +88,6 @@
 
 import DayCalendarNavigation from "../DayCalendar/DayCalendarComponents/DayCalendarNavigation";
 import {mapGetters, mapMutations} from 'vuex'
-
 
 export default {
     name: "Week",
@@ -100,17 +101,16 @@ export default {
             dFirstMonth: 1,
             day: ["Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота", "Воскресенье"],
             months: ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"],
-
             days: [],
             daysOfCurrentWeek: [],
         }
     },
     computed: {
-        allEventsForDay() {
-            return this.allEventsForDay
-        },
         holidays() {
             return this.holidays
+        },
+        allEventsForWeek() {
+            return this.allEventsForDay
         },
         ...mapGetters([
             'allEventsForDay',
@@ -124,16 +124,19 @@ export default {
             }
 
             return times;
-        }
+        },
     },
     created() {
-        console.log(this.$moment(1, 'hh').format('HH:mm'))
         const startDateOfCurrentWeek = this.$moment().weekday(0);
         const endDateOfCurrentWeek = this.$moment().weekday(6);
         this.daysOfCurrentWeek = this.getDaysBetweenTwoDates(startDateOfCurrentWeek, endDateOfCurrentWeek);
         this.days = this.daysOfCurrentWeek;
     },
-
+    watch: {
+        allEventsForWeek: () => {
+            // window.location.reload()
+        }
+    },
     methods: {
         ...mapMutations([
             'prevWeek',
@@ -182,20 +185,17 @@ export default {
         byField(field) {
             return (a, b) => a[field] > b[field] ? 1 : -1
         },
-        getEventsForThisDateTime(date, time) {
-            let eventsOfCurrentDate = [];
+        isEventDateTime(event, date, time) {
             const thisDate = this.$moment(date.full_date).format('YYYY-MM-D');
             const thisTime = this.$moment(time).format('HH:mm:ss');
-            const eventOfThisDay = _.find(this.allEventsForDay, {'dateStart': thisDate, 'timeStart': thisTime});
 
-            if (eventOfThisDay) {
-                console.log(eventOfThisDay)
-                eventsOfCurrentDate.push(eventOfThisDay);
+            if (event.dateStart === thisDate && event.timeStart === thisTime) {
+                return true;
             }
 
-            return eventsOfCurrentDate;
+            return false;
         }
-    }
+    },
 }
 </script>
 
@@ -227,7 +227,8 @@ td, th {
     color: #808080;
 
 }
-.today{
+
+.today {
     background: #1b4b72;
     color: white;
     border-radius: 50%;
@@ -237,6 +238,7 @@ td, th {
     display: flex;
     align-content: space-between;
 }
+
 .table-month thead td {
     font-style: normal;
     font-weight: 900;
