@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\CalendarColor\UpdateColors;
+use App\Http\Requests\CalendarColor\UpdateColorsRequest;
 use App\Http\Resources\Birthday\StoreResource;
 use App\Http\Resources\Event\EventResource;
 use App\Http\Resources\Reminder\ReminderResource;
@@ -52,7 +52,7 @@ class CalendarController extends Controller
         return response()->json(['birthdays' => $birthdays, 'events' => $responseEvents, 'reminders' => $reminders, 'tasks' => $tasks]);
     }
 
-    public function updateColors(UpdateColors $request)
+    public function updateColors(UpdateColorsRequest $request)
     {
         $events = null;
 
