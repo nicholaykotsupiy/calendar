@@ -1,86 +1,85 @@
 <template>
     <div>
-        <div class="flex">
-            <div>
-                <button v-on:click="prevWeek"><</button>
-            </div>
-            <div>
-                <button v-on:click="nextWeek">></button>
-            </div>
-            <div> {{ switchMonth() }} {{ year }}</div>
-        </div>
-        <table class="week">
-            <tr class="head">
-                <th>день</th>
-                <th v-for="day in days">
-                    <span>{{ day.day_of_week.toUpperCase() }}</span>
-                    <span :class="isCurrentDay(day) ? 'today' : ''">{{ day.day_of_month }}</span>
-
-                </th>
-            </tr>
-            <tr v-for="time in times">
+        <table class="table">
+            <thead>
+                <tr class="head">
+                    <th>день</th>
+                    <th v-for="day in days">
+                        <span>{{ day.day_of_week.toUpperCase() }}</span>
+                        <span :class="isCurrentDay(day) ? 'today' : ''">
+                            <span :class="dayIsHoliday(day) ? 'daygrid-day-number holiday' : ''"
+                                  @click="dayClickHandler(day)">
+                                <router-link
+                                    to="/"
+                                :style="{ }">
+                                    <span :style="isCurrentDay(day) || dayIsHoliday(day) ? '' : {color: '#808080'}">
+                                        {{ day.day_of_month }}
+                                    </span>
+                                </router-link>
+                            </span>
+                        </span>
+                        <!--     holiday               -->
+                        <template v-if="dayIsHoliday(day)">
+                            <div class="daygrid-day-ukr" v-for="holiday in getHolidaysByDay(day)">
+                                {{ holiday.summary}}
+                            </div>
+                        </template>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="time in times">
                 <td>{{ time.format('HH:mm') }}</td>
                 <td v-for="day in days">
+
                     <!--                    {{ getEventsForThisDateTime(day, time) }}-->
                     <template v-for="event in allEventsForWeek">
                         <template v-if="isEventDateTime(event, day, time)">
                             <template v-if="event.type === 'event'">
                                 <div class="daygrid-day-event" :id="`event-`+event.id+'-'+day.index">
                                     {{ event.name }}
-                                    <modal-edit
+                                    <edit-modal
                                         :id="`event-`+event.id+'-'+day.index"
-                                        type-event="event"
-                                        :id-event="event.id"
-                                        :edit-modal-title="event.name"
-                                        :edit-modal-time="event.timeStart"
+                                        :event="event"
                                     >
-                                    </modal-edit>
+                                    </edit-modal>
                                 </div>
                             </template>
                             <template v-if="event.type === 'reminder'">
                                 <div class="daygrid-day-reminder" :id="`reminder-`+event.id+'-'+day.index">
                                     {{ event.name }}
-                                    <modal-edit
+                                    <edit-modal
                                         :id="`reminder-`+event.id+'-'+day.index"
-                                        type-event="reminder"
-                                        :id-event="event.id"
-                                        :edit-modal-title="event.name"
-                                        :edit-modal-time="event.timeStart"
-                                        :description="event.description"
+                                        :event="event"
                                     >
-                                    </modal-edit>
+                                    </edit-modal>
                                 </div>
                             </template>
                             <template v-if="event.type === 'task'">
                                 <div class="daygrid-day-task" :id="`task-`+event.id+'-'+day.index">
                                     {{ event.name }}
-                                    <modal-edit
+                                    <edit-modal
                                         :id="`task-`+event.id+'-'+day.index"
-                                        type-event="task"
-                                        :id-event="event.id"
-                                        :edit-modal-title="event.name"
-                                        :edit-modal-time="event.timeStart"
+                                        :event="event"
                                     >
-                                    </modal-edit>
+                                    </edit-modal>
                                 </div>
                             </template>
                             <template v-if="event.type === 'birthday'">
                                 <div class="daygrid-day-birthday" :id="`birthday-`+event.id+'-'+day.index">
                                     {{ event.name }}
-                                    <modal-edit
+                                    <edit-modal
                                         :id="`birthday-`+event.id+'-'+day.index"
-                                        type-event="birthday"
-                                        :id-event="event.id"
-                                        :edit-modal-title="event.name"
-                                        :edit-modal-time="event.timeStart"
+                                        :event="event"
                                     >
-                                    </modal-edit>
+                                    </edit-modal>
                                 </div>
                             </template>
                         </template>
                     </template>
                 </td>
             </tr>
+            </tbody>
         </table>
     </div>
 </template>
@@ -88,33 +87,60 @@
 
 import DayCalendarNavigation from "../DayCalendar/DayCalendarComponents/DayCalendarNavigation";
 import {mapGetters, mapMutations} from 'vuex'
+import EditModal from "../Events/Edit/EditModal";
 
 export default {
     name: "Week",
-    components: {DayCalendarNavigation},
+    components: {
+        DayCalendarNavigation,
+        EditModal,
+    },
 
     data() {
 
         return {
-            month: new Date().getMonth(),
-            year: new Date().getFullYear(),
             dFirstMonth: 1,
-            day: ["Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота", "Воскресенье"],
             months: ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"],
+            date: new Date(),
             days: [],
             daysOfCurrentWeek: [],
         }
     },
+    mounted() {
+        this.setIsWeek(true)
+        this.setTitleNavigationCalendarWeek(this.months[this.month] + ' ' + this.year)
+    },
+    beforeDestroy() {
+        this.setIsWeek(false)
+    },
     computed: {
+        isWeek() {
+            return this.isWeek
+        },
         holidays() {
             return this.holidays
         },
         allEventsForWeek() {
             return this.allEventsForDay
         },
+        titleNavigationCalendarWeek(state) {
+            return state.titleNavigationCalendarWeek
+        },
+        month() {
+            return this.monthCalendarMonth
+        },
+        year() {
+            return this.yearCalendarWeek
+        },
+
         ...mapGetters([
+            'isWeek',
             'allEventsForDay',
             'holidays',
+            'titleNavigationCalendarWeek',
+            'weekCalendarWeek',
+            'monthCalendarMonth',
+            'yearCalendarWeek',
         ]),
         times() {
             let times = [];
@@ -127,21 +153,26 @@ export default {
         },
     },
     created() {
-        const startDateOfCurrentWeek = this.$moment().weekday(0);
-        const endDateOfCurrentWeek = this.$moment().weekday(6);
+        const startDateOfCurrentWeek = this.$moment().year(this.yearCalendarWeek).weekday(0).week(this.weekCalendarWeek);
+        const endDateOfCurrentWeek = this.$moment().year(this.yearCalendarWeek).weekday(6).week(this.weekCalendarWeek);
         this.daysOfCurrentWeek = this.getDaysBetweenTwoDates(startDateOfCurrentWeek, endDateOfCurrentWeek);
         this.days = this.daysOfCurrentWeek;
     },
+
     watch: {
-        allEventsForWeek: () => {
-            // window.location.reload()
-        }
+        weekCalendarWeek(week) {
+            const startDateOfCurrentWeek = this.$moment().year(this.yearCalendarWeek).weekday(0).week(week);
+            const endDateOfCurrentWeek = this.$moment().year(this.yearCalendarWeek).weekday(6).week(week);
+            this.daysOfCurrentWeek = this.getDaysBetweenTwoDates(startDateOfCurrentWeek, endDateOfCurrentWeek);
+            this.days = this.daysOfCurrentWeek;
+        },
     },
+
     methods: {
         ...mapMutations([
+            'setIsWeek',
             'prevWeek',
             'nextWeek',
-
         ]),
 
         getDaysBetweenTwoDates(startDate, endDate) {
@@ -165,13 +196,11 @@ export default {
             }
             return false;
         },
-        prevWeek() {
 
+        prevWeek() {
             const startDate = this.$moment(this.days[0].full_date).subtract('7', 'days');
             const endDate = this.$moment(this.days[this.days.length - 1].full_date).subtract('7', 'days');
             this.days = this.getDaysBetweenTwoDates(startDate, endDate);
-
-
         },
         nextWeek() {
             const startDate = this.$moment(this.days[0].full_date).add('7', 'days');
@@ -194,15 +223,37 @@ export default {
             }
 
             return false;
-        }
+        },
+        dayIsHoliday(day) {
+            const thisDate = this.$moment(day.full_date).format('YYYY-MM-DD');
+            if (this.holidays[thisDate]) {
+                return true;
+            }
+
+            return false;
+        },
+        getHolidaysByDay(day) {
+            const thisDate = this.$moment(day.full_date).format('YYYY-MM-DD');
+
+            return this.holidays[thisDate];
+        },
+        dayClickHandler(e) {
+            let currentDate = new Date()
+            this.swichToDate(`${currentDate.getMonth() + 1}/${e.index}/${currentDate.getFullYear()}`)
+        },
+        capitalizeFirstLetter(str) {
+            return str.charAt(0).toUpperCase() + str.slice(1);
+        },
     },
 }
 </script>
 
 <style scoped>
-
 .head td {
     width: 100px;
+}
+.head th{
+    width: 25px;
 }
 
 table {
@@ -220,26 +271,16 @@ td, th {
     border: 1px solid #B2B2B2;
     text-align: left;
     white-space: nowrap;
-    font-weight: 500;
+    font-weight: bold;
     font-size: 12px;
     line-height: 30px;
     background: white;
     color: #808080;
-
 }
 
-.today {
-    background: #1b4b72;
-    color: white;
-    border-radius: 50%;
-}
 
-.flex {
-    display: flex;
-    align-content: space-between;
-}
 
-.table-month thead td {
+.table-month thead td a{
     font-style: normal;
     font-weight: 900;
     font-size: 12px;
@@ -264,14 +305,19 @@ td, th {
     color: #CCCCCC;
     border: 1px solid #F5F5F5;
 }
-
+.today {
+    color: black;
+    text-decoration: none;
+}
+a {
+    text-decoration: none;
+}
 .daygrid-day-number a, .daygrid-day-number-without-ukr a {
     cursor: pointer;
     color: inherit;
     text-decoration: none;
     padding-left: 10px;
 }
-
 
 .daygrid-day-reminder {
     margin: 2px;
@@ -328,6 +374,36 @@ td, th {
     color: #86488A;
     text-align: center;
 }
+.daygrid-day-number a{
+    padding-right: 10px;
+}
 
+.daygrid-day-number {
+    width: 25px;
+    text-decoration: none;
+}
+
+.holiday {
+    /*width: 25px;*/
+    /*height: 25px;*/
+    color: #ffff;
+    background: red;
+    border-radius: 3px;
+    text-align: center;
+    line-height: 24px;
+    text-decoration: none;
+}
+.daygrid-day-ukr {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+    color: #222222;
+    font-weight: bold;
+    text-align: left;
+    padding-left: 5px;
+    line-height: 18px;
+
+}
 </style>
 

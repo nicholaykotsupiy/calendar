@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import month from "./month";
 import day from "./day";
+import week from "./week";
 import year from "./year";
 import createPersistedState from "vuex-persistedstate";
 
@@ -13,7 +14,8 @@ export default new Vuex.Store({
     modules: {
         month,
         day,
-        year
+        year,
+       week
     },
     state: {
         holidays: {},

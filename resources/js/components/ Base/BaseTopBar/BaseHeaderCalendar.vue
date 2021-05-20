@@ -22,6 +22,10 @@
             <template v-else-if="isMonth">
                 <div class="col-2 date-info">{{ titleNavigationCalendarMonth }}</div>
             </template>
+            <!--            если отображается календарь в масштабе неделя -->
+            <template v-else-if="isWeek">
+                <div class="col-2 date-info">{{ titleNavigationCalendarWeek }}</div>
+            </template>
 <!--            если отображается календарь в масштабе день-->
             <template v-else>
                 <div class="col-2 date-info">{{ dateInterface }}</div>
@@ -84,13 +88,22 @@ export default {
         titleNavigationCalendarYear() {
             return this.titleNavigationCalendarYear
         },
+        isWeek() {
+            return this. isWeek
+        },
+
+        titleNavigationCalendarWeek() {
+            return this.titleNavigationCalendarWeek
+        },
 
         ...mapGetters([
             'isMonth',
             'titleNavigationCalendarMonth',
             'dateInterface',
             'isYear',
-            'titleNavigationCalendarYear'
+            'titleNavigationCalendarYear',
+            'isWeek',
+            'titleNavigationCalendarWeek',
         ])
     },
 
