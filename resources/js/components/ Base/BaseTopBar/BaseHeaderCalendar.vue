@@ -30,10 +30,7 @@
             <template v-else>
                 <div class="col-2 date-info">{{ dateInterface }}</div>
             </template>
-            <form class="col-5 search px-2">
-                <img :src="search" alt="search">
-                <input type="text" class="border-0" placeholder="Поиск">
-            </form>
+            <div class="col-5 search px-2"></div>
         </div>
         <nav class="col-2 pr-4 d-flex flex-column position-relative">
             <div  @click="openMenu" class="drop_day day d-flex justify-content-center align-items-center">
