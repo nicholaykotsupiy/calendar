@@ -26,7 +26,7 @@ export default new Vuex.Store({
         currentDate: new Date(),
         access_token: '',
         resetPasswordEmail: '',
-
+        user: null,
         isCreateEventWindowVisible: true,
         isCreateReminderWindowVisible: false,
         isCreateTaskWindowVisible: false,
@@ -529,5 +529,5 @@ export default new Vuex.Store({
             return status.eventEdit
         }
     },
-    plugins: [createPersistedState({paths: ['access_token', 'resetPasswordEmail']})],
+    plugins: [createPersistedState({paths: ['user', 'access_token', 'resetPasswordEmail']})],
 })
