@@ -6,6 +6,7 @@ import App from './App.vue'
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 import  'bootstrap-vue/dist/bootstrap-vue.css'
 import moment from 'moment';
+import Vue from 'vue';
 
 moment.locale('ru');
 
@@ -18,6 +19,7 @@ Vue.component('left-navigation', require('./components/Navigation/LeftNavigation
 Vue.component('the-year', require('./components/Year/TheYear.vue').default);
 Vue.component('day-calendar', require('./components/DayCalendar/DayCalendarWrapper').default);
 Vue.component('create-events-window', require('./components/Events/Create/CreateEventsWindow').default);
+Vue.component('search-calendar', require('./components/ Base/BaseTopBar/Search/SearchCalendar').default);
 
 Vue.use(BootstrapVue)
 Vue.use(IconsPlugin)

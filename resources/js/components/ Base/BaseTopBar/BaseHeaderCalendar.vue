@@ -26,9 +26,10 @@
             <template v-else>
                 <div class="col-2 date-info">{{ dateInterface }}</div>
             </template>
-            <form class="col-5 search px-2">
+            <form @click="openSearch" class="col-5 search px-2">
                 <img :src="search" alt="search">
                 <input type="text" class="border-0" placeholder="Поиск">
+                <search-calendar v-if="activeSearch" @click="openSearch"></search-calendar>
             </form>
         </div>
         <nav class="col-2 pr-4 d-flex flex-column position-relative">
@@ -65,6 +66,7 @@ export default {
         right_arrow,
         arrow_down,
         search,
+        activeSearch: false,
     }),
 
     computed: {
@@ -100,6 +102,9 @@ export default {
         },
         openMenu () {
             this.activeMenu = !this.activeMenu
+        },
+        openSearch() {
+            this.activeSearch = !this.activeSearch
         }
     },
 }
