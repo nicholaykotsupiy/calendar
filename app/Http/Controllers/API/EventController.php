@@ -111,13 +111,14 @@ class EventController extends Controller
         return response()->json(new EventResource($event), 200);
     }
 
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        $event = Event::find($id);
+        $user = User::find($request->user_id);
+        $event = Event::find($request->id);
 
-        if($event)
+        if($event->user_id === $user->id)
         {
-            $guests = Guest::where('event_id', $id)->get();
+            $guests = Guest::where('event_id', $request->user_id)->get();
 
             foreach ($guests as $guest)
             {

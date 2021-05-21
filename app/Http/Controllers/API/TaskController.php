@@ -74,11 +74,12 @@ class TaskController extends Controller
         return response()->json(new TaskResource($task), 200);
     }
 
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        $task = Task::find($id);
+        $user = User::find($request->user_id);
+        $task = Task::find($request->id);
 
-        if($task)
+        if($task->user_id === $user->id)
         {
             $task->delete();
             return response()->json('Good', 200);

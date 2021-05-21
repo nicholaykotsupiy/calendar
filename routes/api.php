@@ -27,19 +27,19 @@ Route::post('/events', [CalendarController::class, 'index']);
 
 Route::post('/birthday-store', [BirthdayController::class, 'store']);
 Route::put('/birthday-update', [BirthdayController::class, 'update']);
-Route::delete('/birthday-destroy/{id}', [BirthdayController::class, 'destroy']);
+Route::post('/birthday-destroy', [BirthdayController::class, 'destroy']);
 
 Route::post('/event-store', [EventController::class, 'store']);
 Route::put('/event-update', [EventController::class, 'update']);
-Route::delete('/event-destroy/{id}', [EventController::class, 'destroy']);
+Route::post('/event-destroy', [EventController::class, 'destroy']);
 
 Route::post('/reminder-store', [ReminderController::class, 'store']);
 Route::put('/reminder-update', [ReminderController::class, 'update']);
-Route::delete('/reminder-destroy/{id}', [ReminderController::class, 'destroy']);
+Route::post('/reminder-destroy', [ReminderController::class, 'destroy']);
 
 Route::post('/task-store', [TaskController::class, 'store']);
 Route::put('/task-update', [TaskController::class, 'update']);
-Route::delete('/task-destroy/{id}', [TaskController::class, 'destroy']);
+Route::post('/task-destroy', [TaskController::class, 'destroy']);
 
 Route::post('/login', \App\Http\Controllers\API\AuthController::class);
 
