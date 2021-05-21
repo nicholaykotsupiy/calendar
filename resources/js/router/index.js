@@ -66,6 +66,17 @@ const routes = [
                 },
             },
             {
+                path: 'search-results',
+                name: 'SearchResults',
+                component: () => import('../components/ Base/BaseTopBar/Search/SearchResults'),
+                props: true,
+                meta: {
+                    middleware: [
+                        isLogin
+                    ]
+                },
+            },
+            {
                 path: 'confirm-event/:uuid',
                 component: () => import('../components/Notification/ConfirmEvent'),
                 props: true,

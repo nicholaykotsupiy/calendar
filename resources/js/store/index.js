@@ -43,9 +43,14 @@ export default new Vuex.Store({
         valueDeleteTypeEvent: null,
         eventEdit: {},
         key: 0,
+
+        searchResults: null,
     },
 
     mutations: {
+        setSearchResults(state, results) {
+            state.searchResults = results
+        },
         setUser(state, user) {
             state.user = user;
         },

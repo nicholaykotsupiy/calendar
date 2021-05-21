@@ -28,8 +28,8 @@
             </template>
             <form @click="openSearch" class="col-5 search px-2">
                 <img :src="search" alt="search">
-                <input type="text" class="border-0" placeholder="Поиск">
-                <search-calendar v-if="activeSearch" @click="openSearch"></search-calendar>
+                <input v-model="searchText" type="text" class="border-0" placeholder="Поиск">
+                <search-calendar :searchText="searchText" v-if="activeSearch" @click="openSearch"></search-calendar>
             </form>
         </div>
         <nav class="col-2 pr-4 d-flex flex-column position-relative">
@@ -67,6 +67,7 @@ export default {
         arrow_down,
         search,
         activeSearch: false,
+        searchText: null,
     }),
 
     computed: {

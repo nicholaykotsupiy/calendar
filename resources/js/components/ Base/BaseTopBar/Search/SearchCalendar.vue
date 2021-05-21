@@ -3,20 +3,41 @@
         <div class="position-search">
             <div class="flex btn-control">
                 <button>Сброс</button>
-                <button>Поиск</button>
+                <button @click="resultSearch">Поиск</button>
             </div>
         </div>
-        
     </form>
 </template>
 
 <script>
+import { mapState } from 'vuex';
 export default {
-
     name: "SearchCalendar",
-
-    setup() {
-        
+    data() {
+        return {
+            
+        }
+    },
+    props: ['searchText'],
+    methods: {
+        resultSearch() {
+            // поиск по подстроке
+            let searchResults = []
+            for (let i = 0; i < this.events.length; i++) {
+                if (this.events[i].description.indexOf(this.searchText) !== -1) {
+                    searchResults.push(this.events[i])
+                }
+            }
+            // todo фильтр по типу
+            // todo фильтр по дате
+            this.$store.commit('setSearchResults', searchResults);
+            this.$router.push('search-results')
+        }
+    },
+    computed: {
+        ...mapState([
+            'events'
+        ])
     },
 }
 </script>
