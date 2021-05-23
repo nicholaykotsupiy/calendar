@@ -127,7 +127,7 @@ export default {
             return state.titleNavigationCalendarWeek
         },
         month() {
-            return this.monthCalendarMonth
+            return this.monthCalendarWeek
         },
         year() {
             return this.yearCalendarWeek
@@ -139,7 +139,7 @@ export default {
             'holidays',
             'titleNavigationCalendarWeek',
             'weekCalendarWeek',
-            'monthCalendarMonth',
+            'monthCalendarWeek',
             'yearCalendarWeek',
         ]),
         times() {
@@ -173,6 +173,7 @@ export default {
             'setIsWeek',
             'prevWeek',
             'nextWeek',
+            'setTitleNavigationCalendarWeek'
         ]),
 
         getDaysBetweenTwoDates(startDate, endDate) {

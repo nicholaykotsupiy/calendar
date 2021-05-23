@@ -8,9 +8,10 @@ export default {
         return {
             isWeek: false,
             weekCalendarWeek: moment().week(),
+            monthCalendarWeek: moment().month(),
             yearCalendarWeek: moment().year(),
             titleNavigationCalendarWeek: '',
-            monthsCalendarMonth: ["Январь","Февраль","Март","Апрель","Май","Июнь","Июль","Август","Сентябрь","Октябрь","Ноябрь","Декабрь"],
+            // monthsCalendarMonth: ["Январь","Февраль","Март","Апрель","Май","Июнь","Июль","Август","Сентябрь","Октябрь","Ноябрь","Декабрь"],
         }
     },
 
@@ -22,8 +23,8 @@ export default {
         weekCalendarWeek(state) {
             return state.weekCalendarWeek
         },
-        monthCalendarMonth(state) {
-            return state.monthCalendarMonth
+        monthCalendarWeek(state) {
+            return state.monthCalendarWeek
         },
 
         yearCalendarWeek(state) {
@@ -32,9 +33,9 @@ export default {
         titleNavigationCalendarWeek(state) {
             return state.titleNavigationCalendarWeek
         },
-        monthsCalendarMonth(state) {
-            return state.monthsCalendarMonth
-        },
+        // monthsCalendarMonth(state) {
+        //     return state.monthsCalendarMonth
+        // },
     },
 
     mutations: {
@@ -44,6 +45,7 @@ export default {
         setTitleNavigationCalendarWeek(state, value) {
             state.titleNavigationCalendarWeek = value
         },
+
         switchToCurrentWeek(state) {
             state.weekCalendarWeek = moment().week();
         },
