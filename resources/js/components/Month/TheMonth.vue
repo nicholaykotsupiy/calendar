@@ -513,6 +513,12 @@ export default {
     .table-month tbody td div {
         line-height: 10px;
     }
+    .table-month td {
+        min-height: 50px;
+    }
+    .table-month thead td {
+        line-height: 50px;
+    }
 }
 
 @media (max-width: 800px) {
@@ -520,7 +526,16 @@ export default {
         font-size: 8px;
         letter-spacing: normal;
     }
-
 }
+
+@media (max-width: 650px) {
+    .table-month tbody td div, .daygrid-day-ukr {
+        font-size: 8px;
+    }
+    .daygrid-day-number-without-ukr a, a.holiday {
+        font-size: 10px;
+    }
+}
+
 
 </style>
