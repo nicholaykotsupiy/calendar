@@ -55,41 +55,44 @@ export default {
     methods: {
         resultSearch() {
             // поиск по подстроке
+            const dateStartFilterTime = this.dateStart ? new Date(this.dateStart).getTime() : null
+            const dateEndFilterTime = this.dateEnd ? new Date(this.dateEnd).getTime() : null
+            let searchItems = []
             let searchResults = []
             if (this.searcheByBirthday) {
-                for (let i = 0; i < this.birthdays.length; i++) {
-                    if (this.birthdays[i].description.indexOf(this.searchText) !== -1 || 
-                        this.birthdays[i].name.indexOf(this.searchText) !== -1) {
-                        searchResults.push(this.birthdays[i])
-                    }
-                }
+                searchItems = searchItems.concat(this.birthdays)
             }
             if (this.searcheByTasks) {
-                for (let i = 0; i < this.tasks.length; i++) {
-                    if (this.tasks[i].description.indexOf(this.searchText) !== -1 || 
-                        this.tasks[i].name.indexOf(this.searchText) !== -1) {
-                        searchResults.push(this.tasks[i])
-                    }
-                }
+                searchItems = searchItems.concat(this.tasks)
             }
             if (this.searcheByEvents) {
-                for (let i = 0; i < this.events.length; i++) {
-                    if (this.events[i].description.indexOf(this.searchText) !== -1 ||
-                        this.events[i].name.indexOf(this.searchText) !== -1) {
-                        searchResults.push(this.events[i])
-                    }
-                }
+                searchItems = searchItems.concat(this.events)
             }
             if (this.searcheByReminders) {
-                for (let i = 0; i < this.reminders.length; i++) {
-                    if (this.reminders[i].name.indexOf(this.searchText) !== -1) {
-                        searchResults.push(this.reminders[i])
+                searchItems = searchItems.concat(this.reminders)
+            }
+            for (let i = 0; i < searchItems.length; i++) {
+                let birthdayDateStartTime = new Date(searchItems[i].dateStart).getTime()
+                if ((searchItems[i].hasOwnProperty('description') && searchItems[i].description.indexOf(this.searchText) !== -1) || 
+                    searchItems[i].name.indexOf(this.searchText) !== -1) {
+                    if (this.dateStart && this.dateEnd) {
+                        if (birthdayDateStartTime >= dateStartFilterTime &&
+                            birthdayDateStartTime <= dateEndFilterTime) {
+                            searchResults.push(searchItems[i])
+                        }
+                    }else if (this.dateStart) {
+                        if (birthdayDateStartTime >= dateStartFilterTime) {
+                            searchResults.push(searchItems[i])
+                        }
+                    }else if (this.dateEnd) {
+                        if (birthdayDateStartTime <= dateEndFilterTime) {
+                            searchResults.push(searchItems[i])
+                        }
+                    }else {
+                        searchResults.push(searchItems[i])
                     }
                 }
             }
-            
-            // todo фильтр по типу
-            // todo фильтр по дате
             this.$store.commit('setSearchResults', searchResults);
             this.$router.push('search-results').catch(()=>{})
         },
