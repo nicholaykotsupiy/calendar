@@ -118,7 +118,7 @@ class EventController extends Controller
 
         if($event->user_id === $user->id)
         {
-            $guests = Guest::where('event_id', $request->user_id)->get();
+            $guests = Guest::where('event_id', $request->id)->get();
 
             foreach ($guests as $guest)
             {

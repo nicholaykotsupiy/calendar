@@ -131,11 +131,10 @@ export default new Vuex.Store({
             let findItem = state.events.findIndex(item => item.id === itemID)
             state.events.splice(findItem,1)
 
-            axios.post('api/event-destroy/', itemID)
+            axios.post('api/event-destroy', itemID)
                 .then(response => {
                     state.titleModalMessage = ''
                     state.bodyModalMessage = 'Событие удалено!'
-                    //console.log(response.data)
                 })
                 .catch(error => {
                     //сообщение о неуспешном удалении
@@ -149,7 +148,7 @@ export default new Vuex.Store({
             let findItem = state.reminders.findIndex(item => item.id === itemID)
             state.reminders.splice(findItem,1)
 
-            axios.post('api/reminder-destroy/', itemID)
+            axios.post('api/reminder-destroy', itemID)
                 .then(response => {
                     state.titleModalMessage = ''
                     state.bodyModalMessage = 'Событие удалено!'
@@ -166,7 +165,7 @@ export default new Vuex.Store({
             let findItem = state.birthdays.findIndex(item => item.id === itemID)
             state.birthdays.splice(findItem,1)
 
-            axios.post('api/birthday-destroy/', itemID)
+            axios.post('api/birthday-destroy', itemID)
                 .then(response => {
                     state.titleModalMessage = ''
                     state.bodyModalMessage = 'Событие удалено!'
@@ -183,7 +182,7 @@ export default new Vuex.Store({
             let findItem = state.tasks.findIndex(item => item.id === itemID)
             state.tasks.splice(findItem,1)
 
-            axios.post('api/task-destroy/', itemID)
+            axios.post('api/task-destroy', itemID)
                 .then(response => {
                     state.titleModalMessage = ''
                     state.bodyModalMessage = 'Событие удалено!'
