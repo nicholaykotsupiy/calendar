@@ -139,7 +139,8 @@ export default new Vuex.Store({
                 })
                 .catch(error => {
                     //сообщение о неуспешном удалении
-                    state.titleModalMessage = error.response.data
+                    console.log(error.response.data)
+                    state.titleModalMessage = ''
                     state.bodyModalMessage = 'Событие не удалось удалить!'
                 })
 
@@ -153,11 +154,13 @@ export default new Vuex.Store({
                 .then(response => {
                     state.titleModalMessage = ''
                     state.bodyModalMessage = 'Событие удалено!'
-                    //console.log(response.data)
+                    // console.log(response.data)
                 })
                 .catch(error => {
+                    console.log(error.response.data)
                     //сообщение о неуспешном удалении
-                    state.titleModalMessage = error.response.data
+                    console.log(error.response.data)
+                    state.titleModalMessage = ''
                     state.bodyModalMessage = 'Событие не удалось удалить!'
                 })
         },
@@ -174,7 +177,8 @@ export default new Vuex.Store({
                 })
                 .catch(error => {
                     //сообщение о неуспешном удалении
-                    state.titleModalMessage = error.response.data
+                    console.log(error.response.data)
+                    state.titleModalMessage = ''
                     state.bodyModalMessage = 'Событие не удалось удалить!'
                 })
         },
@@ -191,7 +195,8 @@ export default new Vuex.Store({
                 })
                 .catch(error => {
                     //сообщение о неуспешном удалении
-                    state.titleModalMessage = error.response.data
+                    console.log(error.response.data)
+                    state.titleModalMessage = ''
                     state.bodyModalMessage = 'Событие не удалось удалить!'
                 })
         },
