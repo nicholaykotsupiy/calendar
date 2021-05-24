@@ -1,5 +1,5 @@
 <template>
-    <div class="wrap mr-2">
+    <div class="wrap m-2">
         <div class="container calendar-center">
             <div class="calendar-year flex">
                 <div v-for="(month, monthIndex) in calendar" :key="monthIndex" class="month-lisst">
@@ -203,7 +203,7 @@ export default {
     }
     .container {
         /*max-width: 1120px;*/
-        max-height: 780px;
+        /*max-height: 780px;*/
     }
     .calendar-center {
         margin: 0 auto;
@@ -253,5 +253,8 @@ export default {
         background: #ffffff;
         box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.05);
         border-radius: 6px;
+    }
+    .month-lisst {
+        margin: 0 auto;
     }
 </style>
