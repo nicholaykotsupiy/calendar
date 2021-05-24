@@ -11,7 +11,7 @@ export default {
             monthCalendarWeek: moment().month(),
             yearCalendarWeek: moment().year(),
             titleNavigationCalendarWeek: '',
-            // monthsCalendarMonth: ["Январь","Февраль","Март","Апрель","Май","Июнь","Июль","Август","Сентябрь","Октябрь","Ноябрь","Декабрь"],
+            monthsCalendarWeek: ["Январь","Февраль","Март","Апрель","Май","Июнь","Июль","Август","Сентябрь","Октябрь","Ноябрь","Декабрь"],
         }
     },
 
@@ -48,6 +48,12 @@ export default {
 
         switchToCurrentWeek(state) {
             state.weekCalendarWeek = moment().week();
+            state.yearCalendarWeek = moment().year();
+
+            const date = (1 + (state.weekCalendarWeek - 1) * 7);
+            const monthOfWeekNumber = new Date(state.yearCalendarWeek, 0, date).getMonth();
+
+            state.titleNavigationCalendarWeek = state.monthsCalendarWeek[monthOfWeekNumber] + ' ' + state.yearCalendarWeek;
         },
         prevWeek(state) {
             state.weekCalendarWeek -= 1;
@@ -56,6 +62,11 @@ export default {
                 state.yearCalendarWeek -= 1;
                 state.weekCalendarWeek = 52;
             }
+
+            const date = (1 + (state.weekCalendarWeek - 1) * 7);
+            const monthOfWeekNumber = new Date(state.yearCalendarWeek, 0, date).getMonth();
+
+            state.titleNavigationCalendarWeek = state.monthsCalendarWeek[monthOfWeekNumber] + ' ' + state.yearCalendarWeek;
         },
         nextWeek(state) {
             state.weekCalendarWeek += 1;
@@ -64,6 +75,11 @@ export default {
                 state.yearCalendarWeek += 1;
                 state.weekCalendarWeek = 1;
             }
+
+            const date = (1 + (state.weekCalendarWeek - 1) * 7);
+            const monthOfWeekNumber = new Date(state.yearCalendarWeek, 0, date).getMonth();
+
+            state.titleNavigationCalendarWeek = state.monthsCalendarWeek[monthOfWeekNumber] + ' ' + state.yearCalendarWeek;
         },
     },
 }
