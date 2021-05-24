@@ -7,12 +7,13 @@
             <div class="time">
                 <div class="time-search">время</div>
             </div>
-            <div class="search-body">
+            <div v-if="this.searchResults && this.searchResults.length > 0" class="search-body">
                 <div v-for="result in searchResults" :key="result.id + result.type" class="search-result flex">
                     <div>{{ result.dateStart }}</div>
                     <div>{{ result.timeStart }} {{ result.name }}. {{ result.description }}</div>
                 </div>
             </div>
+            <div v-else>Ничего не найдено</div>
         </div>
     </div>
 </template>
@@ -24,7 +25,7 @@ export default {
     computed: {
         ...mapState([
             'searchResults',
-        ])
+        ]),
     },
 }
 </script>
