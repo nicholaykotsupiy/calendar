@@ -8,9 +8,9 @@
                 <div class="time-search">время</div>
             </div>
             <div class="search-body">
-                <div v-for="result in searchResults" :key="result.id" class="search-result flex">
+                <div v-for="result in searchResults" :key="result.id + result.type" class="search-result flex">
                     <div>{{ result.dateStart }}</div>
-                    <div>{{ result.timeStart }} {{ result.description }}</div>
+                    <div>{{ result.timeStart }} {{ result.name }}. {{ result.description }}</div>
                 </div>
             </div>
         </div>
