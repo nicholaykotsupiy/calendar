@@ -25,11 +25,11 @@
                 <input @keyup.enter="resultSearch" v-model="searchText" type="text" placeholder="Ключевые слова" id="searchCalendarText">
             </label>
             <label>Дата
-                <input type="date">
-                <input type="date">
+                <input v-model="dateStart" type="date">
+                <input v-model="dateEnd" type="date">
             </label>
             <div class="flex btn-control">
-                <button>Сброс</button>
+                <button @click.prevent="reset">Сброс</button>
                 <button @click.prevent="resultSearch">Поиск</button>
             </div>
         </div>
@@ -47,6 +47,8 @@ export default {
             searcheByEvents: true,
             searcheByReminders: true,
             searchText: null,
+            dateStart: null,
+            dateEnd: null,
         }
     },
     props: ['openSearch'],
@@ -90,6 +92,11 @@ export default {
             // todo фильтр по дате
             this.$store.commit('setSearchResults', searchResults);
             this.$router.push('search-results').catch(()=>{})
+        },
+        reset() {
+            this.searchText = null
+            this.dateStart = null
+            this.dateEnd = null
         }
     },
     computed: {
