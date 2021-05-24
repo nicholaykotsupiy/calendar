@@ -403,6 +403,7 @@ export default {
 .create-event-window {
     border-radius: 6px;
     max-width: 800px;
+    max-height: 100%;
     margin: 15px;
     background: #FFFFFF;
     box-shadow: 2px 2px 20px 1px;
