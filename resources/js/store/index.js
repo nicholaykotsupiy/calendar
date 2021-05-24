@@ -43,6 +43,7 @@ export default new Vuex.Store({
 
         valueDeleteIdEvent: null,
         valueDeleteTypeEvent: null,
+        valueDeleteEvent: null,
         eventEdit: {},
         key: 0,
     },
@@ -156,7 +157,6 @@ export default new Vuex.Store({
                     // console.log(response.data)
                 })
                 .catch(error => {
-                    console.log(error.response.data)
                     //сообщение о неуспешном удалении
                     console.log(error.response.data)
                     state.titleModalMessage = ''
@@ -378,6 +378,10 @@ export default new Vuex.Store({
             state.eventEdit = payload
         },
 
+        setValueDeleteEvent(state, payload) {
+            state.valueDeleteEvent = payload
+        },
+
     },
 
     actions: {
@@ -531,6 +535,10 @@ export default new Vuex.Store({
 
         eventEdit(state) {
             return status.eventEdit
+        },
+
+        valueDeleteEvent(state) {
+            return state.valueDeleteEvent
         }
     },
     plugins: [createPersistedState({paths: ['user', 'access_token', 'resetPasswordEmail']})],
