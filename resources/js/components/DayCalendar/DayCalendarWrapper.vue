@@ -1,6 +1,5 @@
 <template>
     <div>
-<!--        <TopNavigation />-->
         <Header />
 <!--        если выбран календарь в масштабе месяц -->
         <template v-if="isMonth">
