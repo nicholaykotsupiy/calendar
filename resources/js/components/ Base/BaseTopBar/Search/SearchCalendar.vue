@@ -22,7 +22,7 @@
                 </label>
             </div>
             <label>Что
-                <input v-model="searchText" type="text" placeholder="Ключевые слова" id="searchCalendarText">
+                <input @keyup.enter="resultSearch" v-model="searchText" type="text" placeholder="Ключевые слова" id="searchCalendarText">
             </label>
             <label>Дата
                 <input type="date">
