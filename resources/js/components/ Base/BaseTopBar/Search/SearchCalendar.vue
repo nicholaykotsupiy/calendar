@@ -46,7 +46,7 @@ export default {
             searcheByTasks: true,
             searcheByEvents: true,
             searcheByReminders: true,
-            searchText: null,
+            searchText: '',
             dateStart: null,
             dateEnd: null,
         }
@@ -94,7 +94,7 @@ export default {
             this.$router.push('search-results').catch(()=>{})
         },
         reset() {
-            this.searchText = null
+            this.searchText = ''
             this.dateStart = null
             this.dateEnd = null
         }
