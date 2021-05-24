@@ -1,10 +1,8 @@
 <template>
     <div class="search-calendar">
         <div class="position-search">
-            <label>
-                Область поиска*
-                <input type="text">
-            </label>
+            <div>Область поиска*</div>
+            <div class="name-filter">{{ inspectNameFilter }}</div>
             <div class="search-area">
                 <label class="container-checkbox">Дни рождения
                     <input v-model="searcheByBirthday" type="checkbox">
@@ -100,7 +98,23 @@ export default {
             'tasks',
             'events',
             'reminders',
-        ])
+        ]),
+        inspectNameFilter() {
+            let filter = []
+            if (this.searcheByBirthday){
+                filter.push('Дни рождения')
+            }
+            if (this.searcheByTasks) {
+                filter.push('Задачи')
+            }
+            if (this.searcheByEvents) {
+                filter.push('Мероприятия')
+            }
+            if (this.searcheByReminders) {
+                filter.push('Напоминания')
+            }
+            return filter.join(', ')
+        }
     },
 }
 </script>
@@ -137,6 +151,11 @@ export default {
         color: #ffffff;
         border: 2px solid #1875f0;
         background: #1875f0;
+    }
+    .name-filter {
+        border: 2px solid #d9d9d9;
+        max-width: 200px;
+        min-height: 25px;
     }
     .container-checkbox {
         display: block;
