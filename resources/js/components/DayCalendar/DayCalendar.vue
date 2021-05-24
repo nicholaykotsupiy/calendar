@@ -5,7 +5,7 @@
             <div v-if="open" class="col-3">
                 <BaseLeftBarCalendar class="left_bar"/>
             </div>
-            <div class="col-9">
+            <div class="col-xl-9 col-12">
                 <router-view></router-view>
             </div>
         </div>
