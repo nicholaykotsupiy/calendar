@@ -4,92 +4,92 @@
             <div class="backdrop-create-event-window">
                 <div class="create-event-window">
                     <div class="create-event">
-                        <div class="row justify-content-between py-2 header-create-event">
-                            <div class="col-md-11">
+                        <div class="row justify-content-around py-2 header-create-event">
+                            <div class="col-11">
                                 <div class="row text-center y-2">
                                     <template v-if="isCreateEventWindowVisible">
-                                        <div class="col-md-3">
+                                        <div class="col-md-3 col-sm-6 col-6 py-1">
                                             <button type="button" class="btn btn-primary" @click="showCreateEventWindow">
                                                 Мероприятие
                                             </button>
                                         </div>
-                                        <div class="col-md-3">
+                                        <div class="col-md-3 col-sm-6 col-6 py-1">
                                             <button type="button" class="btn btn-outline-primary" @click="showCreateReminderWindow">
                                                 Напоминание
                                             </button>
                                         </div>
-                                        <div class="col-md-3">
+                                        <div class="col-md-2 col-sm-6 col-6 py-1">
                                             <button type="button" class="btn btn-outline-primary" @click="showCreateTaskWindow">
                                                 Задача
                                             </button>
                                         </div>
-                                        <div class="col-md-3">
+                                        <div class="col-md-4 col-sm-6 col-6 py-1">
                                             <button type="button" class="btn btn-outline-primary" @click="showCreateBirthdayWindow">
                                                 День рождения
                                             </button>
                                         </div>
                                     </template>
                                     <template v-if="isCreateReminderWindowVisible">
-                                        <div class="col-md-3">
+                                        <div class="col-md-3 col-sm-6 col-6 py-1">
                                             <button type="button" class="btn btn-outline-primary" @click="showCreateEventWindow">
                                                 Мероприятие
                                             </button>
                                         </div>
-                                        <div class="col-md-3">
+                                        <div class="col-md-3 col-sm-6 col-6 py-1">
                                             <button type="button" class="btn btn-primary" @click="showCreateReminderWindow">
                                                 Напоминание
                                             </button>
                                         </div>
-                                        <div class="col-md-3">
+                                        <div class="col-md-2 col-sm-6 col-6 py-1">
                                             <button type="button" class="btn btn-outline-primary" @click="showCreateTaskWindow">
                                                 Задача
                                             </button>
                                         </div>
-                                        <div class="col-md-3">
+                                        <div class="col-md-4 col-sm-6 col-6 py-1">
                                             <button type="button" class="btn btn-outline-primary" @click="showCreateBirthdayWindow">
                                                 День рождения
                                             </button>
                                         </div>
                                     </template>
                                     <template v-if="isCreateTaskWindowVisible">
-                                        <div class="col-md-3">
+                                        <div class="col-md-3 col-sm-6 col-6 py-1">
                                             <button type="button" class="btn btn-outline-primary" @click="showCreateEventWindow">
                                                 Мероприятие
                                             </button>
                                         </div>
-                                        <div class="col-md-3">
+                                        <div class="col-md-3 col-sm-6 col-6 py-1">
                                             <button type="button" class="btn btn-outline-primary" @click="showCreateReminderWindow">
                                                 Напоминание
                                             </button>
                                         </div>
-                                        <div class="col-md-3">
+                                        <div class="col-md-2 col-sm-6 col-6 py-1">
                                             <button type="button" class="btn btn-primary" @click="showCreateTaskWindow">
                                                 Задача
                                             </button>
                                         </div>
-                                        <div class="col-md-3">
+                                        <div class="col-md-4 col-sm-6 col-6 py-1">
                                             <button type="button" class="btn btn-outline-primary" @click="showCreateBirthdayWindow">
                                                 День рождения
                                             </button>
                                         </div>
                                     </template>
                                     <template v-if="isCreateBirthdayWindowVisible">
-                                        <div class="col-md-3">
+                                        <div class="col-md-3 col-sm-6 col-6 py-1">
                                             <button type="button" class="btn btn-outline-primary" @click="showCreateEventWindow">
                                                 Мероприятие
                                             </button>
                                         </div>
-                                        <div class="col-md-3">
+                                        <div class="col-md-3 col-sm-6 col-6 py-1">
                                             <button type="button" class="btn btn-outline-primary" @click="showCreateReminderWindow">
                                                 Напоминание
                                             </button>
                                         </div>
-                                        <div class="col-md-3">
+                                        <div class="col-md-2 col-sm-6 col-6 py-1">
                                             <button type="button" class="btn btn-outline-primary" @click="showCreateTaskWindow">
                                                 Задача
                                             </button>
                                         </div>
-                                        <div class="col-md-3">
+                                        <div class="col-md-4 col-sm-6 col-6 py-1">
                                             <button type="button" class="btn btn-primary" @click="showCreateBirthdayWindow">
                                                 День рождения
                                             </button>
@@ -97,7 +97,7 @@
                                     </template>
                                 </div>
                             </div>
-                            <button type="button" class="col-md-1 close my-close" aria-label="Close" @click="close">
+                            <button type="button" class="col-1 close my-close" aria-label="Close" @click="close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
@@ -402,7 +402,9 @@ export default {
 }
 .create-event-window {
     border-radius: 6px;
-    width: 800px;
+    max-width: 800px;
+    max-height: 100%;
+    margin: 15px;
     background: #FFFFFF;
     box-shadow: 2px 2px 20px 1px;
     overflow-x: auto;
@@ -455,6 +457,9 @@ export default {
     width: 25px;
     top: 0px;
     right: 10px;
+}
+.btn {
+    white-space: nowrap;
 }
 
 </style>
