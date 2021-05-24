@@ -13,7 +13,7 @@
                     <div class="dropdown-divider"></div>
                     <router-link :to="{name: 'settings.login'}" class="dropdown-item drop_links ">Настройки безопасности</router-link>
                     <div class="dropdown-divider"></div>
-                    <router-link to="#" class="dropdown-item drop_links" @click.prevent="logout">Выход из системы</router-link>
+                    <a to="#" class="dropdown-item drop_links" @click.prevent="logout">Выход из системы</a>
                 </div>
             </div>
         </div>
