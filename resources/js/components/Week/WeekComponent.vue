@@ -22,7 +22,7 @@
                             <!--     holiday               -->
                             <template v-if="dayIsHoliday(day)">
                                 <div class="daygrid-day-ukr" v-for="holiday in getHolidaysByDay(day)">
-                                    {{ holiday.summary}}
+                                    {{ truncateHolidayName(holiday.summary) }}
                                 </div>
                             </template>
                         </th>
@@ -250,9 +250,12 @@ export default {
             let currentDate = new Date()
             this.swichToDate(`${currentDate.getMonth() + 1}/${e.index}/${currentDate.getFullYear()}`)
         },
-        capitalizeFirstLetter(str) {
-            return str.charAt(0).toUpperCase() + str.slice(1);
-        },
+        truncateHolidayName(holidayName){
+          return _.truncate(holidayName, {
+                'length': 15,
+                'separator': ' '
+            })
+        }
     },
 }
 </script>
@@ -266,6 +269,7 @@ table {
 }
 
 td, th {
+    width: 15px;
     border: 1px solid #B2B2B2;
     color: #808080;
     font-size: 12px;
@@ -358,8 +362,8 @@ a {
 }
 
 .holiday {
-    /*width: 25px;*/
-    /*height: 25px;*/
+    width: 15px;
+    height: 15px;
     color: #ffff;
     background: red;
     border-radius: 3px;
@@ -371,7 +375,6 @@ a {
     width: 100%;
     color: #222222;
     text-align: center;
-    padding-left: 5px;
     line-height: 18px;
 }
 
