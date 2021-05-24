@@ -141,7 +141,7 @@ export default new Vuex.Store({
                     //сообщение о неуспешном удалении
                     console.log(error.response.data)
                     state.titleModalMessage = ''
-                    state.bodyModalMessage = 'Событие не удалось удалить!'
+                    state.bodyModalMessage = 'Ошибка! Событие не удалось удалить!'
                 })
 
         },
@@ -161,7 +161,7 @@ export default new Vuex.Store({
                     //сообщение о неуспешном удалении
                     console.log(error.response.data)
                     state.titleModalMessage = ''
-                    state.bodyModalMessage = 'Событие не удалось удалить!'
+                    state.bodyModalMessage = 'Ошибка! Событие не удалось удалить!'
                 })
         },
 
@@ -179,7 +179,7 @@ export default new Vuex.Store({
                     //сообщение о неуспешном удалении
                     console.log(error.response.data)
                     state.titleModalMessage = ''
-                    state.bodyModalMessage = 'Событие не удалось удалить!'
+                    state.bodyModalMessage = 'Ошибка! Событие не удалось удалить!'
                 })
         },
 
@@ -197,7 +197,7 @@ export default new Vuex.Store({
                     //сообщение о неуспешном удалении
                     console.log(error.response.data)
                     state.titleModalMessage = ''
-                    state.bodyModalMessage = 'Событие не удалось удалить!'
+                    state.bodyModalMessage = 'Ошибка! Событие не удалось удалить!'
                 })
         },
 
