@@ -110,7 +110,7 @@ export default {
     },
     mounted() {
         this.setIsWeek(true)
-        this.setTitleNavigationCalendarWeek(this.months[this.month] + ' ' + this.year)
+        this.setTitleNavigationCalendarWeek(this.months[this.getMonthOfWeek(this.weekCalendarWeek, this.yearCalendarWeek)] + ' ' + this.yearCalendarWeek);
     },
     beforeDestroy() {
         this.setIsWeek(false)
@@ -177,6 +177,12 @@ export default {
             'nextWeek',
             'setTitleNavigationCalendarWeek'
         ]),
+
+        getMonthOfWeek(week, year) {
+            const date = (1 + (week - 1) * 7);
+
+            return new Date(year, 0, date).getMonth();
+        },
 
         getDaysBetweenTwoDates(startDate, endDate) {
             let now = startDate.clone(), days = [];
@@ -252,64 +258,29 @@ export default {
 </script>
 
 <style scoped>
-.head td {
-    width: 100px;
-}
-.head th{
-    width: 25px;
-}
-
 table {
     width: 100%;
     border-collapse: collapse;
     border: 2px solid white;
-    color: #B2B2B2;
-    left: 26.2%;
-    top: 200px;
     background: white;
 }
 
 td, th {
-    padding: 15px 20px;
     border: 1px solid #B2B2B2;
-    text-align: left;
-    white-space: nowrap;
-    font-weight: bold;
+    color: #808080;
     font-size: 12px;
     line-height: 30px;
-    background: white;
-    color: #808080;
-}
-
-
-
-.table-month thead td a{
-    font-style: normal;
-    font-weight: 900;
-    font-size: 12px;
-    line-height: 90px;
     text-align: center;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    color: #B3B3B3;
-}
+    padding: 15px 0px;
+    white-space: nowrap;
 
-.table-month td {
-    width: 14.286%;
-    font-family: Roboto;
-    font-style: normal;
+}
+th .daygrid-day-ukr{
     font-weight: bold;
     font-size: 14px;
-    line-height: 30px;
-    text-align: right;
-    min-height: 90px;
-    vertical-align: top;
-    /*padding-right: 10px;*/
-    color: #CCCCCC;
-    border: 1px solid #F5F5F5;
 }
 .today {
-    color: black;
+    color: #3490dc;
     text-decoration: none;
 }
 a {
@@ -397,13 +368,9 @@ a {
     text-decoration: none;
 }
 .daygrid-day-ukr {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
     width: 100%;
     color: #222222;
-    font-weight: bold;
-    text-align: left;
+    text-align: center;
     padding-left: 5px;
     line-height: 18px;
 }
