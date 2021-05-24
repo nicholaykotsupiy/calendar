@@ -95,6 +95,7 @@ export default {
             }
             this.$store.commit('setSearchResults', searchResults);
             this.$router.push('search-results').catch(()=>{})
+            this.$emit('close')
         },
         reset() {
             this.searchText = ''

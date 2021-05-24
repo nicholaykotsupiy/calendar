@@ -7,6 +7,7 @@ import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 import  'bootstrap-vue/dist/bootstrap-vue.css'
 import moment from 'moment';
 import Vue from 'vue';
+import vClickOutside from 'v-click-outside';
 
 moment.locale('ru');
 
@@ -23,6 +24,7 @@ Vue.component('search-calendar', require('./components/ Base/BaseTopBar/Search/S
 
 Vue.use(BootstrapVue)
 Vue.use(IconsPlugin)
+Vue.use(vClickOutside)
 
 window.Vue = require('vue').default;
 
