@@ -37,40 +37,52 @@
                         <template v-for="event in allEventsForWeek">
                             <template v-if="isEventDateTime(event, day, time)">
                                 <template v-if="event.type === 'event'">
-                                    <div class="daygrid-day-event" :id="`event-`+event.id+'-'+day.index">
+                                    <div class="daygrid-day-event"
+                                         :id="`event-`+event.id+'-'+day.day_of_month+'-'+time"
+                                         :style="{background: event.bg_color, color: event.main_color}"
+                                    >
                                         {{ event.name }}
                                         <edit-modal
-                                            :id="`event-`+event.id+'-'+day.index"
+                                            :id="`event-`+event.id+'-'+day.day_of_month+'-'+time"
                                             :event="event"
                                         >
                                         </edit-modal>
                                     </div>
                                 </template>
                                 <template v-if="event.type === 'reminder'">
-                                    <div class="daygrid-day-reminder" :id="`reminder-`+event.id+'-'+day.index">
+                                    <div class="daygrid-day-reminder"
+                                         :id="`reminder-`+event.id+'-'+day.day_of_month+'-'+time"
+                                         :style="{background: event.bg_color, color: event.main_color}"
+                                    >
                                         {{ event.name }}
                                         <edit-modal
-                                            :id="`reminder-`+event.id+'-'+day.index"
+                                            :id="`reminder-`+event.id+'-'+day.day_of_month+'-'+time"
                                             :event="event"
                                         >
                                         </edit-modal>
                                     </div>
                                 </template>
                                 <template v-if="event.type === 'task'">
-                                    <div class="daygrid-day-task" :id="`task-`+event.id+'-'+day.index">
+                                    <div class="daygrid-day-task"
+                                         :id="`task-`+event.id+'-'+day.day_of_month+'-'+time"
+                                         :style="{background: event.bg_color, color: event.main_color}"
+                                    >
                                         {{ event.name }}
                                         <edit-modal
-                                            :id="`task-`+event.id+'-'+day.index"
+                                            :id="`task-`+event.id+'-'+day.day_of_month+'-'+time"
                                             :event="event"
                                         >
                                         </edit-modal>
                                     </div>
                                 </template>
                                 <template v-if="event.type === 'birthday'">
-                                    <div class="daygrid-day-birthday" :id="`birthday-`+event.id+'-'+day.index">
+                                    <div class="daygrid-day-birthday"
+                                         :id="`birthday-`+event.id+'-'+day.day_of_month+'-'+time"
+                                         :style="{background: event.bg_color, color: event.main_color}"
+                                    >
                                         {{ event.name }}
                                         <edit-modal
-                                            :id="`birthday-`+event.id+'-'+day.index"
+                                            :id="`birthday-`+event.id+'-'+day.day_of_month+'-'+time"
                                             :event="event"
                                         >
                                         </edit-modal>
@@ -227,7 +239,11 @@ export default {
             const thisDate = this.$moment(date.full_date).format('YYYY-MM-D');
             const thisTime = this.$moment(time).format('HH:mm:ss');
 
-            if (event.dateStart === thisDate && event.timeStart === thisTime) {
+            let t1 = thisTime.split(':')
+            t1 = t1[0]
+            let t2 = (event.timeStart).split(':')
+            t2 = t2[0]
+            if (event.dateStart === thisDate && (event.timeStart === thisTime || Math.abs(t1-t2) === 0)) {
                 return true;
             }
 
