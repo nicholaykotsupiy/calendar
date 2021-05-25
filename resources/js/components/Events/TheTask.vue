@@ -272,18 +272,20 @@ export default {
                 this.errorDate = true
             }
 
-            //разница между времением - минимум час если даты совпадают
-            let firstTime = this.task.timeStart.split(':')
-            let secondTime = this.task.timeEnd.split(':')
-            let firstTimeInMinuts = firstTime[0]*60+firstTime[1]
-            let secondTimeInMinuts = secondTime[0]*60+secondTime[1]
-            let different = (secondTimeInMinuts - firstTimeInMinuts)/100
+            if (this.task.timeStart && this.task.timeEnd) {
+                //разница между времением - минимум час если даты совпадают
+                let firstTime = this.task.timeStart.split(':')
+                let secondTime = this.task.timeEnd.split(':')
+                let firstTimeInMinuts = firstTime[0]*60+firstTime[1]
+                let secondTimeInMinuts = secondTime[0]*60+secondTime[1]
+                let different = (secondTimeInMinuts - firstTimeInMinuts)/100
 
-            //проверка времени
-            if (this.task.dateStart === this.task.dateEnd && ( this.task.timeStart >= this.task.timeEnd || different < 60) ) {
-                this.errorStartTimeTask = true
-                this.errorEndTimeTask = true
-                this.errorTime = true
+                //проверка времени
+                if (this.task.dateStart === this.task.dateEnd && ( this.task.timeStart >= this.task.timeEnd || different < 60) ) {
+                    this.errorStartTimeTask = true
+                    this.errorEndTimeTask = true
+                    this.errorTime = true
+                }
             }
 
             if (!this.errorNameTask && !this.errorStartDateTask && !this.errorEndDateTask && !this.errorStartTimeTask

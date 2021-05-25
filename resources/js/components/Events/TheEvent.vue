@@ -247,18 +247,20 @@ export default {
                 this.errorDate = true
             }
 
-            //разница между времением - минимум час если даты совпадают
-            let firstTime = this.event.timeStart.split(':')
-            let secondTime = this.event.timeEnd.split(':')
-            let firstTimeInMinuts = firstTime[0]*60+firstTime[1]
-            let secondTimeInMinuts = secondTime[0]*60+secondTime[1]
-            let different = (secondTimeInMinuts - firstTimeInMinuts)/100
+            if (this.event.timeStart && this.event.timeEnd) {
+                //разница между времением - минимум час если даты совпадают
+                let firstTime = this.event.timeStart.split(':')
+                let secondTime = this.event.timeEnd.split(':')
+                let firstTimeInMinuts = firstTime[0]*60+firstTime[1]
+                let secondTimeInMinuts = secondTime[0]*60+secondTime[1]
+                let different = (secondTimeInMinuts - firstTimeInMinuts)/100
 
-            //проверка времени
-            if (this.event.dateStart === this.event.dateEnd && (this.event.timeStart >= this.event.timeEnd || different < 60) ) {
-                this.errorTimeStartEvent = true
-                this.errorTimeEndEvent = true
-                this.errorTime = true
+                //проверка времени
+                if (this.event.dateStart === this.event.dateEnd && (this.event.timeStart >= this.event.timeEnd || different < 60) ) {
+                    this.errorTimeStartEvent = true
+                    this.errorTimeEndEvent = true
+                    this.errorTime = true
+                }
             }
 
             //валидация на мейлы с помощью регулярные выражений в поле Гости
