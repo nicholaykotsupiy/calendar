@@ -55,71 +55,71 @@
                 <div class="form-label">Время окончания не должно быть меньше или равно времени начала события, разница - минимум час</div>
             </div>
             <template v-if="!errorDateStartEvent && !errorTimeStartEvent">
-                <div class="col-4 py-2">
+                <div class="col-12 col-sm-4 py-2">
                     <label class="form-label">Начало<span>*</span>:</label>
                 </div>
             </template>
             <template v-else>
-                <div class="col-4 py-2">
+                <div class="col-12 col-sm-4 py-2">
                     <label class="form-label">Начало<span class="error">*</span>:</label>
                 </div>
             </template>
             <template v-if="!errorDateStartEvent">
-                <div class="col-4 py-2">
+                <div class="col-6 col-sm-4 py-2">
                     <input v-model.trim="event.dateStart" type="date" class="form-control" id="dateStartEvent" name="dateStartEvent">
                 </div>
             </template>
             <template v-else>
-                <div class="col-4 py-2">
+                <div class="col-6 col-sm-4 py-2">
                     <input v-model.trim="event.dateStart" type="date" class="form-control error" id="dateStartEvent" name="dateStartEvent">
                 </div>
             </template>
             <template v-if="!errorTimeStartEvent">
-                <div class="col-4 py-2">
+                <div class="col-6 col-sm-4 py-2">
                     <input v-model.trim="event.timeStart" type="time" class="form-control" id="timeStartEvent" name="timeStartEvent">
                 </div>
             </template>
             <template v-else>
-                <div class="col-4 py-2">
+                <div class="col-6 col-sm-4 py-2">
                     <input v-model.trim="event.timeStart" type="time" class="form-control error" id="timeStartEvent" name="timeStartEvent">
                 </div>
             </template>
             <template v-if="!errorDateEndEvent && !errorTimeEndEvent">
-                <div class="col-4 py-2">
+                <div class="col-12 col-sm-4 py-2">
                     <label class="form-label">Окончание<span>*</span>:</label>
                 </div>
             </template>
             <template v-else>
-                <div class="col-4 py-3">
+                <div class="col-12 col-sm-4 py-2">
                     <label class="form-label">Окончание<span class="error">*</span>:</label>
                 </div>
             </template>
             <template v-if="!errorDateEndEvent">
-                <div class="col-4 py-3">
+                <div class="col-6 col-sm-4 py-2">
                     <input v-model.trim="event.dateEnd" type="date" class="form-control" id="dateEndEvent" name="dateStartEvent">
                 </div>
             </template>
             <template v-else>
-                <div class="col-4 py-3">
+                <div class="col-6 col-sm-4 py-2">
                     <input v-model.trim="event.dateEnd" type="date" class="form-control error" id="dateEndEvent" name="dateStartEvent">
                 </div>
             </template>
             <template v-if="!errorTimeEndEvent">
-                <div class="col-4 py-3">
+                <div class="col-6 col-sm-4 py-2">
                     <input v-model.trim="event.timeEnd" type="time" class="form-control" id="timeEndEvent" name="timeStartEvent">
                 </div>
             </template>
             <template v-else>
-                <div class="col-4 py-3">
+                <div class="col-6 col-sm-4 py-2">
                     <input v-model.trim="event.timeEnd" type="time" class="form-control error" id="timeEndEvent" name="timeStartEvent">
                 </div>
             </template>
         </div>
         <div class="row text-center py-3 footer-create-event">
-            <div class="col-md-6">
+            <div class="col-6">
                 <button type="submit" class="btn btn-primary btn-lg">Сохранить</button>
             </div>
-            <div class="col-md-6">
+            <div class="col-6">
                 <button type="button" class="btn btn-outline-secondary btn-lg" @click="close">Отмена</button>
             </div>
         </div>
@@ -247,18 +247,20 @@ export default {
                 this.errorDate = true
             }
 
-            //разница между времением - минимум час если даты совпадают
-            let firstTime = this.event.timeStart.split(':')
-            let secondTime = this.event.timeEnd.split(':')
-            let firstTimeInMinuts = firstTime[0]*60+firstTime[1]
-            let secondTimeInMinuts = secondTime[0]*60+secondTime[1]
-            let different = (secondTimeInMinuts - firstTimeInMinuts)/100
+            if (this.event.timeStart && this.event.timeEnd) {
+                //разница между времением - минимум час если даты совпадают
+                let firstTime = this.event.timeStart.split(':')
+                let secondTime = this.event.timeEnd.split(':')
+                let firstTimeInMinuts = firstTime[0]*60+firstTime[1]
+                let secondTimeInMinuts = secondTime[0]*60+secondTime[1]
+                let different = (secondTimeInMinuts - firstTimeInMinuts)/100
 
-            //проверка времени
-            if (this.event.dateStart === this.event.dateEnd && (this.event.timeStart >= this.event.timeEnd || different < 60) ) {
-                this.errorTimeStartEvent = true
-                this.errorTimeEndEvent = true
-                this.errorTime = true
+                //проверка времени
+                if (this.event.dateStart === this.event.dateEnd && (this.event.timeStart >= this.event.timeEnd || different < 60) ) {
+                    this.errorTimeStartEvent = true
+                    this.errorTimeEndEvent = true
+                    this.errorTime = true
+                }
             }
 
             //валидация на мейлы с помощью регулярные выражений в поле Гости
@@ -372,6 +374,12 @@ export default {
 
 .warning {
     color: darkred;
+}
+
+@media (max-width: 720px) {
+    .body-create-event {
+        padding: 15px;
+    }
 }
 
 </style>

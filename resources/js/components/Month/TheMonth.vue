@@ -1,5 +1,5 @@
 <template>
-    <div class="wrap mr-2">
+    <div class="wrap m-2">
         <div class="container calendar-center">
             <table class="table-month">
                 <thead>
@@ -12,20 +12,18 @@
                     <td v-for="(day, index) in week"                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               >
                         <div class="daygrid-day-frame">
                             <div class="daygrid-day-top flex">
-                                <!--                                праздники Украины-->
+<!--                                праздники Украины-->
                                 <template v-if="day.isHoliday">
                                     <div class="daygrid-day-ukr">{{ day.summary }}</div>
-                                    <div @click="dayClickHandler(day)">
-                                        <router-link
-                                            to="/"
-                                            class="daygrid-day-number holiday">
+                                    <div @click="dayClickHandler(day)" class="daygrid-day-number-div">
+                                        <router-link to="/" class="daygrid-day-number holiday">
                                             {{ day.index }}
                                         </router-link>
                                     </div>
                                 </template>
                                 <template v-else>
                                     <div class="daygrid-day-number-without-ukr" @click="dayClickHandler(day)">
-                                        <!--                                        обозначить текущий день-->
+<!--                                        обозначить текущий день-->
                                         <router-link
                                             to="/"
                                             :style="{ 'color': day.current }" >
@@ -477,5 +475,67 @@ export default {
     padding-right: 5px;
     padding-left: 5px;
 }
+
+@media (max-width: 1500px) {
+    .table-month td {
+        font-size: 12px;
+    }
+    .daygrid-day-ukr {
+        line-height: 16px;
+    }
+    .daygrid-day-number {
+        width: 20px;
+        height: 20px;
+        line-height: 20px;
+    }
+}
+
+@media (max-width: 1400px) {
+    .flex {
+        flex-wrap: wrap;
+    }
+    .daygrid-day-number-div {
+        margin: 5px 0px 5px auto;
+    }
+    .daygrid-day-ukr {
+        text-align: center;
+        padding-left: 0;
+    }
+    .daygrid-day-top {
+        padding-left: 0;
+    }
+}
+
+@media (max-width: 950px) {
+    .table-month tbody td div, .table-month thead td {
+        font-size: 10px;
+    }
+    .table-month tbody td div {
+        line-height: 10px;
+    }
+    .table-month td {
+        min-height: 50px;
+    }
+    .table-month thead td {
+        line-height: 50px;
+    }
+}
+
+@media (max-width: 800px) {
+    .table-month thead td {
+        font-size: 8px;
+        letter-spacing: normal;
+    }
+}
+
+@media (max-width: 650px) {
+    .table-month tbody td div, .daygrid-day-ukr {
+        font-size: 8px;
+    }
+    .daygrid-day-number-without-ukr a, a.holiday {
+        font-size: 10px;
+    }
+}
+
 
 </style>

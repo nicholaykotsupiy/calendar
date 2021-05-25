@@ -71,11 +71,12 @@ class BirthdayController extends Controller
         return response()->json(new StoreResource($birthday), 200);
     }
 
-    public function destroy($id): JsonResponse
+    public function destroy(Request $request): JsonResponse
     {
-        $birthday = Birthday::find($id);
+        $user = User::find($request->user_id);
+        $birthday = Birthday::find($request->id);
 
-        if($birthday)
+        if($birthday->user_id === $user->id)
         {
             $birthday->delete();
             return response()->json('Good', 200);

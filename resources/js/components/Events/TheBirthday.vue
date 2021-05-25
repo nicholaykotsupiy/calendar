@@ -32,24 +32,24 @@
             в БД будет ложиться значение 00:00,но письма должны отправляться каждый час)-->
             <template v-if="birthday.allDay">
                 <template v-if="!errorDateBirthday">
-                    <div class="col-4 py-2">
+                    <div class="col-12 col-sm-4 py-2">
                         <label class="form-label">Дата<span>*</span> / Время<span>*</span>:</label>
                     </div>
-                    <div class="col-4 py-2">
+                    <div class="col-6 col-sm-4 py-2">
                         <input v-model.trim="birthday.date" type="date" class="form-control" id="dateBirthday" name="dateStartBirthday">
                     </div>
-                    <div class="col-4 py-2">
+                    <div class="col-6 col-sm-4 py-2">
                         <input v-model.trim="birthday.time" type="time" class="form-control" id="timeBirthday" name="timeStartBirthday" disabled>
                     </div>
                 </template>
                 <template v-else>
-                    <div class="col-4 py-2">
+                    <div class="col-12 col-sm-4 py-2">
                         <label class="form-label">Дата<span class="error">*</span> / Время<span>*</span>:</label>
                     </div>
-                    <div class="col-4 py-2">
+                    <div class="col-6 col-sm-4 py-2">
                         <input v-model.trim="birthday.date" type="date" class="form-control error" id="dateStartBirthday" name="dateStartBirthday">
                     </div>
-                    <div class="col-4 py-2">
+                    <div class="col-6 col-sm-4 py-2">
                         <input v-model.trim="birthday.time" type="time" class="form-control" id="timeStartBirthday" name="timeStartBirthday" disabled>
                     </div>
                 </template>
@@ -57,70 +57,70 @@
 <!--                            иначе берем дату и время - они обязательны к заполнению -->
             <template v-else>
                 <template v-if="!errorDateBirthday && !errorTimeBirthday">
-                    <div class="col-4 py-2">
+                    <div class="col-12 col-sm-4 py-2">
                         <label class="form-label">Дата<span>*</span> / Время<span>*</span>:</label>
                     </div>
-                    <div class="col-4 py-2">
+                    <div class="col-6 col-sm-4 py-2">
                         <input v-model.trim="birthday.date" type="date" class="form-control" id="dateStartBirthday" name="dateStartBirthday">
                     </div>
-                    <div class="col-4 py-2">
+                    <div class="col-6 col-sm-4 py-2">
                         <input v-model.trim="birthday.time" type="time" class="form-control" id="timeStartBirthday" name="timeStartBirthday">
                     </div>
                 </template>
                 <template v-else-if="errorDateBirthday && !errorTimeBirthday">
-                    <div class="col-4 py-2">
+                    <div class="col-12 col-sm-4 py-2">
                         <label class="form-label">Дата<span class="error">*</span> / Время<span>*</span>:</label>
                     </div>
-                    <div class="col-4 py-2">
+                    <div class="col-6 col-sm-4 py-2">
                         <input v-model.trim="birthday.date" type="date" class="form-control error" id="dateStartBirthday" name="dateStartBirthday">
                     </div>
-                    <div class="col-4 py-2">
+                    <div class="col-6 col-sm-4 py-2">
                         <input v-model.trim="birthday.time" type="time" class="form-control" id="timeStartBirthday" name="timeStartBirthday">
                     </div>
                 </template>
                 <template v-else-if="!errorDateBirthday && errorTimeBirthday">
-                    <div class="col-4 py-2">
+                    <div class="col-12 col-sm-4 py-2">
                         <label class="form-label">Дата<span>*</span> / Время<span class="error">*</span>:</label>
                     </div>
-                    <div class="col-4 py-2">
+                    <div class="col-6 col-sm-4 py-2">
                         <input v-model.trim="birthday.date" type="date" class="form-control" id="dateStartBirthday" name="dateStartBirthday">
                     </div>
-                    <div class="col-4 py-2">
+                    <div class="col-6 col-sm-4 py-2">
                         <input v-model.trim="birthday.time" type="time" class="form-control error" id="timeStartBirthday" name="timeStartBirthday">
                     </div>
                 </template>
                 <template v-else>
-                    <div class="col-4 py-2">
+                    <div class="col-12 col-sm-4 py-2">
                         <label class="form-label">Дата<span class="error">*</span> / Время<span class="error">*</span>:</label>
                     </div>
-                    <div class="col-4 py-2">
+                    <div class="col-6 col-sm-4 py-2">
                         <input v-model.trim="birthday.date" type="date" class="form-control error" id="dateStartBirthday" name="dateStartBirthday">
                     </div>
-                    <div class="col-4 py-2">
+                    <div class="col-6 col-sm-4 py-2">
                         <input v-model.trim="birthday.time" type="time" class="form-control error" id="timeStartBirthday" name="timeStartBirthday">
                     </div>
                 </template>
             </template>
 
-            <div class="col-3 py-2">
+            <div class="col-6 col-sm-3 py-2">
                 <label class="" for="checkAllDay">Весь день:</label>
             </div>
-            <div class="col-9 py-2">
+            <div class="col-6 col-sm-9 py-2">
                 <input type="checkbox" class="form-check-input" id="checkAllDay" @click="changeValueAllDay()" :checked="birthday.allDay">
             </div>
-            <div class="col-3 py-2">
+            <div class="col-6 col-sm-3 py-2">
                 <label class="" for="checkEveryYear">Каждый год:</label>
             </div>
-            <div class="col-9 py-2">
+            <div class="col-6 col-sm-9 py-2">
                 <input type="checkbox" class="form-check-input" id="checkEveryYear" @click="changeValueEveryYear()" :checked="birthday.everyYear">
             </div>
 
         </div>
         <div class="row text-center py-3 footer-create-event">
-            <div class="col-md-6">
+            <div class="col-6">
                 <button type="submit" class="btn btn-primary btn-lg">Сохранить</button>
             </div>
-            <div class="col-md-6">
+            <div class="col-6">
                 <button type="button" class="btn btn-outline-secondary btn-lg" @click="close">Отмена</button>
             </div>
         </div>
@@ -321,6 +321,12 @@ export default {
 .error {
     color: #F44336;
     border-color: #F44336
+}
+
+@media (max-width: 720px) {
+    .body-create-event {
+        padding: 15px;
+    }
 }
 
 </style>

@@ -69,14 +69,16 @@ class ReminderController extends Controller
         return response()->json(new ReminderResource($reminder), 200);
     }
 
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        $reminder = Reminder::find($id);
+        $user = User::find($request->user_id);
+        $reminder = Reminder::find($request->id);
+//        return response()->json($reminder->user_id);
 
-        if($reminder)
+        if($reminder->user_id === $user->id)
         {
             $reminder->delete();
-            return response()->json('Good', 200);
+            return response()->json($reminder, 200);
         }
 
         return response()->json('Nosing search');

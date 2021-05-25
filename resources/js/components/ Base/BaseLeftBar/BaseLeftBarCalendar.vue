@@ -1,5 +1,5 @@
 <template>
-    <div class="row">
+    <div class="row d-flex flex-column align-items-center align-items-xl-start flex-xl-row">
         <BaseLeftBarButton />
         <div class="mx-auto mb-2">
             <BaseMiniCalendar />

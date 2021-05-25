@@ -5,15 +5,8 @@
                 <img :src="menu" alt="menu">
                 <span>Календарь</span>
             </div>
-            <div class="col-2">
-<!--                <div class="today day d-flex justify-content-center align-items-center">-->
-<!--                    <span>Сегодня</span>-->
-<!--                </div>-->
-            </div>
-            <div class="col-2 arrows d-flex">
-<!--                <div class="arrow-left"><img :src="left_arrow" alt="left-arrow"></div>-->
-<!--                <div class="arrow-right"><img :src="right_arrow" alt="right-arrow"></div>-->
-            </div>
+            <div class="col-2"></div>
+            <div class="col-2 arrows d-flex"></div>
             <!--            если отображается календарь в масштабе год -->
             <template v-if="isYear">
                 <div class="col-2 date-info">{{ titleNavigationCalendarYear }}</div>
@@ -21,6 +14,10 @@
 <!--            если отображается календарь в масштабе месяц -->
             <template v-else-if="isMonth">
                 <div class="col-2 date-info">{{ titleNavigationCalendarMonth }}</div>
+            </template>
+            <!--            если отображается календарь в масштабе неделя -->
+            <template v-else-if="isWeek">
+                <div class="col-2 date-info">{{ titleNavigationCalendarWeek }}</div>
             </template>
 <!--            если отображается календарь в масштабе день-->
             <template v-else>
@@ -86,13 +83,22 @@ export default {
         titleNavigationCalendarYear() {
             return this.titleNavigationCalendarYear
         },
+        isWeek() {
+            return this. isWeek
+        },
+
+        titleNavigationCalendarWeek() {
+            return this.titleNavigationCalendarWeek
+        },
 
         ...mapGetters([
             'isMonth',
             'titleNavigationCalendarMonth',
             'dateInterface',
             'isYear',
-            'titleNavigationCalendarYear'
+            'titleNavigationCalendarYear',
+            'isWeek',
+            'titleNavigationCalendarWeek',
         ])
     },
 

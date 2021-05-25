@@ -21,24 +21,24 @@
             в БД будет ложиться значение 00:00,но письма должны отправляться каждый час)-->
             <template v-if="allDay">
                 <template v-if="!errorDateReminder">
-                    <div class="col-4 py-2">
+                    <div class="col-12 col-sm-4 py-2">
                         <label class="form-label">Дата<span>*</span> / Время<span>*</span>:</label>
                     </div>
-                    <div class="col-4 py-2">
+                    <div class="col-6 col-sm-4 py-2">
                         <input v-model.trim="reminder.date" type="date" class="form-control" id="dateStartEvent" name="dateStartEvent">
                     </div>
-                    <div class="col-4 py-2">
+                    <div class="col-6 col-sm-4 py-2">
                         <input v-model.trim="reminder.time" type="time" class="form-control" id="timeStartEvent" name="timeStartEvent" disabled>
                     </div>
                 </template>
                 <template v-else>
-                    <div class="col-4 py-2">
+                    <div class="col-12 col-sm-4 py-2">
                         <label class="form-label">Дата<span class="error">*</span> / Время<span>*</span>:</label>
                     </div>
-                    <div class="col-4 py-2">
+                    <div class="col-6 col-sm-4 py-2">
                         <input v-model.trim="reminder.date" type="date" class="form-control error" id="dateStartEvent" name="dateStartEvent">
                     </div>
-                    <div class="col-4 py-2">
+                    <div class="col-6 col-sm-4 py-2">
                         <input v-model.trim="reminder.time" type="time" class="form-control" id="timeStartEvent" name="timeStartEvent" disabled>
                     </div>
                 </template>
@@ -46,46 +46,46 @@
 <!--                            иначе берем дату, время - они обязательны к заполнению -->
             <template v-else>
                 <template v-if="!errorDateReminder && !errorTimeReminder">
-                    <div class="col-4 py-2">
+                    <div class="col-12 col-sm-4 py-2">
                         <label class="form-label">Дата<span>*</span> / Время<span>*</span>:</label>
                     </div>
-                    <div class="col-4 py-2">
+                    <div class="col-6 col-sm-4 py-2">
                         <input v-model.trim="reminder.date" type="date" class="form-control" id="dateStartEvent" name="dateStartEvent">
                     </div>
-                    <div class="col-4 py-2">
+                    <div class="col-6 col-sm-4 py-2">
                         <input v-model.trim="reminder.time" type="time" class="form-control" id="timeStartEvent" name="timeStartEvent">
                     </div>
                 </template>
                 <template v-else-if="errorDateReminder && !errorTimeReminder">
-                    <div class="col-4 py-2">
+                    <div class="col-12 col-sm-4 py-2">
                         <label class="form-label">Дата<span class="error">*</span> / Время<span>*</span>:</label>
                     </div>
-                    <div class="col-4 py-2">
+                    <div class="col-6 col-sm-4 py-2">
                         <input v-model.trim="reminder.date" type="date" class="form-control error" id="dateStartEvent" name="dateStartEvent">
                     </div>
-                    <div class="col-4 py-2">
+                    <div class="col-6 col-sm-4 py-2">
                         <input v-model.trim="reminder.time" type="time" class="form-control" id="timeStartEvent" name="timeStartEvent">
                     </div>
                 </template>
                 <template v-else-if="!errorDateReminder && errorTimeReminder">
-                    <div class="col-4 py-2">
+                    <div class="col-12 col-sm-4 py-2">
                         <label class="form-label">Дата<span>*</span> / Время<span class="error">*</span>:</label>
                     </div>
-                    <div class="col-4 py-2">
+                    <div class="col-6 col-sm-4 py-2">
                         <input v-model.trim="reminder.date" type="date" class="form-control" id="dateStartEvent" name="dateStartEvent">
                     </div>
-                    <div class="col-4 py-2">
+                    <div class="col-6 col-sm-4 py-2">
                         <input v-model.trim="reminder.time" type="time" class="form-control error" id="timeStartEvent" name="timeStartEvent">
                     </div>
                 </template>
                 <template v-else>
-                    <div class="col-4 py-2">
+                    <div class="col-12 col-sm-4 py-2">
                         <label class="form-label">Дата<span class="error">*</span> / Время<span class="error">*</span>:</label>
                     </div>
-                    <div class="col-4 py-2">
+                    <div class="col-6 col-sm-4 py-2">
                         <input v-model.trim="reminder.date" type="date" class="form-control error" id="dateStartEvent" name="dateStartEvent">
                     </div>
-                    <div class="col-4 py-2">
+                    <div class="col-6 col-sm-4 py-2">
                         <input v-model.trim="reminder.time" type="time" class="form-control error" id="timeStartEvent" name="timeStartEvent">
                     </div>
                 </template>
@@ -93,10 +93,10 @@
 
             <div class="col-12 py-2">
                 <div class="row">
-                    <div class="col-4">
+                    <div class="col-12 col-sm-4 py-2">
                         <label class="" for="selectToReminder">Повторять:</label>
                     </div>
-                    <div class="col-8">
+                    <div class="col-12 col-sm-8 py-2">
                         <select v-model="reminder.toRepeat" class="form-control to-reminder" id="selectToReminder"
                                 @change="changeValueAllDay()"
                         >
@@ -107,10 +107,10 @@
             </div>
         </div>
         <div class="row text-center py-2 footer-create-event">
-            <div class="col-md-6">
+            <div class="col-6">
                 <button type="submit" class="btn btn-primary btn-lg">Сохранить</button>
             </div>
-            <div class="col-md-6">
+            <div class="col-6">
                 <button type="button" class="btn btn-outline-secondary btn-lg" @click="close">Отмена</button>
             </div>
         </div>
@@ -288,6 +288,12 @@ export default {
 .error {
     color: #F44336;
     border-color: #F44336
+}
+
+@media (max-width: 720px) {
+    .body-create-event {
+        padding: 15px;
+    }
 }
 
 </style>

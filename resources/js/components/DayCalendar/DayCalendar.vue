@@ -1,11 +1,11 @@
 <template>
     <div class="col-11">
-        <BaseHeaderCalendar @open="openLeftBar" class="border-bottom border-3 mb-3" />
+        <BaseHeaderCalendar @open="openLeftBar" class="border-xl-bottom border-xl-3 mb-xl-3" />
         <div class="row">
-            <div v-if="open" class="col-3">
+            <div v-if="open" class="col-6 mx-auto mx-xl-0 col-xl-3">
                 <BaseLeftBarCalendar class="left_bar"/>
             </div>
-            <div class="col-9">
+            <div class="col-xl-9 mx-auto">
                 <router-view></router-view>
             </div>
         </div>

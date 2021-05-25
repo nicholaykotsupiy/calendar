@@ -82,6 +82,7 @@ export default {
             'setValueDeleteIdEvent',
             'setValueDeleteTypeEvent',
             'setEventEdit',
+            'setValueDeleteEvent',
         ]),
 
         formatData(d) {
@@ -110,6 +111,7 @@ export default {
             this.popClose()
             this.setValueDeleteIdEvent(this.event.id)
             this.setValueDeleteTypeEvent(this.event.type)
+            this.setValueDeleteEvent(this.event)
             this.$bvModal.show('modal-message-yes-no')
         },
 

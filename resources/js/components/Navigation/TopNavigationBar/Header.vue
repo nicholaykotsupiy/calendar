@@ -4,7 +4,7 @@
         </div>
         <div class="accoun_flex">
             <div class="user_name">{{ user.name }}</div>
-            <div><img :src="avatar" alt="avatar"></div>
+            <div v-if="user.avatar"><img :src="avatar" alt="avatar"></div>
             <div class="dropdown">
                 <button class="btn drop dropdown-toggle" type="button"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 </button>
@@ -30,9 +30,6 @@ export default {
     data() {
         return{
             show:false,
-            user:{
-                name:'Марина'
-            },
             logo,
             avatar
         }
@@ -51,6 +48,7 @@ export default {
     computed: {
         ...mapGetters([
             'access_token',
+            'user'
         ]),
     },
 

@@ -21,10 +21,10 @@
                 <input v-model.trim="task.description" type="text" class="form-control descriptionTask" id="descriptionTask" name="descriptionTask">
             </div>
 
-            <div class="col-3 py-2">
+            <div class="col-6 col-sm-3 py-2">
                 <label class="" for="checkAllDay">Весь день:</label>
             </div>
-            <div class="col-9 py-2">
+            <div class="col-6 col-sm-9 py-2">
                 <input type="checkbox" class="form-check-input" id="checkAllDay" @click="changeValueAllDay()" :checked="task.allDay">
             </div>
 
@@ -37,104 +37,104 @@
 
             <template v-if="!task.allDay">
                 <template v-if="errorStartDateTask || errorStartTimeTask">
-                    <div class="col-4 py-2">
+                    <div class="col-12 col-sm-4 py-2">
                         <label class="form-label">Начало<span class="error">*</span>:</label>
                     </div>
                 </template>
                 <template v-else>
-                    <div class="col-4 py-2">
+                    <div class="col-12 col-sm-4 py-2">
                         <label class="form-label">Начало<span>*</span>:</label>
                     </div>
                 </template>
                 <template v-if="errorStartDateTask">
-                    <div class="col-4 py-2">
+                    <div class="col-6 col-sm-4 py-2">
                         <input v-model.trim="task.dateStart" type="date" class="form-control error" id="dateStartTask" name="dateStartTask">
                     </div>
                 </template>
                 <template v-else>
-                    <div class="col-4 py-2">
+                    <div class="col-6 col-sm-4 py-2">
                         <input v-model.trim="task.dateStart" type="date" class="form-control" id="dateStartTask" name="dateStartTask">
                     </div>
                 </template>
                 <template v-if="errorStartTimeTask">
-                    <div class="col-4 py-2">
+                    <div class="col-6 col-sm-4 py-2">
                         <input v-model.trim="task.timeStart" type="time" class="form-control error" id="timeStartTask" name="timeStartTask">
                     </div>
                 </template>
                 <template v-else>
-                    <div class="col-4 py-2">
+                    <div class="col-6 col-sm-4 py-2">
                         <input v-model.trim="task.timeStart" type="time" class="form-control" id="timeStartTask" name="timeStartTask">
                     </div>
                 </template>
                 <template v-if="errorEndDateTask || errorEndTimeTask">
-                    <div class="col-4 py-2">
+                    <div class="col-12 col-sm-4 py-2">
                         <label class="form-label">Окончание<span class="error">*</span>:</label>
                     </div>
                 </template>
                 <template v-else>
-                    <div class="col-4 py-2">
+                    <div class="col-12 col-sm-4 py-2">
                         <label class="form-label">Окончание<span>*</span>:</label>
                     </div>
                 </template>
                 <template v-if="errorEndDateTask">
-                    <div class="col-4 py-2">
+                    <div class="col-6 col-sm-4 py-2">
                         <input v-model.trim="task.dateEnd" type="date" class="form-control error" id="dateEndTask" name="dateEndTask">
                     </div>
                 </template>
                 <template v-else>
-                    <div class="col-4 py-2">
+                    <div class="col-6 col-sm-4 py-2">
                         <input v-model.trim="task.dateEnd" type="date" class="form-control" id="dateEndTask" name="dateEndTask">
                     </div>
                 </template>
                 <template v-if="errorEndTimeTask">
-                    <div class="col-4 py-2">
+                    <div class="col-6 col-sm-4 py-2">
                         <input v-model.trim="task.timeEnd" type="time" class="form-control error" id="timeEndTask" name="timeEndTask">
                     </div>
                 </template>
                 <template v-else>
-                    <div class="col-4 py-2">
+                    <div class="col-6 col-sm-4 py-2">
                         <input v-model.trim="task.timeEnd" type="time" class="form-control" id="timeEndTask" name="timeEndTask">
                     </div>
                 </template>
             </template>
             <template v-else>
                 <template v-if="errorStartDateTask">
-                    <div class="col-4 py-2">
+                    <div class="col-12 col-sm-4 py-2">
                         <label class="form-label">Начало<span class="error">*</span>:</label>
                     </div>
-                    <div class="col-4 py-2">
+                    <div class="col-6 col-sm-4 py-2">
                         <input v-model.trim="task.dateStart" type="date" class="form-control error" id="dateStartTask" name="dateStartTask">
                     </div>
-                    <div class="col-4 py-2">
+                    <div class="col-6 col-sm-4 py-2">
                         <input v-model.trim="task.timeStart" type="time" class="form-control" id="timeStartTask" name="timeStartTask" disabled>
                     </div>
-                    <div class="col-4 py-2">
+                    <div class="col-12 col-sm-4 py-2">
                         <label class="form-label">Окончание<span class="error">*</span>:</label>
                     </div>
-                    <div class="col-4 py-2">
+                    <div class="col-6 col-sm-4 py-2">
                         <input v-model.trim="task.dateEnd" type="date" class="form-control" id="dateEndTask" name="dateEndTask" disabled>
                     </div>
-                    <div class="col-4 py-2">
+                    <div class="col-6 col-sm-4 py-2">
                         <input v-model.trim="task.timeEnd" type="time" class="form-control" id="timeEndTask" name="timeEndTask" disabled>
                     </div>
                 </template>
                 <template v-else>
-                    <div class="col-4 py-2">
+                    <div class="col-12 col-sm-4 py-2">
                         <label class="form-label">Начало<span>*</span>:</label>
                     </div>
-                    <div class="col-4 py-2">
+                    <div class="col-6 col-sm-4 py-2">
                         <input v-model.trim="task.dateStart" type="date" class="form-control" id="dateStartTask" name="dateStartTask">
                     </div>
-                    <div class="col-4 py-2">
+                    <div class="col-6 col-sm-4 py-2">
                         <input v-model.trim="task.timeStart" type="time" class="form-control" id="timeStartTask" name="timeStartTask" disabled>
                     </div>
-                    <div class="col-4 py-2">
+                    <div class="col-12 col-sm-4 py-2">
                         <label class="form-label">Окончание<span>*</span>:</label>
                     </div>
-                    <div class="col-4 py-2">
+                    <div class="col-6 col-sm-4 py-2">
                         <input v-model.trim="task.dateEnd" type="date" class="form-control" id="dateEndTask" name="dateEndTask" disabled>
                     </div>
-                    <div class="col-4 py-2">
+                    <div class="col-6 col-sm-4 py-2">
                         <input v-model.trim="task.timeEnd" type="time" class="form-control" id="timeEndTask" name="timeEndTask" disabled >
                     </div>
                 </template>
@@ -142,10 +142,10 @@
 
         </div>
         <div class="row text-center py-2 footer-create-event">
-            <div class="col-md-6">
+            <div class="col-6">
                 <button type="submit" class="btn btn-primary btn-lg">Сохранить</button>
             </div>
-            <div class="col-md-6">
+            <div class="col-6">
                 <button type="button" class="btn btn-outline-secondary btn-lg" @click="close">Отмена</button>
             </div>
         </div>
@@ -272,18 +272,20 @@ export default {
                 this.errorDate = true
             }
 
-            //разница между времением - минимум час если даты совпадают
-            let firstTime = this.task.timeStart.split(':')
-            let secondTime = this.task.timeEnd.split(':')
-            let firstTimeInMinuts = firstTime[0]*60+firstTime[1]
-            let secondTimeInMinuts = secondTime[0]*60+secondTime[1]
-            let different = (secondTimeInMinuts - firstTimeInMinuts)/100
+            if (this.task.timeStart && this.task.timeEnd) {
+                //разница между времением - минимум час если даты совпадают
+                let firstTime = this.task.timeStart.split(':')
+                let secondTime = this.task.timeEnd.split(':')
+                let firstTimeInMinuts = firstTime[0]*60+firstTime[1]
+                let secondTimeInMinuts = secondTime[0]*60+secondTime[1]
+                let different = (secondTimeInMinuts - firstTimeInMinuts)/100
 
-            //проверка времени
-            if (this.task.dateStart === this.task.dateEnd && ( this.task.timeStart >= this.task.timeEnd || different < 60) ) {
-                this.errorStartTimeTask = true
-                this.errorEndTimeTask = true
-                this.errorTime = true
+                //проверка времени
+                if (this.task.dateStart === this.task.dateEnd && ( this.task.timeStart >= this.task.timeEnd || different < 60) ) {
+                    this.errorStartTimeTask = true
+                    this.errorEndTimeTask = true
+                    this.errorTime = true
+                }
             }
 
             if (!this.errorNameTask && !this.errorStartDateTask && !this.errorEndDateTask && !this.errorStartTimeTask
@@ -355,6 +357,12 @@ export default {
 .error {
     color: #F44336;
     border-color: #F44336
+}
+
+@media (max-width: 720px) {
+    .body-create-event {
+        padding: 15px;
+    }
 }
 
 </style>

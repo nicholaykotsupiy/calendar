@@ -48,7 +48,7 @@
 </template>
 
 <script>
-import {mapActions} from "vuex";
+import {mapActions, mapMutations} from "vuex";
 import axios from "axios";
 
 export default {
@@ -65,6 +65,9 @@ export default {
         ...mapActions([
             'saveUserFromServer',
             'saveAccessFromServer',
+        ]),
+        ...mapMutations([
+            'setUser'
         ]),
         showPassword() {
             document.querySelector('input[name=password]').setAttribute('type', 'text');
@@ -89,6 +92,7 @@ export default {
                     this.hasError = false;
                     //
                     user = response.data.user
+                    this.setUser(user)
                     this.$router.push({name: 'base', params: {user: user, token: response.data.token}});
             }).catch((e) => {
                 if(e.response.status === 403) {

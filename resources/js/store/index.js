@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import month from "./month";
 import day from "./day";
+import week from "./week";
 import year from "./year";
 import createPersistedState from "vuex-persistedstate";
 
@@ -13,7 +14,8 @@ export default new Vuex.Store({
     modules: {
         month,
         day,
-        year
+        year,
+       week
     },
     state: {
         holidays: {},
@@ -24,7 +26,7 @@ export default new Vuex.Store({
         currentDate: new Date(),
         access_token: '',
         resetPasswordEmail: '',
-
+        user: null,
         isCreateEventWindowVisible: true,
         isCreateReminderWindowVisible: false,
         isCreateTaskWindowVisible: false,
@@ -41,6 +43,7 @@ export default new Vuex.Store({
 
         valueDeleteIdEvent: null,
         valueDeleteTypeEvent: null,
+        valueDeleteEvent: null,
         eventEdit: {},
         key: 0,
 
@@ -134,16 +137,16 @@ export default new Vuex.Store({
             let findItem = state.events.findIndex(item => item.id === itemID)
             state.events.splice(findItem,1)
 
-            axios.delete('api/event-destroy/' + itemID)
+            axios.post('api/event-destroy', itemID)
                 .then(response => {
                     state.titleModalMessage = ''
                     state.bodyModalMessage = 'Событие удалено!'
-                    //console.log(response.data)
                 })
                 .catch(error => {
                     //сообщение о неуспешном удалении
-                    state.titleModalMessage = error.response.data
-                    state.bodyModalMessage = 'Событие не удалось удалить!'
+                    console.log(error.response.data)
+                    state.titleModalMessage = ''
+                    state.bodyModalMessage = 'Ошибка! Событие не удалось удалить!'
                 })
 
         },
@@ -152,16 +155,17 @@ export default new Vuex.Store({
             let findItem = state.reminders.findIndex(item => item.id === itemID)
             state.reminders.splice(findItem,1)
 
-            axios.delete('api/reminder-destroy/' + itemID)
+            axios.post('api/reminder-destroy', itemID)
                 .then(response => {
                     state.titleModalMessage = ''
                     state.bodyModalMessage = 'Событие удалено!'
-                    //console.log(response.data)
+                    // console.log(response.data)
                 })
                 .catch(error => {
                     //сообщение о неуспешном удалении
-                    state.titleModalMessage = error.response.data
-                    state.bodyModalMessage = 'Событие не удалось удалить!'
+                    console.log(error.response.data)
+                    state.titleModalMessage = ''
+                    state.bodyModalMessage = 'Ошибка! Событие не удалось удалить!'
                 })
         },
 
@@ -169,7 +173,7 @@ export default new Vuex.Store({
             let findItem = state.birthdays.findIndex(item => item.id === itemID)
             state.birthdays.splice(findItem,1)
 
-            axios.delete('api/birthday-destroy/' + itemID)
+            axios.post('api/birthday-destroy', itemID)
                 .then(response => {
                     state.titleModalMessage = ''
                     state.bodyModalMessage = 'Событие удалено!'
@@ -177,8 +181,9 @@ export default new Vuex.Store({
                 })
                 .catch(error => {
                     //сообщение о неуспешном удалении
-                    state.titleModalMessage = error.response.data
-                    state.bodyModalMessage = 'Событие не удалось удалить!'
+                    console.log(error.response.data)
+                    state.titleModalMessage = ''
+                    state.bodyModalMessage = 'Ошибка! Событие не удалось удалить!'
                 })
         },
 
@@ -186,7 +191,7 @@ export default new Vuex.Store({
             let findItem = state.tasks.findIndex(item => item.id === itemID)
             state.tasks.splice(findItem,1)
 
-            axios.delete('api/task-destroy/' + itemID)
+            axios.post('api/task-destroy', itemID)
                 .then(response => {
                     state.titleModalMessage = ''
                     state.bodyModalMessage = 'Событие удалено!'
@@ -194,8 +199,9 @@ export default new Vuex.Store({
                 })
                 .catch(error => {
                     //сообщение о неуспешном удалении
-                    state.titleModalMessage = error.response.data
-                    state.bodyModalMessage = 'Событие не удалось удалить!'
+                    console.log(error.response.data)
+                    state.titleModalMessage = ''
+                    state.bodyModalMessage = 'Ошибка! Событие не удалось удалить!'
                 })
         },
 
@@ -377,6 +383,10 @@ export default new Vuex.Store({
             state.eventEdit = payload
         },
 
+        setValueDeleteEvent(state, payload) {
+            state.valueDeleteEvent = payload
+        },
+
     },
 
     actions: {
@@ -401,16 +411,16 @@ export default new Vuex.Store({
         deleteItem({commit}, payload) {
             switch(payload.type) {
                 case 'event':
-                    commit('deleteEvent', payload.id)
+                    commit('deleteEvent', payload)
                     break
                 case 'reminder':
-                    commit('deleteReminder', payload.id)
+                    commit('deleteReminder', payload)
                     break
                 case 'birthday':
-                    commit('deleteBirthday', payload.id)
+                    commit('deleteBirthday', payload)
                     break
                 case 'task':
-                    commit('deleteTask', payload.id)
+                    commit('deleteTask', payload)
                     break
             }
         },
@@ -530,7 +540,11 @@ export default new Vuex.Store({
 
         eventEdit(state) {
             return status.eventEdit
+        },
+
+        valueDeleteEvent(state) {
+            return state.valueDeleteEvent
         }
     },
-    plugins: [createPersistedState({paths: ['access_token', 'resetPasswordEmail']})],
+    plugins: [createPersistedState({paths: ['user', 'access_token', 'resetPasswordEmail']})],
 })

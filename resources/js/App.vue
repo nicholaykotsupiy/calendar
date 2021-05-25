@@ -88,6 +88,9 @@ export default {
         valueDeleteTypeEvent() {
             return this.valueDeleteTypeEvent
         },
+        valueDeleteEvent() {
+            return this.valueDeleteEvent
+        },
 
         holidays() {
             return this.holidays
@@ -103,6 +106,7 @@ export default {
             'valueDeleteIdEvent',
             'valueDeleteTypeEvent',
             'holidays',
+            'valueDeleteEvent'
         ]),
 
     },
@@ -120,7 +124,7 @@ export default {
             'deleteEvent',
             'deleteReminder',
             'deleteBirthday',
-            'deleteTask'
+            'deleteTask',
         ]),
 
         ...mapActions([
@@ -152,19 +156,23 @@ export default {
 
         deleteEvents() {
             if (this.valueDeleteTypeEvent === 'event') {
-                this.deleteEvent(this.valueDeleteIdEvent)
+                this.deleteEvent(this.valueDeleteEvent)
+                // this.deleteEvent(this.valueDeleteIdEvent)
                 this.$bvModal.show('modal-message-ok')
             }
             if (this.valueDeleteTypeEvent === 'reminder') {
-                this.deleteReminder(this.valueDeleteIdEvent)
+                this.deleteReminder(this.valueDeleteEvent)
+                // this.deleteReminder(this.valueDeleteIdEvent)
                 this.$bvModal.show('modal-message-ok')
             }
             if (this.valueDeleteTypeEvent === 'birthday') {
-                this.deleteBirthday(this.valueDeleteIdEvent)
+                this.deleteBirthday(this.valueDeleteEvent)
+                // this.deleteBirthday(this.valueDeleteIdEvent)
                 this.$bvModal.show('modal-message-ok')
             }
             if (this.valueDeleteTypeEvent === 'task') {
-                this.deleteTask(this.valueDeleteIdEvent)
+                this.deleteTask(this.valueDeleteEvent)
+                // this.deleteTask(this.valueDeleteIdEvent)
                 this.$bvModal.show('modal-message-ok')
             }
 

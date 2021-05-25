@@ -33,7 +33,7 @@ class StoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'birthday.name' => 'required|string|max:255|unique:birthdays,name',
+            'birthday.name' => 'required|string|max:255',
             'birthday.description' => 'required|string|max:255',
             'birthday.date' => 'required|date',
             'birthday.time' => 'required|date_multi_format:"H:i","H:i:s"',
