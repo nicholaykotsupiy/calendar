@@ -23,6 +23,7 @@
                 <DayCalendar />
             </div>
         </div>
+        <Footer />
     </div>
 </template>
 
@@ -33,12 +34,14 @@ import DayCalendar from  "./DayCalendar"
 import { mapGetters, mapMutations } from 'vuex'
 import DayCalendarNavigation from "./DayCalendarComponents/DayCalendarNavigation";
 import Header from "../Navigation/TopNavigationBar/Header";
+import Footer from "../Navigation/Footer";
 
 export default {
 
     name: "DayCalendarWrapper",
 
     components: {
+        Footer,
         Header,
         DayCalendarNavigation,
         LeftNavigation,

@@ -77,7 +77,7 @@ export default {
             }
             for (let i = 0; i < searchItems.length; i++) {
                 let birthdayDateStartTime = new Date(searchItems[i].dateStart).getTime()
-                if ((searchItems[i].hasOwnProperty('description') && searchItems[i].description.indexOf(this.searchText) !== -1) || 
+                if ((searchItems[i].hasOwnProperty('description') && searchItems[i].description.indexOf(this.searchText) !== -1) ||
                     searchItems[i].name.indexOf(this.searchText) !== -1) {
                     if (this.dateStart && this.dateEnd) {
                         if (birthdayDateStartTime >= dateStartFilterTime &&
@@ -99,8 +99,7 @@ export default {
             }
             this.$store.commit('setSearchResults', searchResults);
             this.$router.push('search-results').catch(()=>{})
-            // todo uncomment!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            // this.$emit('close')
+            this.$emit('close')
         },
         reset() {
             this.searchText = ''

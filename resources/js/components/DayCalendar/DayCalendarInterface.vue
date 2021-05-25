@@ -3,7 +3,7 @@
     <div class="w-100">
         <DayCalendarHead />
     </div>
-     <div class="calendar_body d-flex col-12 mb-4">
+     <div class="calendar_body d-flex col-12">
         <DayCalendarTimeLine class="time_line" :timeLine="timeLine"/>
          <DayCalendarEnents
              :currentDate="currentDate"
