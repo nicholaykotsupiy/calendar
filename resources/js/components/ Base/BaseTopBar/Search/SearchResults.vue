@@ -1,5 +1,5 @@
 <template>
-    <div class="search-results container">
+    <div class="search-results-table">
         <div class="table-search">
             <div class="flex">
                 <div class="date">
@@ -35,7 +35,7 @@ export default {
 </script>
 
 <style scoped>
-    .search-results {
+    .search-results-table {
         width: 100%;
         font-family: Roboto;
         font-size: 14px;
@@ -44,9 +44,6 @@ export default {
         max-width: 850px;
         background: #ffffff;
         padding: 15px 0px;
-    }
-    .container {
-        min-height: 780px;
     }
     .flex {
         display: flex;
@@ -66,33 +63,41 @@ export default {
         padding: 5px 10px;
     }
     .resultDate {
-        padding: 5px 10px;
+        padding: 15px 10px;
         min-width: 120px;
     }
     .resultTimeDescription {
-        padding: 5px 10px;
+        padding: 15px 10px;
         width: 100%;
-        max-width: 660px;
     }
-    .resultTimeDescription:nth-child(3n) {
+    .search-result:nth-child(4n) {
+        background: #feeacc;
+        color: #d26719;
+        border-left: 2px solid #fe9f30;
+        max-width: 780px;
+    }
+    .search-result:nth-child(4n+2) {
         background: #e0f7d7;
         color: #008947;
         border-left: 2px solid #63da38;
+        max-width: 780px;
     }
-    .resultTimeDescription:nth-child(3n+1) {
+    .search-result:nth-child(4n+1) {
         background: #d2effe;
         color: #2675b5;
         border-left: 2px solid #19adf8;
+        max-width: 780px;
     }
-    .resultTimeDescription:nth-child(3n+2) {
+    .search-result:nth-child(4n+3) {
         background: #f5e3f9;
         color: #8d3b84;
         border-left: 2px solid #cc73e1;
+        max-width: 780px;
     }
     .searchErrors {
         justify-content: center;
         align-items: center;
-        height: 300px;
+        height: 400px;
         font-size: 30px;
     }
 </style>
