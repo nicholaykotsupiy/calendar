@@ -1,8 +1,10 @@
 <template>
     <div class="search-calendar">
         <div class="position-search">
-            <div>Область поиска*</div>
-            <div class="name-filter">{{ inspectNameFilter }}</div>
+            <div class="area-search-name">
+                <div><span class="color-text-search">Область поиска*</span></div>
+                <div class="name-filter">{{ inspectNameFilter }}</div>
+            </div>
             <div class="search-area">
                 <label class="container-checkbox">Дни рождения
                     <input v-model="searcheByBirthday" type="checkbox">
@@ -21,10 +23,12 @@
                     <span class="checkmark"></span>
                 </label>
             </div>
-            <label>Что
+            <label>
+                <span class="color-text-search">Что</span>
                 <input @keyup.enter="resultSearch" v-model="searchText" type="text" placeholder="Ключевые слова" id="searchCalendarText">
             </label>
-            <label>Дата
+            <label class="flex date-input">
+                <span class="color-text-search">Дата</span>
                 <input v-model="dateStart" type="date">
                 <input v-model="dateEnd" type="date">
             </label>
@@ -143,6 +147,10 @@ export default {
         position: absolute;
         z-index: 5;
         background: #ffffff;
+        padding-left: 20px;
+        padding-right: 10px;
+        padding-top: 15px;
+        padding-bottom: 15px;
     }
     .flex {
         display: flex;
@@ -164,10 +172,39 @@ export default {
         border: 2px solid #1875f0;
         background: #1875f0;
     }
+    button:active {
+        color: #ffffff;
+        border: 2px solid #1875f0;
+        background: #1875f0;
+    }
+    .area-search-name {
+        display: inline-flex;
+    }
     .name-filter {
-        border: 2px solid #d9d9d9;
-        max-width: 200px;
-        min-height: 25px;
+        border: 2px solid #f5f5f5;
+        border-radius: 0.25rem;
+        width: 200px;
+        height: 36px;
+        white-space: nowrap;
+        overflow: hidden;
+        padding-top: 5px;
+        text-overflow: ellipsis;
+    }
+    .color-text-search {
+        color: #000000;
+        white-space: nowrap;
+    }
+    input[type=date] {
+        width: 150px;
+        padding: 5px 10px;
+        border: 2px solid #f5f5f5;
+        border-radius: 0.25rem;
+    }
+    input[type=text] {
+        border: 2px solid #f5f5f5;
+        border-radius: 0.25rem;
+        padding: 5px 10px;
+        width: 200px;
     }
     .container-checkbox {
         display: block;
