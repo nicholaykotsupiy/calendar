@@ -9,9 +9,9 @@
                 <button class="btn drop dropdown-toggle" type="button"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 </button>
                 <div class="dropdown-menu dropdown-menu-right dropdown-menu-lg-left" aria-labelledby="dropdownMenuButton">
-                    <router-link to="/profile" class="dropdown-item drop_links">Мой профиль</router-link>
+                    <a href="http://it20auth.pp.ua/profile" class="dropdown-item drop_links">Мой профиль</a>
                     <div class="dropdown-divider"></div>
-                    <router-link :to="{name: 'settings.login'}" class="dropdown-item drop_links ">Настройки безопасности</router-link>
+                    <a href="http://it20auth.pp.ua/settings-secure/account-login" class="dropdown-item drop_links">Настройки безопасности</a>
                     <div class="dropdown-divider"></div>
                     <a to="#" class="dropdown-item drop_links" @click.prevent="logout">Выход из системы</a>
                 </div>

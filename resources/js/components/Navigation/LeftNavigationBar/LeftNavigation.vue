@@ -61,7 +61,7 @@
             </a>
         </li>
         <li class="list-item d-flex flex-column align-items-center py-2">
-            <a href="http://calendar.hardsoft.space/" class="d-flex flex-column align-items-center">
+            <a href="http://contacts.hardsoft.space" class="d-flex flex-column align-items-center">
                 <svg width="33" height="30" viewBox="0 0 33 30" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <mask id="mask5" mask-type="alpha" maskUnits="userSpaceOnUse" x="4" y="8" width="25" height="14">
                     <path fill-rule="evenodd" clip-rule="evenodd" d="M20.9873 14C22.7822 14 24.2202 12.66 24.2202 11C24.2202 9.34 22.7822 8 20.9873 8C19.1924 8 17.7435 9.34 17.7435 11C17.7435 12.66 19.1924 14 20.9873 14ZM12.3373 14C14.1322 14 15.5702 12.66 15.5702 11C15.5702 9.34 14.1322 8 12.3373 8C10.5424 8 9.09356 9.34 9.09356 11C9.09356 12.66 10.5424 14 12.3373 14ZM12.3373 16C9.81799 16 4.76855 17.17 4.76855 19.5V22H19.9061V19.5C19.9061 17.17 14.8566 16 12.3373 16ZM20.9873 16C20.6737 16 20.3169 16.02 19.9385 16.05C21.1927 16.89 22.0685 18.02 22.0685 19.5V22H28.556V19.5C28.556 17.17 23.5066 16 20.9873 16Z" fill="white"/>

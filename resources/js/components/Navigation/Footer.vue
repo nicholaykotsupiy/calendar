@@ -11,11 +11,10 @@
                     <div class="title_menu">Инструменты</div>
                     <div class="container">
                         <div class="row menu_content">
-                            <div class="col-6">Диск</div>
-                            <div class="col-6">Почта</div>
-                            <div class="col-6">Календарь</div>
-                            <div class="col-6">Фото</div>
-                            <div class="col-6">Контакты</div>
+                            <a href="http://disk.hardsoft.space/recent" class="col-6">Диск</a>
+                            <a href="/" class="col-6">Календарь</a>
+                            <a href="http://www.ignatenko-project.store/checkPhoto" class="col-6">Фото</a>
+                            <a href="http://contacts.hardsoft.space" class="col-6">Контакты</a>
                         </div>
                     </div>
                 </div>
@@ -28,9 +27,6 @@
                         </div>
                         <div class="background_line"></div>
                         <div class="col-12 col-md-6  text-center text-md-left flex icon_social">
-                            <a href="https://www.facebook.com/" class="facebook"></a>
-                            <a href="https://www.facebook.com/" class="twitter"></a>
-                            <a href="https://www.instagram.com" class="instagram"></a>
                         </div>
                     </div>
                 </div>
@@ -107,7 +103,9 @@ export default {
     padding-bottom: 30px;
     color: #666666;
 }
-.menu_content div{
+.menu_content a{
+    color: #666666;
+    text-decoration: none;
     padding-bottom: 15px;
 }
 .title_contact{
